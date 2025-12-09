@@ -1,0 +1,62 @@
+\section*{CΩDEX.5 \quad Ruliometric Microsheet}
+\label{sec:codex-microsheet}
+
+A one-page snapshot of the core objects in CΩMPUTER.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{0.30\linewidth} X}
+\toprule
+Symbol / Notation & Informal meaning \\
+\midrule
+$G$ & RMG state (the “world-graph”) \\
+$\mathcal{R}$ & Rule set (DPO rewrite laws acting on $G$) \\
+$(G,\mathcal{R})$ & A universe at a given moment \\
+$x = (G,\mathcal{R},\sigma)$ & MRMW state (universe + scheduler/measure) \\
+$\rho : L \xleftarrow{i_L} K \xrightarrow{i_R} R$ & A DPO rule (local rewrite schema) \\
+$G \xRightarrow{\rho,m} G'$ & One rewrite step via rule $\rho$ and match $m$ \\
+$\gamma$ & Worldline / history: a path of states / events in MRMW \\
+$\mathsf{Causal}(G,\mathcal{R})$ & Causal graph of rewrite events for a universe \\
+$\text{Past}(e), \text{Future}(e)$ & Past/future light cone of event $e$ in the causal graph \\
+$C : G \to X$ & Coarse-graining (microstate $\to$ macrostate) \\
+$X$ & Macrostate (coarse description, e.g. thermodynamic state) \\
+$S(X)$ & Entropy of macrostate $X$ (log of compatible microstates) \\
+$O : G \to Y$ & Observable (measurable function / query on $G$) \\
+$\mu$ & Measure over worlds / histories (how much each one “counts”) \\
+\midrule
+\textbf{Spaces} & \\
+\midrule
+$\mathsf{Rulial}$ & Space of rule sets $\mathcal{R}$ (rule-space) \\
+$\mathsf{MRMW}$ & Space of all MRMW states and their transitions \\
+$\mathcal{M}(\mathsf{MRMW})$ & Measures over MRMW (distributions over worlds) \\
+\midrule
+\textbf{Machines and agents} & \\
+\midrule
+$A \subseteq G$ & Agent subgraph embedded in universe $G$ \\
+$\pi$ & Agent policy (bias over which rewrites happen near $A$) \\
+$M : \mathcal{M}(\mathsf{MRMW}) \to \mathcal{M}(\mathsf{MRMW})$ & Multiversal machine (acts on distributions of worlds) \\
+\midrule
+\textbf{Geometry} & \\
+\midrule
+$d(\cdot,\cdot)$ & Distance on MRMW or on rule space (various metrics) \\
+$\gamma$ geodesic & Worldline minimizing/extremizing an action / cost functional \\
+$\mathcal{K}$ & Curvature (family of invariants describing geodesic deviation) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\noindent
+\textbf{Core dictionary (20 seconds to re-orient yourself):}
+\begin{itemize}
+  \item \textbf{State} $\equiv G$ \emph{(RMG)}. Everything lives on a graph-of-graphs.
+  \item \textbf{Law} $\equiv \mathcal{R}$ \emph{(DPO rules)}. All dynamics is local rewrite.
+  \item \textbf{Universe} $\equiv (G,\mathcal{R})$ plus causal graph of events.
+  \item \textbf{MRMW} $\equiv$ the space of all such universes and their histories.
+  \item \textbf{Multiversal machine} $M$ acts on \emph{distributions} over MRMW, not single runs.
+  \item \textbf{Geometry} is how distances, geodesics, curvature, and measures behave on MRMW.
+\end{itemize}
+
+\noindent
+If you remember nothing else: think in terms of $(G,\mathcal{R})$, causal graphs,
+coarse-grainings $C$, and machines $M$ that move \emph{measures} over MRMW around.
+Everything in the main text is just those four ideas dressed up.

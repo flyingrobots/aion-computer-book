@@ -1,0 +1,261 @@
+\documentclass[11pt,oneside]{book}
+
+% ----------------
+% Basic packages
+% ----------------
+\usepackage[margin=1.1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{extpfeil} % for \xRightarrow and friends
+\usepackage{graphicx}
+\graphicspath{{./svg/}{../svg/}}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,shapes.geometric,shapes.arrows,arrows.meta,positioning,calc,decorations.pathmorphing,decorations.pathreplacing,fadings,backgrounds,3d,shadows,fit}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage{newunicodechar}
+\usepackage{hyperref}
+\usepackage[nameinlink]{cleveref}
+\usepackage{extpfeil} % for \xRightarrow in CODEx appendix
+\usepackage{silence}  % selectively silence noisy but harmless warnings
+\SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n} % fix missing bold shape warning
+
+% Suppress noisy warnings to keep builds clean
+\WarningFilter{latex}{`h' float specifier changed to `ht'}
+\WarningFilter{newunicodechar}{Redefining Unicode character}
+\WarningFilter{latexfont}{Font shape `U/stmry/b/n' undefined}
+\WarningFilter{pdftex}{destination with the same identifier}
+
+% Relax line-breaking to avoid over/underfull box chatter
+\hbadness=10000
+\vbadness=10000
+\hfuzz=200pt
+\vfuzz=20pt
+\emergencystretch=2em
+\sloppy
+
+% TOC: list chapters only
+\setcounter{tocdepth}{0}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=magenta,
+  citecolor=blue
+}
+
+% Paragraph style: no indentation, add vertical space between paragraphs
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7em plus 0.2em minus 0.1em}
+
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\lstset{
+  inputencoding=utf8,
+  extendedchars=true,
+  basicstyle=\ttfamily,
+  literate=
+    {→}{{\textrightarrow}}1
+    {←}{{\textleftarrow}}1
+    {↑}{{\textuparrow}}1
+    {Ω}{{\ensuremath{\Omega}}}1
+    {Δ}{{\ensuremath{\Delta}}}1
+    {β}{{\ensuremath{\beta}}}1
+    {∂}{{\ensuremath{\partial}}}1
+    {∇}{{\ensuremath{\nabla}}}1
+    {⊆}{{\ensuremath{\subseteq}}}1
+    {∪}{{\ensuremath{\cup}}}1
+    {∅}{{\ensuremath{\emptyset}}}1
+    {≈}{{\ensuremath{\approx}}}1
+    {×}{{\ensuremath{\times}}}1
+    {·}{{\ensuremath{\cdot}}}1
+    {…}{{\ldots}}1
+    {™}{{\texttrademark}}1
+    {¯}{{\textasciimacron}}1
+    {┌}{{+}}1
+    {┐}{{+}}1
+    {└}{{+}}1
+    {┘}{{+}}1
+    {├}{{+}}1
+    {┬}{{+}}1
+    {┴}{{+}}1
+    {─}{{-}}1
+    {│}{{|}}1
+    {╱}{{/}}1
+    {╲}{{\textbackslash}}1
+    {●}{{\textbullet}}1
+    {•}{{\textbullet}}1
+    {✔}{{\checkmark}}1
+    {👉}{{\ensuremath{\Rightarrow}}}1
+    {📦}{{[box]}}1
+    {à}{{\`a}}1
+    {é}{{\'e}}1
+    {ö}{{\"o}}1
+    {–}{{--}}1
+    {—}{{---}}1
+    {’}{{'}}1
+    {“}{{``}}1
+    {”}{{''}}1
+    {₀}{{_{0}}}1
+    {₁}{{_{1}}}1
+    {₂}{{_{2}}}1
+}
+
+% Unicode helpers
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{⊆}{\ensuremath{\subseteq}}
+\newunicodechar{∪}{\ensuremath{\cup}}
+\newunicodechar{∅}{\ensuremath{\emptyset}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{¯}{\textasciimacron}
+\newunicodechar{™}{\texttrademark}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{●}{\textbullet}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{✔}{\checkmark}
+\newunicodechar{╱}{/}
+\newunicodechar{╲}{\textbackslash}
+\newunicodechar{─}{-}
+\newunicodechar{│}{|}
+\newunicodechar{┌}{+}
+\newunicodechar{┐}{+}
+\newunicodechar{└}{+}
+\newunicodechar{┘}{+}
+\newunicodechar{├}{+}
+\newunicodechar{┬}{+}
+\newunicodechar{┴}{+}
+\newunicodechar{₀}{\textsubscript{0}}
+\newunicodechar{₁}{\textsubscript{1}}
+\newunicodechar{₂}{\textsubscript{2}}
+\newunicodechar{📦}{[box]}
+\newunicodechar{👉}{\ensuremath{\Rightarrow}}
+\newunicodechar{…}{\ldots}
+
+% ----------------
+% Shared macros
+% ----------------
+\makeatletter
+\def\input@path{{./}{./tex/}}
+\makeatother
+\input{macros}
+
+% ----------------
+% Metadata
+% ----------------
+\title{\COMPUTER{}\\[0.5em]\large The Geometry of All Possible Machines}
+\author{James Ross}
+\date{2025}
+
+% ----------------
+% Document
+% ----------------
+\begin{document}
+
+\pagenumbering{roman}
+\hypersetup{pageanchor=false} % avoid duplicate anchor on unnumbered prelims
+
+\frontmatter
+\input{titlepage}
+
+\cleardoublepage
+\thispagestyle{empty}
+
+\begin{center}
+{\small
+\vspace*{\fill}
+
+\textcopyright~2025 James Ross\\[0.75em]
+
+This work is licensed under the\\
+\textbf{Creative Commons Attribution 4.0 International License (CC BY 4.0)}.\\[1em]
+
+You are free to:
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Share} — copy and redistribute the material in any medium or format
+  \item \textbf{Adapt} — remix, transform, and build upon the material for any purpose, even commercially
+\end{itemize}
+
+Under the following terms:
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Attribution} — You must give appropriate credit, provide a link to the license,\\
+        and indicate if changes were made. You may not imply endorsement by the author.
+\end{itemize}
+
+For the full legal code of the license, see:\\[0.25em]
+\url{https://creativecommons.org/licenses/by/4.0/}
+
+\vspace*{\fill}
+}
+\end{center}
+
+\cleardoublepage
+
+\hypersetup{pageanchor=true}
+\setcounter{page}{1}
+\pagenumbering{roman}
+
+\input{00-toc}
+
+\mainmatter
+\input{01-note-to-the-reader}
+\input{02-part-1-into}
+\input{03-ch-01}
+\input{04-ch-02}
+\input{05-ch-03}
+\input{06-ch-04}
+\input{07-part-2-intro}
+\input{08-ch-05}
+\input{09-ch-06}
+\input{10-ch-07}
+\input{11-ch-08}
+\input{12-part-3-intro}
+\input{13-ch-09}
+\input{14-ch-10}
+\input{15-ch-11}
+\input{16-ch-12}
+\input{17-ch-13}
+\input{18-ch-14}
+\input{19-part-4-intro}
+\input{20-ch-15}
+\input{21-ch-16}
+\input{22-ch-17}
+\input{23-ch-18}
+\input{24-ch-19}
+\input{25-part-5-intro}
+\input{26-ch-20}
+\input{27-ch-21}
+\input{28-ch-22}
+\input{29-ch-23}
+\input{30-ch-24}
+\input{31-part-6-intro}
+\input{32-ch-25}
+\input{33-ch-26}
+\input{34-ch-27}
+\input{35-ch-28}
+\input{36-ch-29}
+\input{37-ch-30}
+\input{38-epilogue}
+\input{40-codex}
+
+\backmatter
+\input{back-cover}
+
+\end{document}

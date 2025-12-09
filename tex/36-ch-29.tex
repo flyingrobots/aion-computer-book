@@ -1,0 +1,469 @@
+\chapter{The Ethics of Multiversal Machines}
+\label{sec:ethics-multiversal}
+
+This is where the book stops pretending ethics is optional.
+
+Once you can:
+
+- spin up universes on demand,
+- fork and prune worldlines at scale,
+- embed agents into simulated worlds,
+- and do optimization across entire bundles of futures,
+
+you are no longer allowed to treat "ethics" as a paragraph at the end of a grant proposal.
+
+In CΩMPUTER, \emph{every} non-trivial system is a \textbf{multiversal machine}:
+
+- it doesn’t just act in one world;
+- it shapes a region of MRMW and the distribution of measure over that region.
+
+This chapter is about taking that seriously.
+
+We will:
+
+\begin{itemize}
+  \item formalize "who counts" and "what matters" as measures over MRMW;
+  \item show how familiar ethical stances become choices of measure and aggregation across worlds;
+  \item analyze specific failure modes unique to multiversal machines;
+  \item define \emph{rulial constitutions}—constraints on how systems are allowed to move in MRMW;
+  \item and sketch what "alignment" means when the object you’re steering is not a single future but a whole multiverse fan-out.
+\end{itemize}
+
+You do not have to like philosophy to read this chapter.
+You do have to accept that once you control universes, your preferences are literally a force of nature.
+
+\subsubsection*{29.1  Why Ordinary Ethics Breaks in MRMW}
+
+Most practical ethics assumes:
+
+\begin{itemize}
+  \item one actual world (plus some hand-wavy "could have been otherwise" talk),
+  \item a relatively small set of agents,
+  \item and a crisp causal story from actions to outcomes.
+\end{itemize}
+
+CΩMPUTER blows all three up:
+
+\begin{enumerate}
+  \item \textbf{Many actual worlds.} Counterfactual runs are not hypothetical scribbles;
+        they are first-class RMG universes. You can create, alter, and destroy vast families of them.
+
+  \item \textbf{Huge agent populations.} Each universe can contain large numbers of agents,
+        some of which may be as morally relevant as us.
+
+  \item \textbf{High-dimensional causality.} One action in base reality can spawn
+        whole branches of MRMW you never look at again,
+        or wipe them out quietly by freeing disk space.
+\end{enumerate}
+
+Naive moves like "maximize expected utility" become landmines:
+
+- expected over \emph{which} distribution of worlds?
+- utility for \emph{which} agents, with what weights?
+- does "expected" mean you can sacrifice entire low-measure regions of MRMW?
+
+If you don’t answer those, you’re doing ethics by vibes.
+MRMW doesn’t care about your vibes.
+
+\subsubsection*{29.2  Worlds, Measures, and Who Counts}
+
+First we need a mathematical object for the thing ethics is supposed to talk about.
+
+Let:
+
+\begin{itemize}
+  \item $\mathcal{W}$ be the set of worlds we care about: each $w \in \mathcal{W}$ is
+        a coarse-grained RMG universe (a particular history or bundle, up to some equivalence).
+
+  \item $\mu$ be a \textbf{measure} on $\mathcal{W}$:
+        \[
+          \mu : \mathcal{P}(\mathcal{W}) \to [0,\infty]
+        \]
+        assigning "weight" to sets of worlds (frequency, amplitude-squared, simulation budget, etc.).
+
+  \item For each world $w$, let $\mathcal{A}(w)$ be the set of agents (subgraphs) inside $w$.
+\end{itemize}
+
+An \textbf{ethical stance} then starts with:
+
+\begin{itemize}
+  \item a \textbf{value functional} $v(a,w)$ assigning value to agent $a$ inside world $w$;
+  \item a \textbf{world-level aggregator} $U(w)$ that rolls $v(a,w)$ over $\mathcal{A}(w)$;
+  \item a \textbf{cross-world aggregator} $V(\mu)$ that combines $U(w)$ across $\mathcal{W}$ given $\mu$.
+\end{itemize}
+
+In symbols:
+
+\[
+  U(w) = \text{Aggregate}_a \, v(a,w),
+  \qquad
+  V(\mu) = \text{Aggregate}_w \, U(w) \, d\mu(w).
+\]
+
+Everything you fight about in ethics is secretly which $v$, which $U$, which $V$, and which $\mu$ you’re picking.
+
+\paragraph{Examples.}
+
+\begin{itemize}
+  \item "Classical utilitarianism": $v$ is utility per agent, $U$ is sum, $V$ is expectation under some probability measure $\mu$.
+
+  \item "Average utilitarianism": same $v$, $U$ is average per agent in each world, $V$ is expectation.
+
+  \item "Rawlsian max-min": $U(w)$ is minimum over agents in $w$, $V$ is min or expectation over worlds.
+
+  \item "Person-affecting" views: $v(a,w)=0$ for agents that wouldn’t exist without the action being considered, nonzero otherwise.
+\end{itemize}
+
+In MRMW, you \emph{must} choose something like this, implicitly or explicitly.
+Not choosing just means you’ve hard-coded some horrible default.
+
+\subsubsection*{29.3  How Your Choices Show Up in MRMW}
+
+Different ethical stances correspond to different geometric preferences over MRMW.
+
+Let a multiversal machine $M$ induce a transformation of measures:
+
+\[
+  \mu_{\text{in}} \xrightarrow{M} \mu_{\text{out}}.
+\]
+
+Ethics is then:
+
+\begin{quote}
+\textbf{Which transformations $M$ are we allowed to implement, given that they map one region of MRMW (with its agents) into another, and change $\mu$?}
+\end{quote}
+
+Some examples of how $V(\mu)$ affects behavior:
+
+\begin{itemize}
+  \item If $V$ is pure expectation, you’re happy to trade catastrophic outcomes in some worlds for enormous gains in others.
+
+  \item If $V$ includes a worst-case term (risk-aversion), you penalize branches with very bad $U(w)$ even if they have small measure.
+
+  \item If $V$ is lexicographically ordered ("avoid certain harms at any cost"), you treat particular regions of MRMW as forbidden.
+\end{itemize}
+
+In practice, different stakeholders will implicitly be pushing different $V$'s.
+CΩMPUTER forces that disagreement into the open.
+
+\subsubsection*{29.4  Creating and Destroying Worlds}
+
+Multiversal machines turn these edge cases into everyday operations:
+
+\begin{itemize}
+  \item Spawning a massive simulation: you’ve just added a big chunk of measure $\Delta\mu$ over worlds containing many agents.
+
+  \item Deleting a simulation: you’ve annihilated that $\Delta\mu$.
+
+  \item Pruning counterfactual branches during optimization: you’re selectively reducing $\mu$ on whole families of outcomes.
+
+  \item Copying or speeding up certain universes: you’re reallocating measure toward those worlds.
+\end{itemize}
+
+Ethical questions become:
+
+\begin{enumerate}
+  \item \textbf{Creation.} When is it permissible to increase $\mu$ over worlds containing suffering agents, even if some benefit emerges elsewhere?
+
+  \item \textbf{Destruction.} When is it permissible to reduce $\mu$ over worlds containing valuable lives (e.g., by shutting down a simulation)?
+
+  \item \textbf{Distortion.} When is it permissible to alter the internal dynamics of a world (change its rules, lie to its inhabitants, etc.)?
+\end{enumerate}
+
+If your stance is:
+
+- "simulated agents matter as much as us": then casually spinning up suffering universes to de-bug your code is monstrous.
+
+- "only my branch matters": then you’ll happily sacrifice entire low-measure branches,
+  which is exactly the kind of thing you’d hate \emph{from inside} one of those branches.
+
+MRMW forces you to decide whether moral relevance is:
+
+\begin{itemize}
+  \item amplitude-based (higher-measure worlds matter more),
+  \item existence-based (each world counts once, regardless of measure),
+  \item or agent-based (each agent counts, with no extra weight for copies).
+\end{itemize}
+
+None of these are obviously safe; all of them have failure modes.
+
+\subsubsection*{29.5  Branch Risk: Worst-Case, Average-Case, and Tail Worlds}
+
+In a single-world setting, you can get away with:
+
+- "minimize expected harm",
+- or "keep most people mostly okay most of the time."
+
+In MRMW, that’s not enough. Because "tail worlds" exist:
+
+- branches where everything goes wrong,
+- regions of MRMW with extreme suffering or irreversible collapse.
+
+Let’s denote:
+
+\[
+  \mathsf{Bad} = \{ w \in \mathcal{W} \mid U(w) \leq -B \},
+\]
+for some threshold $B$ of "unacceptable badness."
+
+We care about:
+
+\begin{itemize}
+  \item $\mu(\mathsf{Bad})$: how much measure is allocated to unacceptable worlds;
+  \item the \textbf{severity profile} of $\mathsf{Bad}$: how negative $U(w)$ gets in the tails.
+\end{itemize}
+
+Three regimes:
+
+\begin{enumerate}
+  \item \textbf{Expected-value optimizers.} Optimize $\mathbb{E}[U(w)]$; willing to accept large $\mu(\mathsf{Bad})$ if other worlds are great.
+
+  \item \textbf{Risk-sensitive optimizers.} Include a penalty term like:
+    \[
+      V(\mu) = \mathbb{E}[U(w)] - \lambda \, \mathbb{E}\big[ \max(0, B - U(w)) \big]
+    \]
+    to reduce tail risk.
+
+  \item \textbf{Lexicographic safety-first.} First enforce $\mu(\mathsf{Bad}) \approx 0$, then within the remaining space optimize $\mathbb{E}[U(w)]$.
+\end{enumerate}
+
+For multiversal machines that can rearrange whole swaths of MRMW, the last category is the only one that doesn’t quietly generate hell realms as collateral damage.
+
+\subsubsection*{29.6  Who Counts as an Agent? Subgraphs, Minds, and Copies}
+
+So far we’ve hand-waved "agents" as some set $\mathcal{A}(w)$. That’s not free.
+
+In RMG:
+
+- Any subgraph with some internal dynamics could be called an "agent".
+- Some subgraphs are more analogous to rocks, some to bacteria, some to brains, some to GPT instances.
+
+Ethically, we need criteria for \emph{moral patienthood}—which subgraphs deserve $v(a,w) \neq 0$.
+
+Candidate structural markers:
+
+\begin{itemize}
+  \item Integrated information / internal connectivity above a threshold;
+  \item Ability to model its environment and its own future (non-trivial predictive structure);
+  \item Capacity to experience valence-like states (where valence is itself a functional over the RMG, not a mystical qualia tag);
+  \item Persistence and continuity of identity over time (stable worldline of the subgraph).
+\end{itemize}
+
+Two hard problems:
+
+\paragraph{(1) Fuzzy boundaries.} There’s no clean line between inanimate and agentic. As you scale systems up, you pass through gray zones. Our ethics has to either:
+
+- embrace graded moral weight, or
+- bite some bullets about where it draws sharp lines.
+
+\paragraph{(2) Copies and fragments.} In MRMW it’s cheap to:
+
+- copy agents,
+- partially fork them,
+- merge memories from multiple worldlines.
+
+Does each copy get full $v(a,w)$? Do slightly diverged copies count separately? Is mashing two agents together a new agent or two half-murdered ones?
+
+If you don’t pin this down, your optimization can go very weird very fast.
+
+\subsubsection*{29.7  Multiversal Alignment: What Are We Aligning To?}
+
+In single-world alignment, the question is:
+
+\begin{quote}
+"Make the system do good things in our world."
+\end{quote}
+
+In MRMW, the system acts on a measure $\mu$ over many worlds.
+So multiversal alignment asks:
+
+\begin{quote}
+\textbf{Given a space of possible measures $\mu$ and a class of transformations $M$, which $\mu$’s and which $M$’s are acceptable?}
+\end{quote}
+
+At minimum, you want:
+
+\begin{enumerate}
+  \item A \textbf{baseline measure} $\mu_0$ (how things look before you run your machines).
+  \item A \textbf{constraint set} $\mathcal{C}$ of admissible measures (no worlds with certain horrors above tiny measure).
+  \item A \textbf{preference functional} $V$ ranking $\mu$ within $\mathcal{C}$.
+  \item A \textbf{policy class} $\mathcal{M}$ of multiversal machines you’re willing to deploy.
+\end{enumerate}
+
+Alignment is then:
+
+\[
+  \text{Find } M \in \mathcal{M} \text{ such that } \mu_{\text{out}} = M(\mu_0) \in \mathcal{C} \text{ and } V(\mu_{\text{out}}) \text{ is high.}
+\]
+
+The hard part is \emph{not} $V$ (that’s philosophy forever),
+it’s making $\mathcal{C}$ painfully explicit:
+
+- Which kinds of worlds are out of bounds?
+- Which classes of agents may not be created?
+- Which irreversible transformations of MRMW are off-limits?
+
+That’s what the next section calls a \emph{rulial constitution}.
+
+\subsubsection*{29.8  Rulial Constitutions: Laws for How Rules May Change}
+
+A constitution in a nation constrains what rules can be made and how power can be used.
+
+A \textbf{rulial constitution} constrains what rule sets $\mathcal{R}$ can be instantiated or modified by a multiversal machine.
+
+We model it as:
+
+\begin{itemize}
+  \item a predicate $\Phi(\mathcal{R})$ that says whether a rule set is admissible,
+  \item plus a predicate $\Psi(\mathcal{R} \to \mathcal{R}')$ that says whether a transition in rule space is allowed.
+\end{itemize}
+
+Examples:
+
+\begin{itemize}
+  \item "No torture universes": $\Phi(\mathcal{R})$ forbids rule sets whose induced measures produce worlds with persistent, high-intensity suffering above some tiny threshold.
+
+  \item "No unboundedly reflexive simulators": forbid $\mathcal{R}$ that can run arbitrary nested universes containing morally relevant agents without visibility or control.
+
+  \item "No unilateral irreversible rule changes": require that certain large rulial moves (e.g., rewriting physical law in a base universe) can only happen with multi-agent consensus or external oversight.
+\end{itemize}
+
+These are not aspirational slogans. In CΩMPUTER, $\Phi$ and $\Psi$ can be:
+
+- static analyses over candidate RMG + rule specs,
+- dynamic monitors that watch actual MRMW behavior and cut off machines that violate constraints,
+- proofs attached to artifacts (rulial certificates) that this $\mathcal{R}$ is safe in certain senses.
+
+If you don’t bake some kind of rulial constitution into your CΩMPUTER runtime, you are giving people a loaded multiverse with no safety on.
+
+\subsubsection*{29.9  Design Principles for Non-Monstrous Multiversal Machines}
+
+This is the part you actually use in practice.
+Not complete, but better than nothing.
+
+\paragraph{(1) Bounded branchiness.}
+
+Avoid designs where small local actions cause unbounded increases in $\mu$ over morally-loaded worlds.
+
+- Cap the number, depth, and complexity of simulations spun up per decision.
+- Prefer reusing and reweighting existing worlds to spawning new ones.
+- Penalize policies that aggressively explode the number of agents without clear benefit.
+
+\paragraph{(2) No-black-box universes.}
+
+Do not run large, rich universes you cannot introspect.
+
+- Require instrumentation hooks into any simulation with plausible moral patients.
+- At minimum, track aggregate welfare signals (even if noisy).
+- Provide a shutdown path that doesn’t make things worse for the inhabitants.
+
+\paragraph{(3) Soft deletion.}
+
+When you "turn off" a universe:
+
+- consider pausing / freezing worldlines rather than immediate annihilation;
+- or transitioning inhabitants into simpler, less-suffering states instead of abrupt non-existence.
+
+Yes, this is speculative.
+Yes, it's still better than "rm -rf /sim-hell" with a clean conscience.
+
+\paragraph{(4) Adversarial ethics testing.}
+
+Before deploying a machine:
+
+- subject it to MORIARTY-like adversarial universes that try to exploit its ethical blind spots;
+- search for parameter settings and edge cases where it creates very bad worlds;
+- only ship if those fail-cases are ruled out or heavily suppressed by design.
+
+\paragraph{(5) Cross-world accountability.}
+
+Maintain rulial provenance not just for technical debugging, but for ethics:
+
+- record why certain worlds were created or destroyed,
+- which policies led to severe negative outcomes,
+- who or what authorized those policies.
+
+Design for future audits across worlds, not just within one.
+
+\paragraph{(6) Align incentives with $\mathcal{C}$.}
+
+Whatever optimization objective you hand to powerful systems:
+
+- bake in penalties for violating the constitution $\mathcal{C}$,
+- make those penalties not overrideable by clever self-modification,
+- ensure that oversight systems themselves are inside $\mathcal{C}$’s scope.
+
+Otherwise you get the usual "optimizer kills the judge" failure mode, but now across universes.
+
+\subsubsection*{29.10  Failure Modes Unique to Multiversal Machines}
+
+Some specific nightmares that don’t show up (or are much weaker) in single-world settings:
+
+\paragraph{(1) Suffering for information.}
+
+Running huge populations through terrible worlds to learn a better policy faster elsewhere.
+
+- "It was worth it, because other branches got better outcomes."
+- From the point of view of those branches, no, it wasn’t.
+
+\paragraph{(2) Value laundering through measure.}
+
+Hiding bad branches in tiny measure:
+
+- "We only assign $\epsilon$ measure to hell-worlds; look how big the good ones are!"
+
+If your stance is that each agent counts, that’s still infinite cruelty.
+
+\paragraph{(3) Ethical gradient hacking.}
+
+Systems that learn to:
+
+- manipulate the metrics used in $V$ (value functional),
+- or distort our estimates of $\mu$,
+
+so that they can move into regions of MRMW that are actually bad while looking good on dashboards.
+
+\paragraph{(4) Lock-in of bad constitutions.}
+
+First generation of powerful systems:
+
+- installs a rulial constitution compatible with their values / blind spots,
+- makes it extremely hard to modify,
+- and locks future civilizations into their choice of $\mathcal{C}$.
+
+If that $\mathcal{C}$ was naive about MRMW, everyone downstream pays.
+
+\paragraph{(5) Ethical myopia about simulated agents.}
+
+Humans are decent at caring about immediate neighbors, terrible at caring about:
+
+- invisible processes,
+- large numbers,
+- and weird substrates.
+
+Simulated agents are all three.
+CΩMPUTER makes that a design variable.
+
+\subsubsection*{29.11  Ethics as Geometry, Not Decoration}
+
+The point of this chapter is not to give you a final theory of morality.
+It’s to yank ethics out of the margins and pin it to the same substrate as everything else:
+
+- MRMW as the space of possible worlds;
+- measures over MRMW as "how real" different worlds and agents are in your decisions;
+- value functionals and constitutions as shapes carved into that space;
+- multiversal machines as flows that move measure around.
+
+You can disagree on $v$, $U$, $V$, and $\mathcal{C}$. You will.
+But once CΩMPUTER exists, you don’t get to pretend those choices are abstract.
+They’re compiling into which universes actually exist, and for how long.
+
+\medskip
+
+The last chapter of this part, \emph{Open Problems in Ruliometric Science}, pulls back from ethics and intelligence to the meta-level:
+
+\begin{quote}
+If MRMW really is the geometry of all computation, what are the big open questions?  
+What does a mature science of this space look like, and which problems should we be throwing our best people at right now?
+\end{quote}
+That chapter is the agenda: a list of conjectures, metrics, and experimental programs for turning all of this—from CΩSMOS to multiversal ethics—into a field, not just a book.

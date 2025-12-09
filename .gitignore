@@ -1,0 +1,110 @@
+#--------------------------------------------------
+# LaTeX build artifacts
+#--------------------------------------------------
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.ist
+*.glo
+*.glg
+*.gls
+*.glsdefs
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.nav
+*.snm
+*.vrb
+
+# Latexmk / arara / other tool logs
+*.acn
+*.acr
+*.alg
+*.dvi
+*.xdv
+*.ps
+*.pdfsync
+
+# Beamer & TikZ externalization
+figures/*.pdf
+figures/*.eps
+tikz/*.pdf
+tikz/*.eps
+
+# Common build directories
+build/
+output/
+_minted*/
+auto/
+
+
+#--------------------------------------------------
+# macOS filesystem cruft
+#--------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Icon?
+
+# macOS volume-specific
+.fseventsd
+.DocumentRevisions-V100
+.TemporaryItems
+.VolumeIcon.icns
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+
+
+#--------------------------------------------------
+# Editor / IDE files
+#--------------------------------------------------
+
+# VS Code
+.vscode/
+.history/
+
+# JetBrains IDEs (IntelliJ, PyCharm, etc.)
+.idea/
+*.iml
+out/
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*.swm
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Other generic editor/OS clutter
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+

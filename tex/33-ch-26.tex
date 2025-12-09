@@ -1,0 +1,456 @@
+\chapter{Physics as Computation}
+\label{sec:physics-as-computation}
+
+Last chapter we went one way:
+
+\begin{center}
+\emph{Given RMG + DPO, here’s how physics shows up as invariants and statistics.}
+\end{center}
+
+Now we flip it:
+
+\begin{center}
+\emph{Given a physical theory, how do we compile it into RMG + DPO so it
+\textbf{is} just another region of MRMW?}
+\end{center}
+
+This is the "physics compiler" chapter.
+
+We’re not satisfied with saying "physics is computational in spirit."  
+We want a literal mapping:
+
+\[
+  \text{Physical theory } \mathcal{T}
+  \quad\longmapsto\quad
+  (\text{RMG } G_\mathcal{T}, \text{ rule set } \mathcal{R}_\mathcal{T})
+\]
+
+such that:
+
+- the dynamics of $\mathcal{T}$ show up as rewrite histories of $(G_\mathcal{T},\mathcal{R}_\mathcal{T})$,
+- the usual observables of $\mathcal{T}$ show up as queries / coarse-grainings on $G_\mathcal{T}$,
+- the symmetries and conservation laws of $\mathcal{T}$ are RMG symmetries and invariants,
+- and the whole thing lives in MRMW on equal footing with every other computation.
+
+This is how we stop treating physics as a special external discipline and start
+treating it as just another software stack — one with ruthlessly tight tests.
+
+\subsubsection*{26.1  The Compilation Problem}
+
+We’ll treat a (classical) physical theory in a deliberately boring, CS-flavored way:
+
+\begin{itemize}
+  \item A \textbf{state space} $S$ (field configurations, particle positions and momenta, etc.).
+  \item A \textbf{dynamical law} $F$ (often given as differential equations or an action principle).
+  \item A set of \textbf{observables} $\mathcal{O}$ (things agents can measure).
+\end{itemize}
+
+The compilation pipeline is:
+
+\[
+  (S, F, \mathcal{O})
+  \quad\longrightarrow\quad
+  (G, \mathcal{R}, C, \mathcal{Q})
+\]
+
+where:
+
+\begin{itemize}
+  \item $G$ is an initial RMG,
+  \item $\mathcal{R}$ is a DPO rule set,
+  \item $C$ is a coarse-graining / decoding from RMG states to "physical" macrostates,
+  \item $\mathcal{Q}$ is a set of query functions implementing observables on $G$.
+\end{itemize}
+
+We will call a compilation \textbf{good} if:
+
+\begin{enumerate}
+  \item (Fidelity) For relevant time/length scales, $C$ of RMG dynamics matches predictions of $\mathcal{T}$.
+  \item (Locality) $\mathcal{R}$ uses bounded-radius patterns; no cheating with global rewrites.
+  \item (Symmetry) Key symmetries of $\mathcal{T}$ become graph automorphisms / rule equivariances.
+  \item (Sparsity) The RMG representation is not absurdly inflated relative to the physics it encodes.
+\end{enumerate}
+
+Bad compilations are allowed — they’re just not interesting. Our goal is to find
+and standardize good ones.
+
+\subsubsection*{26.2  World as Graph: Encoding Fields, Particles, Observers}
+
+Step one: turn “the world” into an RMG state.
+
+Three recurring patterns cover most of physics:
+
+\paragraph{(1) Lattice-like fields.}
+
+For continuum-ish theories we can choose a discretization scale and build:
+
+\begin{itemize}
+  \item A \textbf{base graph} $G_\text{lat}$ whose nodes represent lattice sites,
+        edges represent adjacency (nearest neighbors, etc.).
+
+  \item For each classical field $\phi^a$ (scalar, vector, spin, etc.), we add a
+        layer of labels or attached subgraphs representing $\phi^a$'s value at each site.
+\end{itemize}
+
+So a scalar field $\phi(x)$ on a 1D lattice becomes:
+
+\begin{itemize}
+  \item nodes $i \in \mathbb{Z}$ with edges $(i,i+1)$,
+  \item each node $i$ decorated with a tiny graph encoding $\phi_i$ (e.g., a fixed-point
+        binary representation, or a symbolic "real" node with approximate arithmetic rules).
+\end{itemize}
+
+RMG recursion lets us stack these neatly: "the field" is itself a graph that
+knows how to interpret and manipulate per-site subgraphs.
+
+\paragraph{(2) Particle worldlines.}
+
+For particle-centric views, we encode:
+
+\begin{itemize}
+  \item \textbf{Particles} as labeled nodes or small complexes (to encode internal degrees of freedom).
+  \item \textbf{Worldlines} as sequences of rewrite events on those nodes, or explicit path-like subgraphs.
+  \item \textbf{Interactions} as DPO rules that merge/split those structures according to conservation constraints.
+\end{itemize}
+
+A scattering process is then literally a local rewrite: a small graph representing
+incoming particles is replaced by a small graph representing outgoing particles.
+
+\paragraph{(3) Hybrid: fields on edges, matter on nodes.}
+
+Gauge theories and general relativity-like structures fit more naturally as:
+
+- \textbf{Matter} lives on nodes.
+- \textbf{Gauge or geometric fields} live on edges (connections) or higher cells.
+
+So, for a lattice gauge theory:
+
+\begin{itemize}
+  \item Nodes: sites with matter fields.
+  \item Edges: carry group elements $U_{ij}$ as labels (parallel transport).
+  \item Plaquettes: inferred from cycles in the graph; curvature/field strength shows up as holonomy.
+\end{itemize}
+
+This is exactly the kind of recursive structure RMGs are built for: graphs of graphs of labels.
+
+\paragraph{Observers as subgraphs.}
+
+We won’t pretend observers are mystical. In RMG:
+
+- \textbf{Observers} are just particular subgraphs with stable internal dynamics and:
+  \begin{itemize}
+    \item sensors (edges from environment into their internal state),
+    \item memory (subgraphs that retain structural patterns over time),
+    \item and decision rules (rewrite policies over their own subgraph).
+  \end{itemize}
+
+They are just as compiled as any other piece of physics; they just happen to ask questions.
+
+\subsubsection*{26.3  From Differential Equations to Rewrite Rules}
+
+Most classical physics is fed to you as a differential equation:
+
+\[
+  \frac{\partial \phi}{\partial t} = F\big(\phi, \nabla\phi, \nabla^2\phi, \dots\big)
+\]
+
+To compile this into DPO, we do three things:
+
+\begin{enumerate}
+  \item \textbf{Discretize spacetime.} Pick a lattice spacing $\Delta x$ and time step $\Delta t$ consistent with stability constraints.
+  \item \textbf{Stencil the update.} Express the time derivative as a finite difference update using a local neighborhood.
+  \item \textbf{Encode the stencil as a rewrite.} patterns in, patterns out.
+\end{enumerate}
+
+Example: 1D wave equation
+\[
+  \frac{\partial^2 \phi}{\partial t^2} = c^2 \frac{\partial^2 \phi}{\partial x^2}.
+\]
+
+Discretized with central differences:
+
+\[
+  \phi_i^{(n+1)} = 2\phi_i^{(n)} - \phi_i^{(n-1)} + \lambda^2 \big(\phi_{i+1}^{(n)} - 2\phi_i^{(n)} + \phi_{i-1}^{(n)}\big),
+\]
+where $\lambda = \frac{c \Delta t}{\Delta x}$.
+
+We turn this into a DPO rule whose left-hand side $L$ matches:
+
+- three time-slices of a site ($\phi_i^{(n-1)}, \phi_i^{(n)}, \phi_i^{(n+1)}$ placeholder),
+- plus the neighbors at time $n$ ($\phi_{i-1}^{(n)}, \phi_{i+1}^{(n)}$),
+
+and whose right-hand side $R$ updates the placeholder for $\phi_i^{(n+1)}$ with the computed value.
+
+The "time" here can be:
+
+- an explicit index in the graph (nodes labeled by $(i,n)$),
+- or implicit in the sequence of rewrite events (worldline in MRMW).
+
+The scheduler (which sites update when) can itself be encoded as part of the graph:
+
+- synchronous: a global clock subgraph that toggles which slice is being updated,
+- asynchronous: local rules that update a site whenever its neighborhood is in a consistent configuration.
+
+Either way, the PDE’s semantics are now just the emergent behavior of repeated local rewrite.
+
+\subsubsection*{26.4  From Action Principles to Local Rewrite}
+
+Many physical theories are cleaner in action form than differential form:
+
+\[
+  S[\phi] = \int \mathcal{L}\big(\phi, \partial \phi\big) \, d^dx\, dt,
+\]
+with dynamics given by $\delta S = 0$.
+
+In RMG-land we:
+
+\begin{enumerate}
+  \item \textbf{Discretize the action.} Replace integrals with sums over local motifs (cells, plaquettes, simplices).
+  \item \textbf{Attach action contributions} as labels or weights on those motifs.
+  \item \textbf{Derive local consistency conditions} that correspond to stationary action.
+\end{enumerate}
+
+Concretely:
+
+- Each small subgraph (like a spacetime plaquette) carries a local Lagrangian term $\mathcal{L}_\text{local}$ computed from the fields on its nodes/edges.
+- The total discrete action is the sum (or appropriate group combination) of these local contributions.
+
+We can then define rules in two ways:
+
+\begin{description}
+  \item[Constraint-based.] Allowed rewrites are those that preserve certain local action conditions (e.g., discrete Euler–Lagrange constraints). Graph states violating them either never occur or get immediately "relaxed" by corrective rules.
+  \item[Measure-based.] All rewrites are allowed, but we assign them weights (amplitudes, probabilities) derived from the action difference $\Delta S$. This is the path-integral flavor and ties directly into the "superposition as rewrite bundles" story.
+\end{description}
+
+The important point: in action form, you don’t need to guess the local rules by eye. They fall out from asking, "Which local graph changes correspond to a delta in the discrete action that satisfies the extremal principle?"
+
+\subsubsection*{26.5  Worked Example: 1D Wave Equation as RMG}
+
+Let’s actually spell one out, even if in sketch.
+
+\paragraph{Encoding.}
+
+\begin{itemize}
+  \item Nodes $v_{i,n}$ for each lattice site $i$ and time slice $n$.
+  \item Edges between $v_{i,n}$ and $v_{i\pm 1,n}$ (spatial neighbors) and between $v_{i,n}$ and $v_{i,n\pm 1}$ (time neighbors).
+  \item Each node $v_{i,n}$ has a subgraph encoding a real value $\phi_{i}^{(n)}$.
+\end{itemize}
+
+We maintain a "current slice" marker $T_n$ pointing to the set of nodes at time $n$.
+
+\paragraph{Rule.}
+
+A DPO rule that:
+
+- matches $T_n$, plus a window of nodes $\{v_{i-1,n}, v_{i,n}, v_{i+1,n}, v_{i,n-1}, v_{i,n+1}\}$,
+- computes $\phi_i^{(n+1)}$ from the stencil,
+- replaces the subgraph at $v_{i,n+1}$ with the updated value,
+- and optionally advances the "current slice" marker.
+
+In stringy pseudo-diagram form:
+
+\[
+  L: \;\;
+  \begin{matrix}
+    \phi_{i-1}^{(n)} & \phi_i^{(n)} & \phi_{i+1}^{(n)} \\
+    & \phi_i^{(n-1)} & \phi_i^{(n+1)}\_\text{old}
+  \end{matrix}
+  \quad\Rightarrow\quad
+  R: \;\;
+  \begin{matrix}
+    \phi_{i-1}^{(n)} & \phi_i^{(n)} & \phi_{i+1}^{(n)} \\
+    & \phi_i^{(n-1)} & \phi_i^{(n+1)}\_\text{new}
+  \end{matrix}
+\]
+
+All the usual stability and dispersion discussions are now properties of the rule set:
+you can see them as curvature and anisotropy in the induced MRMW neighborhood.
+
+Note what we’ve done: we turned a nice, clean PDE into a pile of graph rewrites, on purpose. Because once it’s in that form, it sits in the same universe as everything else we care about.
+
+\subsubsection*{26.6  Gauge Theories as Graph Rewrite}
+
+Gauge theory is often where "computation" metaphors go to die. Here we keep it simple.
+
+\paragraph{Encoding a lattice gauge theory.}
+
+\begin{itemize}
+  \item Nodes: lattice sites with matter fields $\psi_i$.
+  \item Edges $(i,j)$: labeled with group elements $U_{ij} \in G$ representing parallel transport.
+  \item Plaquettes: cycles of edges; field strength $F$ is encoded as group-valued holonomy around these cycles.
+\end{itemize}
+
+\paragraph{Gauge transformation.}
+
+A gauge transformation is a local relabeling:
+
+\[
+  \psi_i \mapsto g_i \psi_i, \quad
+  U_{ij} \mapsto g_i U_{ij} g_j^{-1}
+\]
+
+This is literally a group action on the-labels-of-the-graph. In RMG:
+
+- The map $G \to G$ that applies these relabelings is a symmetry if it commutes with DPO dynamics.
+- "Gauge invariance" becomes the requirement that every rule in $\mathcal{R}$ is equivariant under this action.
+
+\paragraph{Dynamics.}
+
+The dynamics (e.g., Wilson action, Kogut–Susskind Hamiltonian) can be compiled by:
+
+- discretizing the action as a sum over plaquettes and sites,
+- defining rules that locally adjust $U_{ij}$ and $\psi_i$ to extremize / evolve that action,
+- ensuring the rules only depend on gauge-invariant combinations (traces of plaquette holonomies, etc.).
+
+Result: gauge fields are not weird magical objects. They are just labels on edges with group-structured rewrite rules and symmetry constraints.
+
+\subsubsection*{26.7  Quantum Theories and Rewrite Bundles}
+
+We already built the quantum-seeming machinery in Part III: superposition as bundles of rewrite histories, interference as constraint resolution, measurement as minimal-path collapse.
+
+To compile a quantum theory (say, Schrödinger evolution of a wavefunction) we do:
+
+\begin{enumerate}
+  \item Encode the classical configuration space (positions, fields) as before.
+  \item Introduce a \textbf{bundle structure} over MRMW paths:
+    \begin{itemize}
+      \item each worldline carries an amplitude,
+      \item rules update these amplitudes according to a discretized Hamiltonian or action.
+    \end{itemize}
+  \item Use a path-integral-style composition:
+    \[
+      \mathcal{A}(\text{history}) \propto e^{i S[\text{history}]/\hbar}
+    \]
+    where $S$ is now computed as a functional over rewrite events.
+  \item Define observables as queries over the induced probability distribution on coarse-grained states.
+\end{enumerate}
+
+In RMG terms:
+
+- The "wavefunction" is not a separate field; it is a weighting over bundles of rewrite paths.
+- Schrödinger evolution is just the linear update of these weights according to local rules derived from the Hamiltonian.
+- Interference is what you get when different rewrite histories end in the same coarse-grained graph and their amplitudes combine.
+
+This makes quantum vs classical a choice of \emph{how} you traverse MRMW, not \emph{what} MRMW is.
+
+\subsubsection*{26.8  Observables as Graph Queries}
+
+We want a clean dictionary between physics lab talk and RMG ops.
+
+Given a compiled pair $(G,\mathcal{R})$:
+
+\begin{itemize}
+  \item A \textbf{physical observable} $O$ is a function on (coarse-grained) graphs:
+    \[
+      O : \text{RMG states} \to \mathbb{R}^k \text{ or some measurable space}.
+    \]
+  \item A \textbf{measurement procedure} is a composed process:
+    \begin{enumerate}
+      \item Evolve $(G,\mathcal{R})$ for some time.
+      \item Apply a coarse-graining $C$.
+      \item Apply $O$ to the result.
+    \end{enumerate}
+\end{itemize}
+
+This sounds trivial until you weaponize it:
+
+- We can distinguish observables that are \emph{local} queries (depend on limited subgraphs) from \emph{global} ones.
+- We can explicitly see which observables commute (their queries touch disjoint or causally separated regions) and which don’t.
+- We can model "apparatus" not as magical projection operators, but as additional RMG subgraphs that implement $C$ via interaction.
+
+In other words, the measurement problem becomes a design problem: what queries do your observer-subgraphs implement, and how do they distort the underlying dynamics?
+
+\subsubsection*{26.9  What Makes a Compilation "Good"?}
+
+Just because you can encode a theory as RMG + DPO doesn’t mean you did it well.
+Good compilations have:
+
+\paragraph{(1) Structural locality.}
+
+Rules have small patterns and bounded match radius. This:
+
+- ensures a causal graph with meaningful light cones,
+- keeps implementation cost reasonable,
+- matches the "no action at a distance" vibe of real physics.
+
+\paragraph{(2) Symmetry transparency.}
+
+Symmetries of the physical theory show up as genuine graph automorphisms / rule
+equivariance, not as accidental numerical coincidences.
+
+If a compilation hides symmetry in boundary conditions or gross hacks, it’s suspect.
+
+\paragraph{(3) Coarse-graining friendliness.}
+
+There exists a natural $C$ such that:
+
+- entropy and thermodynamic behavior are visible,
+- macroscopic variables behave smoothly,
+- the arrow of time shows up in the expected direction.
+
+If everything is brittle under coarse-graining, you haven’t captured the right structures.
+
+\paragraph{(4) Rulial robustness.}
+
+Small changes in rules should correspond to physically interpretable perturbations
+(e.g., slightly different coupling constants, different fields), not total nonsense.
+
+That is: nearby points in rulial space correspond to nearby physical theories.
+If not, you’ve chosen a pathological coordinate chart on MRMW.
+
+These criteria are how CΩMPUTER decides which physical encodings are worth caring about.
+
+\subsubsection*{26.10  This is Not "Just Simulation"}
+
+Let’s be explicit about the difference.
+
+\paragraph{Simulation mindset.}
+
+- Pick a theory.
+- Discretize it.
+- Write a program that approximates its evolution.
+- Use the program as a black-box calculator.
+
+\paragraph{CΩMPUTER mindset.}
+
+- Treat that discretization as a first-class \emph{universe} in MRMW.
+- Put it on the same footing as databases, neural networks, protocols, etc.
+- Compare it geometrically to other universes: what’s near it? what’s equivalent to it?
+- Build machines (from Part IV) that span across this universe and others.
+
+The point is not "we can run physics on a computer." That’s old news.
+The point is:
+
+\begin{quote}
+\textbf{Physics is now an API over MRMW.}
+\end{quote}
+
+Once a physical theory is compiled into RMG + DPO:
+
+- you can compose it with other universes (e.g., a market model, a biological model),
+- you can apply rulial analysis (how does complexity scale? where does curvature spike?),
+- you can subject it to adversarial universes, counterfactual engines, and optimization across worlds.
+
+You stop drawing a sacred line between "the real world" and "the models".
+It’s universes all the way down.
+
+\subsubsection*{26.11  On to CΩSMOS}
+
+With this chapter, we now have:
+
+\begin{itemize}
+  \item a way to read physics out of computation (previous chapter),
+  \item and a way to push physics back into computation (this chapter).
+\end{itemize}
+
+The next step is obvious and a little insane:
+
+\begin{center}
+\emph{Apply this compiler to the one actual universe we live in.}
+\end{center}
+
+\noindent
+That’s what the next chapter, \emph{CΩSMOS: The Physical Universe as RMG},
+attempts: not a precise final answer, but a concrete sketch of how a realistic
+candidate $(G,\mathcal{R})$ for our cosmos might look, and what it would mean
+to treat "the universe" as just one RMG instance running inside CΩMPUTER.

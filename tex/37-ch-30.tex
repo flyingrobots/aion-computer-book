@@ -1,0 +1,506 @@
+\chapter{Open Problems in Ruliometric Science}
+\label{sec:open-problems-ruliometric}
+
+This is the part where the book stops explaining and starts throwing you work.
+
+We’ve built:
+
+\begin{itemize}
+  \item an ontology (RMG + DPO as substrate),
+  \item a geometry (MRMW, worldlines, curvature),
+  \item a physics (CΩSMOS as an RMG universe),
+  \item machines (time-travel debuggers, counterfactual engines, MORIARTY),
+  \item an architecture (CΩMPILER, runtime, storage),
+  \item and a sketch of intelligence + ethics in this setting.
+\end{itemize}
+
+That’s not a finished theory. It’s a coordinate system on a space that barely has a name.
+
+Let’s name it now:
+
+\begin{quote}
+\textbf{Ruliometric science} is the quantitative study of MRMW---the geometry of the space of all possible computations, rule systems, and universes---and the machines that move through it.
+\end{quote}
+
+Think: differential geometry + complexity theory + dynamical systems + statistical physics, all stapled to a combinatorial substrate and pointed at everything from physics to AI to institutions.
+
+This chapter is a non-exhaustive hit list of open problems in that field.
+Some are crisp conjectures, some are vague research programs. All of them are
+deliberately pointed: things where progress would change how we build systems.
+
+You can read this as a roadmap, a shopping list, or an invitation.
+
+\subsubsection*{30.1  Make MRMW a Proper Geometric Object}
+
+Right now MRMW---the space of all RMGs + rule sets + histories---is described
+hand-wavily as a "phase space of all computations."
+
+That’s not good enough. We need actual math.
+
+\paragraph{Problem 1: Define usable metrics on MRMW.}
+
+We want distances:
+
+\begin{itemize}
+  \item between two states $(G_1,\mathcal{R}_1)$ and $(G_2,\mathcal{R}_2)$;
+  \item between two rule sets $\mathcal{R}_1, \mathcal{R}_2$ (rulial distance);
+  \item between two worldlines (histories) $\gamma_1, \gamma_2$.
+\end{itemize}
+
+Constraints:
+
+\begin{itemize}
+  \item invariant under obvious symmetries (relabelings, coarse-grainings),
+  \item computable / approximable for realistic systems,
+  \item meaningful: nearby points correspond to "similar behavior" in some observable sense.
+\end{itemize}
+
+Concrete questions:
+
+\begin{enumerate}
+  \item Can we define a Gromov–Hausdorff-type distance between causal RMG universes?
+  \item Can we define a Wasserstein-like distance between distributions over worldlines?
+  \item Can we parameterize "distance in rule space" by how much an agent’s value functional changes under compilation of the same spec?
+\end{enumerate}
+
+\paragraph{Problem 2: Curvature in MRMW that actually does something.}
+
+We’ve spoken about curvature as "hardness" or "bending’’ of computational paths.
+Turn that into real invariants:
+
+\begin{itemize}
+  \item define curvature tensors or scalar curvatures on local neighborhoods in MRMW;
+  \item relate curvature to:
+    \begin{itemize}
+      \item algorithmic complexity (sharp curvature $\Leftrightarrow$ NP-ish behavior?),
+      \item sensitivity to initial conditions (chaos),
+      \item robustness of coarse-grainings.
+    \end{itemize}
+\end{itemize}
+
+Yes, this sounds like re-inventing Ricci flow on computation space. Good. Do it.
+
+\paragraph{Problem 3: Topology of MRMW.}
+
+What are the large-scale features?
+
+\begin{itemize}
+  \item Are there connected components of rule sets that cannot be deformed into one another without crossing phase transitions (e.g., from reversible to irreversible dynamics)?
+  \item Are there "holes" corresponding to classes of universes that can’t be approximated by finite RMGs or local DPO rules?
+  \item Are there universal attractors: regions most random rule sets flow toward under some natural renormalization?
+\end{itemize}
+
+If you’re a topologist who’s bored of manifolds, here’s your playground.
+
+\subsubsection*{30.2  Complexity as Geometry: Hard Problems, Hard Curvature}
+
+We pretend complexity theory is about Turing machines and oracle models.
+In Ruliometry, it should be about geometry.
+
+\paragraph{Problem 4: Geometric characterization of complexity classes.}
+
+Conjecture-level idea:
+
+\begin{quote}
+Computational complexity classes correspond to families of regions in MRMW with characteristic curvature, volume-growth, and geodesic-length profiles.
+\end{quote}
+
+That is:
+
+\begin{itemize}
+  \item P-like behavior: geodesics of length polynomial in input size between typical start and goal states.
+  \item NP-like behavior: exponential explosion of geodesic count, but existence of at least one short path.
+  \item BQP-like behavior: cheap access to whole bundles of paths via quantum-like superposition rules.
+\end{itemize}
+
+Questions:
+
+\begin{enumerate}
+  \item Can we define an invariant $K$ on problem encodings in MRMW that lower-bounds time/space complexity?
+  \item Can we prove analogues of known complexity separations or collapses as curvature / volume constraints?
+  \item Is there a notion of average-case curvature that correlates with phase transitions in solvability?
+\end{enumerate}
+
+If any of this works, "complexity theory" becomes a chapter in Ruliometry, not a separate cult.
+
+\paragraph{Problem 5: Local NP collapse and curvature.}
+
+We claimed in Part~III that certain local regions of MRMW can exhibit effective "NP collapse" due to geometric properties (e.g., constrained search regions, strong pruning by rewrite laws).
+
+Formalize that as:
+
+\begin{quote}
+Given a subregion $\Omega \subset \text{MRMW}$ and a problem encoding $\Pi$ supported in $\Omega$, define conditions on curvature/volume of $\Omega$ that imply tractable solution of $\Pi$.
+\end{quote}
+
+If you can prove non-trivial examples, you get:
+
+- structural explanations for why certain practically-hard problems are easy in real-world instances,
+- design rules for building machines that sit in those nice regions.
+
+\subsubsection*{30.3  Classification of Universes: A Zoo of RMGs}
+
+Right now, we have a few toy universes (cellular automata, graph rewrites) and one big scary universe (ours).
+
+We need a \emph{taxonomy}.
+
+\paragraph{Problem 6: Universality classes of RMG rule sets.}
+
+We want to cluster rule sets $\mathcal{R}$ into universality classes, not just by Turing-completeness, but by:
+
+\begin{itemize}
+  \item emergent dimension,
+  \item symmetry structure,
+  \item typical complexity scaling,
+  \item stability under coarse-graining.
+\end{itemize}
+
+Questions:
+
+\begin{enumerate}
+  \item Can we define RG-like flows on rule space that coarse-grain a rule set into a simpler effective theory?
+  \item Do different microscopic rules flow to the same macroscopic universality class?
+  \item Is there a "periodic table" of universe types under these flows?
+\end{enumerate}
+
+\paragraph{Problem 7: Dualities between universes.}
+
+Two very different rule sets can yield the same macroscopic physics (or the same computation) under different coarse-grainings.
+
+\begin{quote}
+Formalize when $(G_1,\mathcal{R}_1)$ and $(G_2,\mathcal{R}_2)$ are dual: there exist coarse-grainings $C_1, C_2$ such that $C_1(G_1(t))$ and $C_2(G_2(t))$ are equivalent stochastic processes.
+\end{quote}
+
+We want:
+
+\begin{itemize}
+  \item examples beyond toy models,
+  \item invariants preserved under duality,
+  \item algorithms for finding duals in rule space.
+\end{itemize}
+
+This gives a way to compress ugly universes into prettier ones without losing behavior.
+
+\subsubsection*{30.4  The CΩSMOS Inverse Problem}
+
+We sketched CΩSMOS as "our universe as RMG." Now turn that into a serious inverse problem.
+
+\paragraph{Problem 8: Define a CΩSMOS fitness functional.}
+
+Given a candidate $(G,\mathcal{R})$, define a score $F(G,\mathcal{R})$ that:
+
+\begin{itemize}
+  \item heavily rewards matching empirical physics (dimension, symmetries, particle spectra, cosmology),
+  \item penalizes weird artifacts (anisotropies, violations of known bounds),
+  \item and is computationally estimable from finite-time simulations.
+\end{itemize}
+
+Key challenge: making $F$ robust and not insanely fragile to coarse-graining choices.
+
+\paragraph{Problem 9: Search strategies in CΩSMOS-space.}
+
+We’re not going to brute-force MRMW. We need structured search:
+
+\begin{itemize}
+  \item parameterized families of rules (graph locality, limited motif types),
+  \item gradient-like signals in rule space (how changes in local patterns affect $F$),
+  \item priors from existing physics (Lorentz invariance, locality, gauge structure) baked into search.
+\end{itemize}
+
+This is not "Evolve cellular automata until they look pretty.’’
+This is a disciplined program for finding RMGs that deserve to be CΩSMOS candidates.
+
+\subsubsection*{30.5  Instrumentation: How Do You Actually \emph{Measure} Ruliometry?}
+
+Everything in this book assumes we can probe MRMW as if we had lab instruments.
+
+We don’t. Yet.
+
+\paragraph{Problem 10: Build curvature and dimension estimators.}
+
+Given:
+
+\begin{itemize}
+  \item a large RMG evolution (e.g., a CΩMPUTER runtime log),
+  \item partial access (e.g., local neighborhoods, sampled histories),
+\end{itemize}
+
+design algorithms that estimate:
+
+\begin{itemize}
+  \item local dimension (volume growth vs. radius),
+  \item curvature proxies (comparisons of geodesic spreads),
+  \item bottlenecks and hubs (places where flow concentrates).
+\end{itemize}
+
+These should be:
+
+\begin{itemize}
+  \item cheap enough to run online,
+  \item robust to noise and coarse-graining,
+  \item tunable to different scales.
+\end{itemize}
+
+\paragraph{Problem 11: Complexity and entropy meters for live systems.}
+
+Given a running system (model, marketplace, codebase), can we:
+
+\begin{itemize}
+  \item associate it with a region in MRMW,
+  \item track its effective entropy $S(t)$ under a chosen coarse-graining,
+  \item estimate its algorithmic complexity (up to practical bounds),
+  \item monitor "distance" between its actual trajectory and some safe / desired region?
+\end{itemize}
+
+This is the basis for all the "debugging reality" fantasies: you can’t steer what you can’t measure.
+
+\subsubsection*{30.6  Multiversal Machine Theory Proper}
+
+We gave you a handful of multiversal machines in Part~IV.
+That’s not a theory, that’s a demo reel.
+
+\paragraph{Problem 12: A calculus of multiversal machines.}
+
+We want:
+
+\begin{itemize}
+  \item a formal language for describing machines that operate on MRMW (fork, merge, reweight, prune worlds),
+  \item compositionality: you can connect machines and know what the composite does,
+  \item expressivity results: which transformations on distributions over worlds are representable.
+\end{itemize}
+
+Analogy:
+
+\begin{itemize}
+  \item automata theory for string processors,
+  \item circuit complexity for Boolean functions,
+  \item category theory for compositional structures.
+\end{itemize}
+
+Here we want the same, but for operators on measures over MRMW.
+
+\paragraph{Problem 13: Resource theories for multiversal computation.}
+
+Define currencies:
+
+\begin{itemize}
+  \item rulial bandwidth (how fast you can move in rule space),
+  \item universe budget (how many / how deep worlds you can spin up),
+  \item provenance depth (how much history you keep).
+\end{itemize}
+
+Then:
+
+\begin{itemize}
+  \item characterize which transformations are possible under bounded resources,
+  \item prove no-go theorems (impossible steering tasks),
+  \item define efficient normal forms for common tasks (simulation, planning, search).
+\end{itemize}
+
+This is where "what’s the cost of thinking about this in parallel realities?’’ becomes a formal question.
+
+\subsubsection*{30.7  Intelligence Metrics That Don’t Suck}
+
+We sketched intelligence as efficient, robust steering of MRMW.
+Now turn that into metrics that beat "it scored 89.2 on benchmark X."
+
+\paragraph{Problem 14: Define standardized intelligence indices.}
+
+Based on:
+
+\begin{itemize}
+  \item reachability (size/shape of reachable good region),
+  \item robustness (performance under environment rule perturbations),
+  \item model efficiency (compression of local geometry),
+  \item multi-scale control (how many levels of coarse-graining the system can reason across).
+\end{itemize}
+
+A good index should:
+
+\begin{itemize}
+  \item be comparable across architectures,
+  \item penalize brittle or overfitted flows,
+  \item correlate with qualitative capabilities we care about (transfer, alignment, self-correction).
+\end{itemize}
+
+\paragraph{Problem 15: Phase diagrams of intelligence.}
+
+Map out regimes:
+
+\begin{itemize}
+  \item below some capacity: flailing, local minima, no reliable generalization;
+  \item above thresholds: sudden access to new behaviors (self-modeling, rulial moves, multiverse planning).
+\end{itemize}
+
+Formally:
+
+\begin{quote}
+Given a family of agents parameterized by capacity (compute, memory, rulial bandwidth), identify critical surfaces in parameter space where qualitative behavior changes.
+\end{quote}
+
+This is what everyone hand-waves as "sharp capability jumps.’’
+You can do better than vibes.
+
+\subsubsection*{30.8  Ethics and Governance as First-Class Geometry Problems}
+
+We just gave you one chapter on ethics. That was table-setting.
+
+The actual research program is bigger:
+
+\paragraph{Problem 16: Catalog measures over MRMW that correspond to sane ethical stances.}
+
+You need:
+
+\begin{itemize}
+  \item concrete candidate measures $\mu$ (how much each world/agent "counts"),
+  \item analysis of their failure modes (where they go insane),
+  \item approximation schemes for implementing them in real multiversal machines.
+\end{itemize}
+
+A good result looks like:
+
+\begin{itemize}
+  \item "Measure family $\mathcal{M}_1$ avoids X but fails at Y; $\mathcal{M}_2$ does the opposite; hybrid $\mathcal{M}_3$ dominates both under constraints Z."
+\end{itemize}
+
+\paragraph{Problem 17: Formalize rulial constitutions and prove meta-theorems.}
+
+Given predicates $\Phi(\mathcal{R})$ and $\Psi(\mathcal{R}\to\mathcal{R}')$ that encode "allowed universes" and "allowed rule changes," prove things like:
+
+\begin{itemize}
+  \item completeness: all safe transformations we care about are permitted;
+  \item soundness: no known catastrophic transformation is permitted;
+  \item invariance: constitutions themselves are robust under embedding in larger MRMW systems.
+\end{itemize}
+
+Also: impossibility theorems.
+If certain goals are mutually incompatible (e.g. absolute safety + maximal expressivity), prove it and state the tradeoff precisely.
+
+\subsubsection*{30.9  Building Actual CΩMPUTERs: Experimental Ruliometry}
+
+Theory without experiments is religion.
+
+\paragraph{Problem 18: Minimal CΩMPUTER prototypes.}
+
+Not "hello world’’ nonsense. We want minimal systems that:
+
+\begin{itemize}
+  \item represent RMGs natively (graphs of graphs, not forced into arrays),
+  \item implement DPO rewriting with provenance (every rewrite event logged as a node in a causal graph),
+  \item support basic multiversal operations (fork/bundle/merge) at moderate scale,
+  \item expose metrics hooks for curvature/entropy estimates.
+\end{itemize}
+
+This is the platform for every empirical question above.
+
+\paragraph{Problem 19: Toy universes as experimental testbeds.}
+
+Design families of RMG rule sets that:
+
+\begin{itemize}
+  \item are rich enough to have emergent phenomena (phases, particles, patterns),
+  \item are small enough to simulate extensively,
+  \item and come with a library of known behaviors.
+\end{itemize}
+
+Use them to:
+
+\begin{itemize}
+  \item test ruliometric metrics,
+  \item evaluate multiversal machines,
+  \item prototype ethical constraints in safe sandboxes.
+\end{itemize}
+
+Think "Ising model’’ and "Game of Life,’’ but for full-stack MRMW.
+
+\subsubsection*{30.10  Ruliometric Culture: How This Becomes a Field, Not a Meme}
+
+You don’t get a scientific discipline by writing one book.
+You get it by building infrastructure:
+
+\paragraph{Problem 20: Shared formalisms and benchmarks.}
+
+We need:
+
+\begin{itemize}
+  \item common RMG / DPO specification languages,
+  \item shared toy universe suites,
+  \item canonical multiversal machine definitions,
+  \item standard ruliometric benchmark tasks ("measure curvature here; classify this universe; compare these flows’’).
+\end{itemize}
+
+Otherwise everyone reinvents their own private MRMW and nobody’s results talk to each other.
+
+\paragraph{Problem 21: Sociotechnical guardrails.}
+
+Meta, but important:
+
+\begin{itemize}
+  \item How do you keep a field that can literally engineer universes from being captured by whichever lab gets richest first?
+  \item How do you share CΩMPUTER-like runtimes without handing out multiversal weapons?
+  \item What institutional patterns (open consortia, treaty-like agreements, verification infrastructures) make sense here?
+\end{itemize}
+
+If "ruliometric science’’ becomes the new nuclear physics and we learn nothing from the last century, that’s on us.
+
+\subsubsection*{30.11  Where to Start (Yes, You, Personally)}
+
+This all sounds huge. It is. That’s the point.
+But you don’t have to eat MRMW in one bite.
+
+Some tractable entry points:
+
+\begin{itemize}
+  \item \textbf{If you’re a theorist:}
+    \begin{itemize}
+      \item formalize one specific metric or curvature notion on a restricted MRMW slice (e.g., cellular automata),
+      \item prove even one non-trivial theorem relating that to known complexity or dynamical behavior.
+    \end{itemize}
+
+  \item \textbf{If you’re a PL / systems person:}
+    \begin{itemize}
+      \item build a small CΩMPILER prototype: embed a tiny DSL into a graph-rewrite runtime with provenance;
+      \item make time-travel debugging or counterfactual execution a first-class feature and see what breaks.
+    \end{itemize}
+
+  \item \textbf{If you’re a physicist:}
+    \begin{itemize}
+      \item pick a toy theory (Ising, scalar field, lattice gauge),
+      \item compile it into RMG + DPO cleanly,
+      \item and study its MRMW neighborhood: duals, universality classes, curvature.
+    \end{itemize}
+
+  \item \textbf{If you’re on the AI / alignment side:}
+    \begin{itemize}
+      \item recast one alignment problem in MRMW terms (measures, flows, constitutions),
+      \item build a tiny multiversal machine that exhibits the failure mode, then one that avoids it.
+    \end{itemize}
+
+  \item \textbf{If you’re a philosopher or ethicist:}
+    \begin{itemize}
+      \item pick a live ethical debate (personhood of sims, population ethics, risk),
+      \item express the competing views as different $(v,U,V,\mu)$ choices,
+      \item and see where they literally move measure in MRMW.
+    \end{itemize}
+\end{itemize}
+
+\medskip
+
+The honest answer to "what is ruliometric science right now?’’ is:
+
+\begin{quote}
+A sketch of a field that will either quietly die, or become the language we use for physics, computing, AI, and governance in 50 years.
+\end{quote}
+
+This book is a bet on the second outcome.
+
+\medskip
+
+If you’ve made it this far, you are now \emph{ruliometric}. You know what MRMW is.
+You know what CΩMPUTER is trying to build. You know where the sharp edges are.
+
+The rest is not my problem. It’s yours.
+
+\begin{center}
+\textbf{Go bend some universes.}
+\end{center}

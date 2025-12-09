@@ -1,0 +1,345 @@
+\chapter{Computation as Physics}
+\label{sec:computation-as-physics}
+
+Everyone says "information is physical." Cute slogan. Wrong level.
+
+The claim in CΩMPUTER is stronger and less polite:
+
+\begin{quote}
+\textbf{Physics is what certain computations \emph{look like} from the inside.}\\
+Conserved quantities, fields, particles, and thermodynamic laws are emergent
+properties of a particular region of MRMW under a particular choice of coarse-graining.
+\end{quote}
+
+This chapter is where we stop treating that as a motivational poster and actually
+spell out the mapping.
+
+We are not "simulating physics." We are identifying physics with
+\emph{statistics and invariants of rewrite} on a particular class of RMGs.
+The universe isn’t running on a computer; the universe is what it feels like
+to be a very specific CΩMPUTER instance.
+
+\subsubsection*{25.1  Substrate First: RMG + DPO as "World"}
+
+We start from the ontology built in Parts I–III:
+
+\begin{itemize}
+  \item A \textbf{Recursive Meta-Graph} (RMG) is the underlying state object.
+        Nodes and edges can themselves point to graphs, rules, or higher-order
+        structures. "State" is not a flat configuration; it's a tower of graphs
+        describing both objects and the laws that act on them.
+
+  \item \textbf{Double-pushout rewrite} (DPO) is the evolution law:
+        each step replaces a local pattern $L$ with a pattern $R$, glued into
+        the ambient graph via an interface $K$:
+        \[
+          L \xleftarrow{i_L} K \xrightarrow{i_R} R
+        \]
+        plus a match $m : L \to G$ into the current world-graph $G$.
+
+  \item \textbf{MRMW} is the phase space of all such evolutions:
+        all $(G, \mathcal{R})$ pairs (graphs plus rule sets) and all their
+        possible rewrite histories. Worldlines are particular rewrite histories,
+        i.e., paths through MRMW.
+\end{itemize}
+
+This is not “an encoding.” This \emph{is} the substrate.
+
+The first move in this chapter is: given this substrate, what has to be true
+for an embedded observer to recognize something we would call
+"physics" rather than arbitrary combinatorics?
+
+\subsubsection*{25.2  What Counts as "Physics"?}
+
+From within a universe, nobody sees DPO diagrams. They see:
+
+\begin{itemize}
+  \item regularities (the same experiment gives the same result),
+  \item constraints (some configurations never occur),
+  \item and scalable summaries (you don’t need to track every bit of sand to
+        predict a sandpile).
+\end{itemize}
+
+Formally, that means:
+
+\begin{enumerate}
+  \item There exists a \textbf{coarse-graining} $C$ from the raw RMG state $G$
+        to macrostates $X = C(G)$ such that the induced dynamics on $X$ is:
+        \begin{itemize}
+          \item approximately Markovian on relevant time scales,
+          \item approximately local (future $X'$ mostly depends on a neighborhood of $X$),
+          \item and stable under small perturbations of microstate.
+        \end{itemize}
+
+  \item There exists a family of \textbf{invariants} under the DPO dynamics,
+        i.e., quantities $I(G)$ such that $G \to G'$ implies $I(G) = I(G')$,
+        which appear to embedded agents as "conserved’’ (mass, charge, etc.).
+
+  \item There exists a notion of \textbf{causal structure} induced by rewrite:
+        a partial order on events where some pairs are spacelike (independent),
+        some timelike (influence possible), and maximal influence speed is bounded.
+\end{enumerate}
+
+Whenever these conditions hold, embedded agents will end up inventing something
+indistinguishable from "physics," whether or not they know RMGs or DPO exist.
+
+The rest of the chapter is just spelling out those bullets in RMG language.
+
+\subsubsection*{25.3  Conservation Laws as Rewrite Invariants}
+
+Take a DPO rule:
+\[
+  L \xleftarrow{i_L} K \xrightarrow{i_R} R
+\]
+
+We define a \textbf{quantity} $Q$ as a function from graphs to some value space
+(e.g., $\mathbb{Z}$, $\mathbb{R}^n$, an abelian group, etc.).
+We say $Q$ is \textbf{locally conserved} by a rule if:
+\[
+  Q(L) = Q(R)
+\]
+under an appropriate notion of sum over components, and \textbf{globally conserved}
+if this local equality holds for all matches of all rules in $\mathcal{R}$.
+
+Physically:
+
+\begin{itemize}
+  \item "Charge" is any additive $Q$ which counts certain labeled substructures.
+  \item "Particle number" is $Q$ counting connected components in some layer.
+  \item "Topological charge" is $Q$ depending only on global features
+        (e.g., winding number-like quantities over the graph embedding).
+\end{itemize}
+
+Important: none of these are declared by fiat. They are discovered as invariants
+of the rule system, just like conservation laws in Noether-style physics are
+discovered from symmetry.
+
+The move here is: we treat \emph{every} invariant $Q$ induced by a rule set
+as a candidate "physical quantity" for the embedded universe. Most will be
+uninteresting; the physically relevant ones are those that survive coarse-graining
+and show up in macroscopic behavior.
+
+\subsubsection*{25.4  Symmetry as Rule Equivariance}
+
+In usual physics, symmetry is group action on a state space that commutes with dynamics.
+
+In CΩMPUTER:
+
+\begin{itemize}
+  \item A \textbf{symmetry} is a group action $S: G \mapsto S(G)$ on graphs
+        (and optionally on rules) such that applying $S$ then evolving by DPO
+        is equivalent to evolving then applying $S$.
+
+  \item Formally, for each rewrite $G \to_{\rho} G'$, there is a corresponding
+        rewrite $S(G) \to_{S(\rho)} S(G')$, where $S(\rho)$ is the pushed-forward rule.
+\end{itemize}
+
+If $S$ is a spatial translation, you get homogeneity.  
+If $S$ is a rotation, you get isotropy.  
+If $S$ is time-shift, you get energy conservation via the $Q$ induced by that symmetry.
+
+This lets us lift the usual physics story:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{>{\bfseries}l X X}
+\toprule
+Physics & CΩMPUTER & Emergent meaning\\
+\midrule
+Spatial translation invariance & Graph automorphisms preserving pattern frequencies & No preferred location \\
+Rotational invariance & Automorphisms of embedding / adjacency patterns & No preferred direction \\
+Time invariance & Rule set constant along worldline & Energy-like invariant exists \\
+Gauge symmetry & Local relabeling of subgraphs & Redundant description of “fields” \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+We’re not copying physics; physics drops out as the special case where the
+symmetry group is large and the coarse-graining is nice.
+
+\subsubsection*{25.5  Locality, Causality, and Light Cones}
+
+DPO rewrite is \emph{by construction} local: you only touch the match of $L$
+and its glued neighborhood. But that doesn’t automatically give you nice spacetime.
+
+We define:
+
+\begin{itemize}
+  \item A \textbf{causal edge} from event $e$ to event $e'$ if the application
+        of some rule at $e$ changes the part of the graph that is matched at $e'$.
+
+  \item A \textbf{causal graph} whose nodes are rewrite events and edges are
+        these dependencies.
+
+  \item A \textbf{light cone} of an event $e$ as the subgraph induced by
+        all events reachable from $e$ in the causal graph (future cone) and
+        all events that can reach $e$ (past cone).
+\end{itemize}
+
+We say a rule set is \textbf{bounded influence} if there exists a finite $v$
+such that the radius of the affected region after $t$ steps grows at most like $vt$.
+
+For an embedded observer, this bounded influence appears as:
+
+\begin{itemize}
+  \item a maximum signal speed (a "speed of light"),
+  \item a separation between timelike and spacelike separation,
+  \item and causality constraints (no signaling outside light cones).
+\end{itemize}
+
+If you want relativity, you need more: you want the causal structure to be
+robust under coarse-graining and compatible with a family of emergent frames.
+But the skeleton is already here: causal graph first, metric structure second.
+
+\subsubsection*{25.6  Thermodynamics as Combinatorics on MRMW}
+
+Now the spicy part: thermodynamics without waving your hands about "ensembles"
+as something outside the universe.
+
+We define:
+
+\begin{itemize}
+  \item A \textbf{microstate} as a full RMG $G$.
+  \item A \textbf{macrostate} as an equivalence class $[G]$ under some coarse-graining $C$.
+  \item The \textbf{entropy} of a macrostate $X$ as:
+    \[
+      S(X) = \log \left|\{ G \mid C(G) = X\} \right|
+    \]
+    where the log base sets units (pick your poison).
+\end{itemize}
+
+Given a rule set and a coarse-graining, typical behavior is:
+
+\begin{enumerate}
+  \item Under evolution, the system explores microstates consistent with
+        its invariants (conserved $Q$’s).
+  \item The overwhelming majority of microstates correspond to high-entropy
+        macrostates.
+  \item Embedded agents, having access only to macroscopic observables, describe
+        this as "systems evolve toward equilibrium."
+\end{enumerate}
+
+Temperature, free energy, etc. emerge as parameters describing how rewrite
+trajectories distribute over macrostates:
+
+\begin{itemize}
+  \item \textbf{Temperature} is effectively a Lagrange multiplier controlling the
+        trade-off between energy-like invariants and entropy in the reachable region.
+  \item \textbf{Free energy} is the "computational slack":
+    \[
+      F = \langle E \rangle - TS
+    \]
+    where $E$ is some energy-like $Q$ and $S$ is macrostate entropy.
+\end{itemize}
+
+This is not metaphor. It’s literally counting the ways the graph can be while
+keeping some invariants fixed.
+
+\subsubsection*{25.7  Landauer in RMG Clothing}
+
+Landauer’s principle says: erasing one bit of information has a minimum
+thermodynamic cost.
+
+In CΩMPUTER, this becomes:
+
+\begin{itemize}
+  \item A \textbf{logically irreversible} rewrite is one that maps many distinct
+        microstates to the same microstate class, i.e., the preimage of the
+        rule application is larger than the image.
+
+  \item Implementing such a rewrite inside a larger DPO system necessarily
+        pushes entropy somewhere else in the graph: you can’t compress the
+        preimage set without expanding the state space of some environment.
+
+  \item The energy cost is just what an embedded observer calls the work needed
+        to perform those compensating rewrites against their preferred gradients.
+\end{itemize}
+
+We recover the same intuition: information destruction is not free; it’s just
+graph structure being scrambled elsewhere.
+
+This perspective is particularly useful for Part V, where we’ll design runtimes
+that track logical and physical irreversibility separately.
+
+\subsubsection*{25.8  Time’s Arrow as Coarse-Graining Bias}
+
+Micro DPO rules can be perfectly reversible: every step has an unambiguous inverse.
+Yet embedded observers still see an arrow of time.
+
+In RMG language:
+
+\begin{itemize}
+  \item The \textbf{microscopic dynamics} can be symmetric: for every allowed
+        rewrite $G \to G'$ there is an inverse rewrite $G' \to G$.
+
+  \item The \textbf{coarse-graining} $C$ is almost never symmetric: many microstates
+        map to the same macrostate, and the typical flows in macrospace go from
+        low-entropy to high-entropy regions.
+
+  \item "Irreversibility" is a property of $(\mathcal{R}, C)$, not of $\mathcal{R}$ alone.
+\end{itemize}
+
+In other words, the arrow of time is a perspectival artifact of the particular
+macro-variables the embedded agents choose to track. Once they compress away
+microstate identity, forward and backward trajectories in macrospace look very
+different.
+
+This lines up with standard statistical mechanics, but we now have a concrete
+computational substrate beneath it: no appeal to vague ensembles, just explicit
+counts of RMG states.
+
+\subsubsection*{25.9  Mapping Table: Physics $\leftrightarrow$ CΩMPUTER}
+
+We can now summarize the core identifications:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Physics Concept} & \textbf{CΩMPUTER / RMG Concept} \\
+\midrule
+State of the world & RMG $G$ (possibly with layered structure) \\
+Law of motion & DPO rule set $\mathcal{R}$ \\
+Event & Single DPO rewrite application \\
+Spacetime point & Node in causal graph of rewrite events \\
+Worldline & Path in causal graph / MRMW trajectory \\
+Conserved quantity & Invariant $Q(G)$ under all rules \\
+Symmetry & Group action commuting with DPO dynamics \\
+Locality & Bounded rewrite match radius; sparse causal graph \\
+Light cone & Reachable set in causal graph from event \\
+Entropy & $\log$ of microstate count per macrostate \\
+Temperature & Lagrange multiplier on invariants in MRMW measures \\
+Free energy & Trade-off between invariant $Q$ and entropy \\
+Arrow of time & Asymmetry induced by coarse-graining $C$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This table is not decorative. It’s the checklist for deciding whether a given
+RMG + rule set deserves to be taken seriously as a "physical" universe.
+
+\subsubsection*{25.10  Why This Matters (and What Comes Next)}
+
+So what did we actually do in this chapter?
+
+\begin{itemize}
+  \item We \emph{reversed the metaphor}: physics is not something we simulate;
+        it is a structured pattern inside MRMW.
+
+  \item We grounded standard physical notions (conservation, symmetry, light cones,
+        entropy, time’s arrow) directly in RMG + DPO.
+
+  \item We set up a concrete program: given a candidate rule system,
+        you can now ask, in a disciplined way, "Does this generate physics-like
+        behavior under some sane coarse-graining?"
+\end{itemize}
+
+The next chapter, \emph{Physics as Computation}, will push in the opposite direction:
+
+\begin{quote}
+Given a traditional physical theory (say, a Lagrangian or a differential equation),
+how do we \emph{compile} it into an RMG + DPO rule set such that the mapping
+outlined here becomes exact rather than hand-wavy?
+\end{quote}
+
+That’s where we start taking specific chunks of real-world physics and
+turning them into concrete CΩMPUTER universes, one rule system at a time.

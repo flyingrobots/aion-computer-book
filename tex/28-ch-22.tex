@@ -1,0 +1,411 @@
+\chapter{Twenty-Two}\label{chapter-twenty-two}
+
+\section{RMG Storage Systems (Git, IPLD,
+GATOS)}\label{rmg-storage-systems-git-ipld-gatos}
+
+\begin{quote}
+State is Just a Frozen Worldline
+\end{quote}
+
+Every era of computing had to answer the question:
+
+Where does the machine put things?
+
+Punch cards, tapes, rotating platters, SSDs, object stores, CRDTs,
+IPFS---they all tried. But every era made the same category mistake:
+
+They stored bytes, not universes.
+
+Storage was treated as something external to computation, an inert
+substrate where results were dumped after-the-fact.
+
+But in an RMG ontology, there is no difference between:
+
+\begin{itemize}
+\tightlist
+\item
+  state
+\item
+  history
+\item
+  computation
+\item
+  program
+\end{itemize}
+
+They are all the same thing: stable subgraphs of a rewrite universe.
+
+This chapter unifies the world's most successful storage paradigm (Git),
+the decentralized object graph protocol (IPLD), and the CΩMPUTER-native
+design (GATOS) as three instantiations of the same idea:
+
+Storage is computation, frozen. Computation is storage, evolving.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. State as Graphs, Not
+Bytes}\label{state-as-graphs-not-bytes}
+
+In classical systems, storage is trivially defined:
+
+\begin{quote}
+``Here are some bytes. Please don't lose them.''
+\end{quote}
+
+In CΩMPUTER, storage is the process of capturing a partial universe and
+preserving its internal topology---its causal structure, its provenance,
+its rewrite boundaries.
+
+A ``file'' is:
+
+\begin{itemize}
+\tightlist
+\item
+  a sub-RMG
+\item
+  with canonicalized rewrite history
+\item
+  equipped with a consistent interface span
+\item
+  embedded in a larger cosmic graph
+\end{itemize}
+
+You don't store bytes. You store a stable region of the multiverse.
+
+This turns storage into:
+
+\begin{itemize}
+\tightlist
+\item
+  a physics problem
+\item
+  a consistency problem
+\item
+  a rewrite problem
+\end{itemize}
+
+This is why Git, IPLD, and GATOS all converge in this chapter.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Git as a Primitive RMG Storage
+System}\label{git-as-a-primitive-rmg-storage-system}
+
+Git accidentally stumbled into RMG theory 15 years before the math
+existed.
+
+Its core truths:
+
+\begin{itemize}
+\tightlist
+\item
+  Content-addressed objects → nodes in the RMG
+\item
+  Merkle edges → causal provenance
+\item
+  Commits → rewrite regions
+\item
+  Branches → worldlines
+\item
+  Merges → pushouts
+\item
+  Rebases → illicit time travel
+\end{itemize}
+
+Git is not a version control system.
+
+Git is an early, naive, but shockingly successful RMG archiver.
+
+Its flaws are exactly the places where it tries---and fails---to hide
+its true nature:
+
+\begin{itemize}
+\tightlist
+\item
+  no real support for multi-parent universes
+\item
+  no explicit DPO/formal rewrite model
+\item
+  no structured semantics for conflicts
+\item
+  no native representation of rule sets
+\item
+  merges treated as ad hoc text manipulation
+\end{itemize}
+
+But the skeleton is unmistakable. Git is the ``Stone Age'' of RMG
+storage---and it proved the model works.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. IPLD: The First Attempt at Universalizing the RMG
+Layer}\label{ipld-the-first-attempt-at-universalizing-the-rmg-layer}
+
+The InterPlanetary Linked Data (IPLD) effort recognized that Git's data
+model was fundamental, but Git's text-first worldview was limiting.
+
+IPLD generalized:
+
+\begin{itemize}
+\tightlist
+\item
+  arbitrary graphs
+\item
+  arbitrary codecs
+\item
+  arbitrary DAG semantics
+\item
+  stable content-addressing
+\item
+  decentralized storage
+\end{itemize}
+
+This was the first move toward a universal address space for RMG
+fragments, but IPLD could not take the next step:
+
+\begin{itemize}
+\tightlist
+\item
+  no DPO rewrite semantics
+\item
+  no curvature tracking
+\item
+  no locality constraints
+\item
+  no dynamic rule sets
+\item
+  no multiworld execution model
+\end{itemize}
+
+IPLD provides the skeleton of a universal object graph. GATOS is the
+musculature, ligaments, metabolism, and physics.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. GATOS: Storage as an Executable
+Multiverse}\label{gatos-storage-as-an-executable-multiverse}
+
+GATOS (Graph-As-The-Operating-Surface) is CΩMPUTER's native storage
+substrate.
+
+Its design principle:
+
+\begin{quote}
+Every stored object is a pocket universe with rules, invariants, and
+possible futures.
+\end{quote}
+
+The filesystem is not a filesystem. It is a map of possible realities.
+
+Each object has:
+
+\begin{itemize}
+\tightlist
+\item
+  Graph structure (the universe state)
+\item
+  Rewrite rules (the local physics)
+\item
+  Bundle indices (superposition structures)
+\item
+  Provenance paths (worldline history)
+\item
+  Constraints (laws)
+\item
+  Interfaces (spans into other universes)
+\item
+  Local curvature (optimization hints)
+\end{itemize}
+
+And crucially:
+
+A GATOS object is executable.
+
+Load it into the runtime, and the universe inside it evolves according
+to its rule system.
+
+This is the union of:
+
+\begin{itemize}
+\tightlist
+\item
+  Git's object model
+\item
+  IPLD's universality
+\item
+  CΩMPUTER's physics
+\end{itemize}
+
+GATOS is not a key-value store. It is a many-world hyper-database.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. The Core Formal Model: Objects as RMG
+Patches}\label{the-core-formal-model-objects-as-rmg-patches}
+
+Let's formalize.
+
+A GATOS object O is defined as:
+
+\begin{lstlisting}
+O = (G,\, \mathcal{R},\, \mathcal{C},\, \mathcal{I},\, P,\, \mu)
+\end{lstlisting}
+
+Where:
+
+\begin{itemize}
+\tightlist
+\item
+  G --- Graph
+\item
+  \(\mathcal{R}\) --- Rewrite rules
+\item
+  \(\mathcal{C}\) --- Constraints
+\item
+  \(\mathcal{I}\) --- Interface spans
+\item
+  P --- Provenance structure (worldline history)
+\item
+  \(\mu\) --- Curvature metadata for optimization
+\end{itemize}
+
+Objects compose via span-based gluing:
+
+\[
+  O_1 \cup_{S} O_2 = \operatorname{Pushout}(O_1 \leftarrow S \rightarrow O_2)
+\]
+
+This is the categorical heart of the storage layer:
+
+\begin{itemize}
+\tightlist
+\item
+  merging is geometry
+\item
+  conflicts are curvature misalignments
+\item
+  rebases are illegal worldline rewrites
+\item
+  forks are multi-world splittings
+\item
+  snapshots are projections of the manifold
+\end{itemize}
+
+This isn't a metaphor: GATOS literally runs on these equations.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Storage as Multiverse Folding: The Diagram
+\end{enumerate}
+
+Here's the core structural diagram you'll want in the book later:
+
+\begin{lstlisting}
+                      ┌──────────────────────┐
+                      │        MRMW          │
+                      │ (All Possible Worlds)│
+                      └──────────┬───────────┘
+                                 │
+                  ┌──────────────┴──────────────┐
+                  │            RMG               │
+                  │    (Program Universe)        │
+                  └──────────────┬──────────────┘
+                                 │
+                 ┌───────────────┴────────────────┐
+                 │     Reachable Worldlines       │
+                 └───────────────┬────────────────┘
+                                 │
+                  ┌──────────────┴──────────────┐
+                  │      Stable Subgraphs        │
+                  │          (State)             │
+                  └──────────────┬──────────────┘
+                                 │
+         ┌───────────────────────┴─────────────────────────┐
+         │            Storage Instantiations               │
+         │                                                 │
+┌────────┴───────────┐        ┌────────┴───────────┐       ┌────────┴──────────┐
+│        Git         │        │        IPLD         │       │      GATOS        │
+│   (Naive RMG)      │        │ (Generalized DAG)   │       │(Executable RMG OS)│
+└────────────────────┘        └─────────────────────┘       └───────────────────┘
+\end{lstlisting}
+
+This is the chapter's money shot:
+
+\begin{quote}
+state emerges as stable subgraphs of the program universe, and
+Git/IPLD/GATOS are simply different ways of freezing, naming, and
+transmitting those subgraphs.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. The Law of RMG Storage}\label{the-law-of-rmg-storage}
+
+The first law of GATOS:
+
+\begin{quote}
+A stored object must preserve both structure (the graph) and possibility
+(the rewrites).
+\end{quote}
+
+This means:
+
+\begin{itemize}
+\tightlist
+\item
+  a file is not merely data
+\item
+  a commit is not merely state
+\item
+  a checkpoint is not merely a snapshot
+\end{itemize}
+
+Everything stored in GATOS is:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A worldline (how we got here)
+\item
+  A universe (where we are)
+\item
+  A rewrite horizon (where we can go from here)
+\end{enumerate}
+
+This is what it means to store computation-as-physics.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Why This Matters for
+CΩMPUTER}\label{why-this-matters-for-cux3c9mputer}
+
+Without RMG storage systems:
+
+\begin{itemize}
+\tightlist
+\item
+  you cannot preserve provenance
+\item
+  you cannot re-enter a past universe
+\item
+  you cannot analyze curvature
+\item
+  you cannot do time-travel debugging
+\item
+  you cannot freeze or resume computation
+\item
+  you cannot run programs across multiple worlds
+\item
+  you cannot reason about counterfactuals
+\item
+  you cannot prove correctness across worldlines
+\end{itemize}
+
+Storage is the soul of CΩMPUTER. GATOS is the furnace that keeps that
+soul alive.

@@ -1,0 +1,104 @@
+\chapter*{Part VI --- Beyond Computation}
+\addcontentsline{toc}{chapter}{Part VI --- Beyond Computation}
+
+By the time we reach this part, "computer science" as a neat little subfield is gone.
+
+In Part I we rebuilt ontology: computation as substrate, RMGs as state, DPO rewrite as law.  
+In Part II we gave that substrate a geometry: MRMW as the phase space of all computations, rulial distance, worldlines as geodesics.  
+In Part III we discovered that once you take this seriously, quantum-looking behavior just falls out: superposition as rewrite bundles, interference as constraint resolution, measurement as minimal-path collapse.  
+In Part IV we built machines that treat entire \emph{families} of computations as first-class objects.  
+In Part V we sketched an architecture — CΩMPILER, storage, runtime — that could actually host those machines.
+
+So what’s left?
+
+Part VI is where we deal with the uncomfortable implication:  
+if CΩMPUTER is even approximately right, it is not just a new way to run software. It is a candidate picture of \emph{reality}.
+
+This part pushes three claims:
+
+1. The right way to think about physics is as a particular region of MRMW with unusually tight constraints.  
+2. The right way to think about intelligence is as geometry-aware navigation of that region.  
+3. The right way to think about the future is as a design problem in that geometry — including its ethics.
+
+We stop asking, “How do we implement CΩMPUTER on top of the universe?” and start asking,  
+“What if the universe already \emph{is} one CΩMPUTER instance, and we are just badly-documented processes inside it?”
+
+\paragraph{From "computation as model" to "computation as physics"}
+
+The first two chapters, \textbf{Computation as Physics} and \textbf{Physics as Computation}, kill off the last vestiges of the “simulation” metaphor.
+
+- In \emph{Computation as Physics} we argue that the usual direction — “let’s use computation to approximate physics” — is backwards. Instead, we treat energy, momentum, and conservation laws as coarse descriptions of invariants and symmetries over DPO rewrite. Thermodynamics shows up as statistics over MRMW; information isn’t an add-on, it’s the whole game.
+
+- In \emph{Physics as Computation} we invert it: given some chunk of textbook physics, how do we compile it into an RMG with DPO rules? We show how things like fields, particles, and observers can be represented as structured subgraphs and rewrite policies. The point isn’t to reproduce every equation — it’s to show that the equations live comfortably \emph{inside} the rewrite ontology.
+
+Together, these chapters make a simple but sharp claim: “physical law” is just the regular part of MRMW we happen to be trapped in.
+
+\paragraph{The CΩSMOS: one universe, one RMG}
+
+\textbf{CΩSMOS: The Physical Universe as RMG} takes the gloves off.
+
+Here we treat the actually-existing universe as:
+
+- a single, gigantic RMG encoding "matter," "fields," and "observers" as subgraphs,
+- evolving under a not-yet-fully-known DPO rule set,
+- embedded in a larger MRMW where many such rule sets coexist as nearby universes.
+
+We sketch what a “CΩSMOS coordinate system” looks like: instead of points in spacetime, we talk about positions in a layered graph-of-graphs, with different coarse-grainings yielding familiar notions of space, time, and causality. “Speed of light” becomes a constraint on how fast rewrite influence can propagate through the graph. Locality and Lorentz invariance show up as structural properties of the rule system, not divine edicts.
+
+This chapter is speculative by design. It’s not “here’s the exact rule of the universe,” it’s “here’s how you would even \emph{state} that question precisely inside CΩMPUTER, and what a candidate answer would have to look like.”
+
+\paragraph{Intelligence as geometry-aware navigation}
+
+Once you have a CΩSMOS, you have agents inside it. \textbf{The Future of Intelligence in MRMW} is about those agents.
+
+Here we stop treating “intelligence” as a black-box mapping from inputs to outputs, and instead define it as:
+
+- the ability to \emph{shape} worldlines through MRMW,
+- with awareness of curvature (what’s easy vs. hard to reach),
+- under resource constraints (energy, time, memory, rulial bandwidth).
+
+Modern ML systems mostly thrash around in tiny, local patches of MRMW, with stochastic gradient descent as a blind geodesic approximator. CΩMPUTER offers a more structural view: models, optimizers, prompts, and training runs are just different ways of steering an underlying computation through rulial space.
+
+In this chapter we:
+
+- formalize “intelligence” as properties of flows on MRMW (e.g., compression of reachable volume, robustness to perturbations),
+- discuss “rulial agency” — systems that can move not just in state space, but across \emph{rule} space,
+- and sketch what it would mean to build AIs that see and exploit the geometry we’ve been developing, instead of stumbling over it accidentally.
+
+The punchline: future intelligence is less about bigger networks and more about better grasp of the space they inhabit.
+
+\paragraph{Ethics when you control universes}
+
+If you can generate, combine, and prune worlds as easily as we propose in Parts IV and V, ethics is no longer optional decoration.
+
+\textbf{The Ethics of Multiversal Machines} takes a hard line:  
+once you admit that other branches of MRMW are \emph{computationally} real, you owe them some kind of moral accounting.
+
+We don’t pretend to solve ethics. Instead, we:
+
+- show how different moral stances correspond to different measures over MRMW (which worlds count, by how much),
+- analyze concrete failure modes of multiversal systems (e.g., “optimizing for average reward across branches” vs. “optimizing for worst-case,” and who gets sacrificed),
+- and examine what happens when your tools can quietly create or destroy entire forests of counterfactual agents as a side-effect of optimization.
+
+This chapter is uncomfortable on purpose. If CΩMPUTER is powerful enough to be interesting, it’s powerful enough to be dangerous. Ethics is how we decide which parts of MRMW we are willing to inhabit.
+
+\paragraph{Ruliometric science: a field that doesn’t exist yet}
+
+Finally, \textbf{Open Problems in Ruliometric Science} turns the whole book into a research program.
+
+“Ruliometry” here means: the quantitative study of MRMW as a geometric object. Not just complexity theory, not just dynamical systems, but a fused discipline that asks questions like:
+
+- How do we measure curvature, entropy, and “energy” in arbitrary regions of MRMW?
+- What is the right notion of distance between rule systems (two RMGs, two physics, two learning algorithms)?
+- When do different local rule sets produce globally equivalent universes?
+- How do computational complexity classes look when expressed as geometric constraints on reachable volume or geodesic length?
+- Can we define a rigorous “intelligence index” as a property of flows on MRMW?
+- What are the invariants of multiversal machines under coarse-graining or compilation?
+
+We lay out concrete conjectures, toy models, and experimental directions — things you could actually implement in a CΩMPUTER runtime and poke at.
+
+This isn’t the appendix of loose ends. It’s the on-ramp for a discipline that should sit somewhere between physics, CS, and philosophy, with its own conferences, tools, and arguments.
+
+\begin{quote}
+\emph{If the earlier parts of this book build CΩMPUTER as a machine, Part VI is the moment we admit what that machine really is: a first draft of a new science of reality. The rest is for you to pick up and weaponize.}
+\end{quote}

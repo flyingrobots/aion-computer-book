@@ -1,0 +1,10 @@
+% Real, linked table of contents.
+\cleardoublepage
+\pdfbookmark[0]{Contents}{contents}
+% Show only chapters in the TOC
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}%
+\renewcommand{\l@section}[2]{}%
+\renewcommand{\l@subsection}[2]{}%
+\renewcommand{\l@subsubsection}[2]{}%
+\tableofcontents
+\thispagestyle{plain}

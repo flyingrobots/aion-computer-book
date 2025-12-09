@@ -1,0 +1,321 @@
+\chapter{Twenty-One}\label{chapter-twenty-one}
+
+\begin{quote}
+{[}!NOTE{]} Diagrams Required
+\end{quote}
+
+\begin{quote}
+{[}!NOTE{]} Formalisms Required
+\end{quote}
+
+\section{Differential Rulial
+Analysis}\label{differential-rulial-analysis}
+
+\begin{quote}
+The Calculus of Change in a Universe of Universes
+\end{quote}
+
+Every computational paradigm before CΩMPUTER had a tragic flaw: they
+could describe what happens, but not how much it happens or in what
+direction the universe prefers to flow.
+
+They lacked a calculus.
+
+Calculus was the great invention that tamed continuous change in
+physics. Differential Rulial Analysis is the invention that tames rulial
+change in computation.
+
+This chapter introduces the missing mathematical machinery that
+transforms RMGs from static combinatorial curiosities into genuine
+dynamical objects. It gives us derivatives, gradients, curvature, and
+conservation laws in the space of all possible programs.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Why Classic Computation Has No Calculus
+\end{enumerate}
+
+Turing machines? Discrete. Lambda calculus? Structural but
+non-geometric. Quantum circuits? Linear algebra but not multi-rule
+dynamical. Neural nets? Smooth but uninterpretable.
+
+None of them can answer: • How sensitive is this computation to rule
+perturbation? • How rapidly does a worldline diverge from its neighbors?
+• What is the ``force'' pulling one execution path vs another? • How do
+constraints bend the space of possible futures?
+
+They all treat computation as flat --- a rigid step-by-step march with
+no geometry.
+
+RMGs blew that open: every rewrite creates local curvature, every bundle
+induces branching, every constraint creates stress, and every
+measurement collapses a manifold of possibilities.
+
+But to analyze curvature, you need a calculus.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The Rulial Manifold
+\end{enumerate}
+
+We begin by defining the Rulial Manifold:
+
+The continuous limit of the MRMW state space where each point represents
+a universe, and distances reflect minimal sequence-of-rewrites
+separation.
+
+A point in this manifold is an entire world-state. A vector in its
+tangent space represents a direction of possible evolution. A geodesic
+is an execution path that locally minimizes rewrite ``effort.''
+
+This is not metaphor. It is literal.
+
+Each DPO rule contributes: • local curvature • shear • directional bias
+• reachable submanifold constraints • conservation of interface
+structure
+
+This turns the MRMW into a bona fide geometric object.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  The Rulial Derivative ∂R
+\end{enumerate}
+
+We define the fundamental operator of this chapter:
+
+The Rulial Derivative is defined as
+\[
+  \partial \mathcal{R} f(U) = \lim_{\epsilon \to 0}
+  \frac{f(U \oplus \epsilon R) - f(U)}{\epsilon}
+\]
+where:
+\begin{itemize}
+  \item $U$ is a universe (a point in MRMW),
+  \item $R$ is a rewrite rule,
+  \item $f$ is any functional on universes (e.g., entropy, energy, complexity),
+  \item $U \oplus \epsilon R$ denotes an infinitesimal application of rewrite $R$.
+\end{itemize}
+
+Interpretation: • How does the universe change as rule R applies
+
+\[
+  \nabla \mathcal{R} f(U) =
+  \left( \partial_{R_1} f(U),\, \partial_{R_2} f(U),\, \dots \right)
+\]
+infinitesimally? • What is the ``sensitivity'' of this program to this
+rewrite? • Which rules induce the strongest curvature? • Which rules are
+``silent'' at this point in the manifold?
+
+This gives us a directional derivative in the space of possible rule
+applications.
+
+It's the first tool that lets us talk about: • rewrite gradients •
+stability analysis • chaotic vs stable regions • universes ``flowing''
+toward attractors
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  The Rulial Gradient ∇R and Potential Fields
+\end{enumerate}
+
+Given a set of rules \{R\_i\}, we define the Rulial Gradient:
+
+\[
+\nabla_R f(U) = \bigl( \partial_{\{R_1\}} f(U),\ \partial_{\{R_2\}} f(U),\ \ldots \bigr)
+\]
+
+This vector lives in the tangent space of MRMW at universe U.
+
+If \(f\) is:
+\begin{itemize}[nosep]
+  \item complexity: gradient shows which rules increase/decrease structure
+  \item entropy: gradient shows rules that diversify vs homogenize
+  \item energy: gradient describes computational ``cost flow''
+  \item provenance: gradient reveals structural risk
+\end{itemize}
+
+The Rulial Gradient describes where the computation wants to go.
+
+Once you have gradients, you can define potentials:
+
+\[
+F(U) = -\,\nabla_R \Phi(U)
+\]
+
+This gives meaningful physics-like behavior:
+\begin{itemize}[nosep]
+  \item Attractors (low rulial potential)
+  \item Repellers (high rulial stress)
+  \item Meta-stable computational ``phases''
+  \item Regions of high tension or brittle structure
+\end{itemize}
+
+These potentials map directly to code smells, invariants, complexity
+traps, etc.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  The Rulial Laplacian ΔR --- Spread of Influence
+\end{enumerate}
+
+Define the Laplacian:
+
+\[
+\Delta_R f(U) = \nabla_R \cdot \nabla_R f(U)
+\]
+
+Interpretation:
+\begin{itemize}[nosep]
+  \item how rapidly a local effect spreads through nearby worlds
+  \item the ``heat diffusion'' of a rewrite
+  \item stability vs chaos zones
+  \item how errors propagate across worlds
+\end{itemize}
+
+A rewrite with a large ΔR is explosively influential --- think buffer
+overflow. A rewrite with a small ΔR is benign --- think local
+memoization.
+
+This gives us a universal ``danger rating'' for rules.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Rulial Curvature and the Shape of Executable Universes
+\end{enumerate}
+
+Now we define curvature in rulial space. Given the connection induced by
+rewrite gradients and constraints, we define sectional curvature:
+
+\[
+K(R_i, R_j) =
+\frac{\langle [\partial_{R_i}, \partial_{R_j}]\,U,\; U\rangle}{\|R_i \wedge R_j\|^2}
+\]
+
+Interpret meaningfully:
+\begin{itemize}[nosep]
+  \item Positive curvature: rewrites reinforce each other; stable patterns.
+  \item Negative curvature: rewrites amplify divergence; chaos zones.
+  \item Zero curvature: rewrites commute cleanly; fully parallelizable.
+\end{itemize}
+
+This is the Rosetta Stone for optimization:
+\begin{itemize}[nosep]
+  \item Identify flat regions → perfect parallelism.
+  \item Identify positive curvature → convergence regions.
+  \item Identify negative curvature → structural risks, race conditions.
+\end{itemize}
+
+This is how the CΩMPILER understands where to fold the manifold.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  Differential Rulial Stability
+\end{enumerate}
+
+A computation is stable if small variations in rewrites produce small
+variations in universes.
+
+Formally:
+
+\[
+\lVert \nabla_R U \rVert < \delta \;\Rightarrow\; \text{stable region}
+\]
+
+This defines:
+\begin{itemize}[nosep]
+  \item unit tests as local stability checks
+  \item type systems as curvature constraints
+  \item effect systems as directional derivative bounds
+  \item invariants as potential wells
+\end{itemize}
+
+This is the chapter where the reader finally sees that software
+correctness and physical stability are the same concept, viewed through
+the rulial calculus.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{7}
+\tightlist
+\item
+  Rulial Dynamics: The Master Equation
+\end{enumerate}
+
+Given the rulial potential \(\Phi\) and gradient \(\nabla_R\), we define the
+``equation of motion'':
+
+\[
+\frac{dU}{dt} = -\nabla_R \Phi(U)
+\]
+
+Interpretation:
+\begin{itemize}[nosep]
+  \item computation flows downhill in rulial potential,
+  \item toward simpler, more stable, more constrained futures,
+  \item unless additional rules introduce curvature,
+  \item or external measurements (I/O) collapse the manifold.
+\end{itemize}
+
+This is the dynamical law of computation in CΩMPUTER.
+
+Von Neumann gave us architecture. Turing gave us state machines. Shannon
+gave us information. We give computation physics.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{8}
+\tightlist
+\item
+  Practical Use in the CΩMPILER and Runtime
+\end{enumerate}
+
+Differential Rulial Analysis enables:
+\begin{itemize}[nosep]
+  \item static optimization → curvature engineering
+  \item dynamic optimization → gradient-following execution
+  \item predictive execution → curvature-based speculation
+  \item version control → rulial derivatives across commits
+  \item debugging → local curvature inversion
+  \item error correction → potential equalization
+  \item provenance → Laplacian flow tracking
+\end{itemize}
+
+This is the technical backbone of everything that follows in Part V.

@@ -1,0 +1,567 @@
+\chapter{CΩDEX}
+\label{chap:codex}
+
+\begin{center}
+  \includegraphics[width=0.6\textwidth]{../svg/CODEX.pdf}
+\end{center}
+
+A reference appendix for CΩMPUTER.
+
+This CΩDEX collects the canonical vocabulary, axioms, diagram schemata,
+and formal definitions used throughout the book. It is not “the final word”
+on any of these objects; it is the specific version of the ontology that
+this text commits to.
+
+\medskip
+
+You can treat it as:
+
+\begin{itemize}
+  \item a glossary of terms in the CΩMPUTER universe,
+  \item a small axiom system for the rewrite ontology,
+  \item a library of standard diagrams,
+  \item and a precise definition sheet for the core structures.
+\end{itemize}
+
+Use it as a spec, not scripture.
+
+\input{39-codex-micro}
+
+\section*{CΩDEX.1 \quad Glossary}
+
+\begin{description}
+
+  \item[Adversarial universe (MORIARTY).]
+    A multiversal machine that co-evolves an environment specifically to
+    defeat, stress, or exploit a target system. Technically: a process
+    that searches MRMW for worlds that maximize some "attack" functional
+    against the system’s invariants, constraints, or objectives.
+
+  \item[Agent.]
+    A distinguished RMG subgraph $A \subseteq G$ plus a policy $\pi$ that
+    biases which rewrite rules apply in and around $A$ as a function of
+    its internal state and local observations.
+
+  \item[Bundle (rewrite bundle).]
+    A family of worldlines that share a common prefix and diverge after
+    some branching event. In the quantum-style reading: a superposition
+    of compatible rewrite histories with attached weights or amplitudes.
+
+  \item[Causal edge.]
+    An edge in the causal graph of events, indicating that a rewrite event
+    $e$ alters part of the graph that a later event $e'$ matches, so $e$
+    can influence $e'$.
+
+  \item[Causal graph.]
+    A directed acyclic graph whose nodes are rewrite events and whose edges
+    are causal edges. Plays the role of discrete spacetime diagram for a
+    universe.
+
+  \item[CΩDEX.]
+    This appendix: a consolidated vocabulary, axiom set, diagram library,
+    and definition sheet for the CΩMPUTER ontology.
+
+  \item[CΩMPILER.]
+    The compiler for CΩMPUTER: maps high-level specifications (programs,
+    models, protocols) into RMG + DPO representations, together with
+    scheduling and instrumentation policies.
+
+  \item[CΩMPUTER.]
+    The whole stack: the theory, compiler, runtime, and tooling that treat
+    all computation as rewrite on RMGs and all executions as trajectories
+    in MRMW, with multiversal machinery as first-class.
+
+  \item[CΩSMOS.]
+    A candidate RMG + rule-set pair $(G_\ast,\mathcal{R}_\ast)$, plus
+    coarse-grainings and measures, intended to model "our" physical
+    universe inside MRMW.
+
+  \item[Coarse-graining.]
+    Any map $C$ from detailed RMG states to macrostates that discards
+    microscopic information while preserving some observables or invariants
+    of interest. Coarse-grainings induce thermodynamic behavior and the
+    arrow of time.
+
+  \item[Counterfactual Execution Engine.]
+    A multiversal machine that systematically forks, perturbs, and
+    re-executes nearby worlds from shared prefixes, in order to answer
+    "what if?" questions and estimate outcome distributions under
+    small changes.
+
+  \item[Curvature (in MRMW).]
+    A geometric summary of how geodesics (minimal or extremal paths) between
+    nearby states converge or diverge. Operationally: a measure of how
+    quickly search, optimization, or execution behavior deviates from a
+    locally "flat" expectation in the space of computations.
+
+  \item[Double-pushout rewrite (DPO).]
+    A categorical formulation of graph rewriting. A rule is a span
+    $L \xleftarrow{i_L} K \xrightarrow{i_R} R$ and a rewrite step replaces
+    a match of $L$ inside $G$ by $R$ via a double-pushout construction
+    in the category of (typed, labeled) graphs.
+
+  \item[Domain-specific RMG.]
+    An RMG tailored to a particular domain (physics, biology, logic,
+    economics, etc.), with bespoke node/edge types, invariants, and
+    convenience rules, but still living in the general RMG + DPO ontology.
+
+  \item[Graph (base graph).]
+    Unless stated otherwise, a finite, typed, labeled, directed multigraph
+    $G = (V,E,s,t,\ell_V,\ell_E)$ that serves as the underlying carrier for
+    RMGs before recursion is introduced.
+
+  \item[History / worldline.]
+    A sequence of rewrite events (or states) tracing the evolution of a
+    universe: a path in MRMW. In the causal graph picture, a worldline is
+    a chain of events linked by causal edges.
+
+  \item[Light cone.]
+    For an event $e$ in a causal graph: the set of events reachable from
+    $e$ via causal paths (future light cone) and the set of events that
+    can reach $e$ (past light cone). Encodes influence constraints.
+
+  \item[MRMW (Multi-Rule Multi-World).]
+    The phase space of all possible computations in the CΩMPUTER ontology:
+    all pairs $(G,\mathcal{R})$ (RMG states and rule sets), all possible
+    rewrite histories between them, and all measures over these histories.
+
+  \item[Multiversal machine.]
+    Any device (program, protocol, system) that treats entire families of
+    worlds as its basic unit of operation: it can fork, merge, reweight,
+    or prune bundles of worldlines as part of its computation.
+
+  \item[RMG (Recursive Meta-Graph).]
+    The core state object of CΩMPUTER: a typed, labeled graph whose nodes
+    and edges can themselves reference graphs, rules, or higher-order
+    structures, yielding a finite but recursively nested representation
+    of both "data" and "laws."
+
+  \item[Rulial distance.]
+    An informal metric on rule space: how different two rule sets
+    $\mathcal{R}_1,\mathcal{R}_2$ are, as measured by the minimal
+    transformation needed to compile the same specification into each,
+    or by divergences in their induced behaviors over a shared family
+    of test problems.
+
+  \item[Rulial provenance.]
+    The structured history, across worlds, of how a given result, state,
+    or artifact was produced: which rules were applied, in which universes,
+    under which conditions, along which worldlines.
+
+  \item[Rulial space.]
+    The space of rule sets $\mathcal{R}$, considered up to some equivalence
+    relation (e.g., behavioral or semantic equivalence). Motion in rulial
+    space corresponds to changing laws, architectures, objectives, or
+    compilation targets.
+
+  \item[Rule set.]
+    A (typically finite) family $\mathcal{R}$ of DPO rules acting on a
+    particular class of RMGs, together with scheduling and applicability
+    conditions. Determines the dynamics of an RMG universe.
+
+  \item[State.]
+    In this ontology: a particular RMG $G$ (possibly with attached rule
+    metadata), plus any associated measure/amplitude information if we are
+    considering bundles.
+
+  \item[Time-travel debugging.]
+    A multiversal machine pattern that treats execution as a navigable
+    history: stepping backward by undoing rewrites, forking from arbitrary
+    prior states, and re-running with variations while preserving
+    provenance.
+
+  \item[Universe.]
+    A particular choice of initial RMG state $G_0$, rule set $\mathcal{R}$,
+    and (optionally) measure over histories, considered together with its
+    induced causal graph and all resulting worldlines.
+
+  \item[Worldline geodesic.]
+    A worldline that minimizes (or extremizes) some action-like functional
+    in MRMW—e.g., least "effort’’ under constraints, shortest rewrite
+    length, or extremal phase in a quantum-style action.
+
+\end{description}
+
+\subsection*{CΩDEX.2 \quad Axioms}
+
+This section gives a compact axiom set for the CΩMPUTER ontology as used
+in the book. It is intentionally minimal and focuses on structure, not
+implementation details.
+
+\subsubsection*{CΩDEX.2.1 \quad Ontological Axioms}
+
+\paragraph{Axiom CΩ–1 (Computational substrate).}
+All "worlds" are represented as Recursive Meta-Graphs (RMGs).
+Every physically or logically describable configuration of a system
+corresponds to (at least one) RMG state $G$.
+
+\paragraph{Axiom CΩ–2 (Rewrite as dynamics).}
+The only allowed primitive state changes are applications of DPO rules
+from a rule set $\mathcal{R}$ to an RMG $G$. There is no separate,
+non-rewrite notion of time evolution.
+
+\paragraph{Axiom CΩ–3 (Locality).}
+Every rule $\rho \in \mathcal{R}$ is local: its left-hand side $L$ matches
+only bounded-radius patterns in $G$ with finite description, and the
+rewrite modifies only that matched region (plus its immediate glue).
+
+\paragraph{Axiom CΩ–4 (Finite information density).}
+For any finite subgraph $H \subseteq G$, the information content of $H$
+is finite (bounded labels, finite degree, finite recursion depth). There
+are no infinite-information regions in a finite neighborhood.
+
+\paragraph{Axiom CΩ–5 (Causal well-foundedness).}
+For any universe (fixed $G_0,\mathcal{R}$), the causal graph of rewrite
+events is acyclic and locally finite: every event has finite in-degree
+and finite out-degree, and any finite region has only finitely many events.
+
+\paragraph{Axiom CΩ–6 (Coarse-grainability).}
+For any universe of interest there exist non-trivial coarse-grainings
+$C$ from microstates to macrostates such that the induced macro-dynamics
+is approximately Markovian and approximately local on relevant scales.
+
+\subsubsection*{CΩDEX.2.2 \quad Rulial Axioms}
+
+\paragraph{Axiom R–1 (Rulial completeness).}
+For any effectively specifiable discrete rule system $\mathcal{S}$, there
+exists a region of MRMW—a family of RMGs and rule sets—whose coarse-grained
+behavior is equivalent to $\mathcal{S}$ up to semantic equivalence.
+
+\paragraph{Axiom R–2 (Compilation equivalence).}
+If two rule sets $\mathcal{R}_1,\mathcal{R}_2$ can be related by a
+semantics-preserving compilation (i.e., there exists a mapping from
+specifications to executions that preserves observable behavior), they
+belong to the same rulial equivalence class.
+
+\paragraph{Axiom R–3 (Universes as points in MRMW).}
+Every choice of $(G_0,\mathcal{R})$ together with a scheduling policy
+and measure over histories defines a point (or small region) in MRMW,
+and MRMW is the union of all such points.
+
+\subsubsection*{CΩDEX.2.3 \quad Design Axioms for CΩMPUTER}
+
+These are not "laws of nature’’ but design constraints for the actual
+CΩMPUTER stack.
+
+\paragraph{Axiom D–1 (Provenance by default).}
+Every rewrite event in the runtime is logged as a node in a causal graph,
+with links to the rule, match, and prior events that produced it. Time
+travel and counterfactual execution are implemented on top of this.
+
+\paragraph{Axiom D–2 (Multiversality by construction).}
+The runtime exposes first-class operations for forking, bundling,
+reweighting, and merging universes (RMG states and histories). Single-world
+execution is treated as a degenerate case.
+
+\paragraph{Axiom D–3 (Rulial transparency).}
+The CΩMPILER and runtime make the choice of rule sets and their evolution
+explicit and introspectable; arbitrary hidden self-modification of rules
+is disallowed or tightly sand-boxed.
+
+\paragraph{Axiom D–4 (Constitutional constraints).}
+Any deployed CΩMPUTER instance is parameterized by an explicit
+\emph{rulial constitution}: predicates on admissible rule sets and
+admissible transformations in MRMW, enforced by the runtime.
+
+\subsection*{CΩDEX.3 \quad Diagram Library}
+
+This section collects standard diagram schemata used in the book.
+They assume the presence of \texttt{tikz-cd} or a similar package,
+but you can adapt them to other diagram tools.
+
+\subsubsection*{CΩDEX.3.1 \quad DPO Rewrite Step}
+
+A single DPO rewrite step for a rule
+$L \xleftarrow{i_L} K \xrightarrow{i_R} R$ applied to a graph $G$:
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzcd}[row sep=large, column sep=large]
+    L \arrow[d, "i_L"'] \arrow[r, "m"] &
+      G \arrow[d, "d"] \\
+    K \arrow[r, "k"'] \arrow[d, "i_R"'] &
+      D \arrow[d, "d'"] \\
+    R \arrow[r, "n"'] &
+      G'
+  \end{tikzcd}
+  \caption{Double-pushout diagram for a single rewrite step. The squares
+           are pushouts in the category of typed, labeled graphs.}
+  \label{fig:dpo-diagram}
+\end{figure}
+
+\subsubsection*{CΩDEX.3.2 \quad Worldline in Causal Graph}
+
+A worldline (execution trace) as a path in a causal graph of events:
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[>=stealth, node distance=1.8cm]
+    \node[circle, draw] (e1) {$e_1$};
+    \node[circle, draw, right of=e1] (e2) {$e_2$};
+    \node[circle, draw, right of=e2] (e3) {$e_3$};
+    \node[circle, draw, right of=e3] (e4) {$e_4$};
+
+    \draw[->] (e1) -- (e2);
+    \draw[->] (e2) -- (e3);
+    \draw[->] (e3) -- (e4);
+
+    \node[below=0.7cm of e2] {worldline $\gamma$};
+  \end{tikzpicture}
+  \caption{A simple worldline as a chain of causally linked rewrite events.}
+  \label{fig:worldline}
+\end{figure}
+
+\subsubsection*{CΩDEX.3.3 \quad Bundle of Worlds / Branching}
+
+A bundle of worlds sharing a prefix and then branching:
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[>=stealth, node distance=1.7cm]
+    \node[circle, draw] (e1) {$e_1$};
+    \node[circle, draw, right of=e1] (e2) {$e_2$};
+    \node[circle, draw, right of=e2] (e3) {$e_3$};
+
+    \node[circle, draw, above right=1.2cm and 1.7cm of e3] (e4a) {$e_{4a}$};
+    \node[circle, draw, below right=1.2cm and 1.7cm of e3] (e4b) {$e_{4b}$};
+
+    \node[circle, draw, right=1.7cm of e4a] (e5a) {$e_{5a}$};
+    \node[circle, draw, right=1.7cm of e4b] (e5b) {$e_{5b}$};
+
+    \draw[->] (e1) -- (e2);
+    \draw[->] (e2) -- (e3);
+    \draw[->] (e3) -- (e4a);
+    \draw[->] (e3) -- (e4b);
+    \draw[->] (e4a) -- (e5a);
+    \draw[->] (e4b) -- (e5b);
+
+    \node[below=0.7cm of e3] {shared prefix};
+    \node[above=0.5cm of e4a] {branch 1};
+    \node[below=0.5cm of e4b] {branch 2};
+  \end{tikzpicture}
+  \caption{A bundle of worldlines: shared history, diverging futures.}
+  \label{fig:bundle}
+\end{figure}
+
+\subsubsection*{CΩDEX.3.4 \quad Curvature via Geodesic Deviation}
+
+A schematic picture of curvature as deviation of nearby minimal paths:
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[>=stealth, node distance=2.2cm]
+    \node[circle, draw] (a) {$A$};
+    \node[circle, draw, right=4cm of a] (b) {$B$};
+
+    \draw[thick] (a) to[out=20,in=160] node[above] {$\gamma_1$} (b);
+    \draw[thick] (a) to[out=-20,in=200] node[below] {$\gamma_2$} (b);
+
+    \node[above=0.6cm of a] {nearby start states};
+    \node[below=0.6cm of b] {converging / diverging geodesics};
+  \end{tikzpicture}
+  \caption{Heuristic depiction of curvature in MRMW: nearby geodesics
+           between similar states either converge (positive curvature)
+           or diverge (negative curvature).}
+  \label{fig:curvature}
+\end{figure}
+
+\subsection*{CΩDEX.4 \quad Formal Definitions}
+
+This section gives more formal versions of several key concepts. The goal
+is to pin down one precise model consistent with the book, not to exhaust
+all possible formalisms.
+
+\subsubsection*{CΩDEX.4.1 \quad Graphs and RMGs}
+
+\paragraph{Definition 4.1 (Typed, labeled graph).}
+A \emph{typed, labeled directed multigraph} is a tuple
+\[
+  G = (V, E, s, t, \tau_V, \tau_E, \ell_V, \ell_E)
+\]
+where:
+
+\begin{itemize}
+  \item $V$ is a finite set of vertices;
+  \item $E$ is a finite set of edges;
+  \item $s,t : E \to V$ are source and target maps;
+  \item $\tau_V : V \to T_V$ assigns a type to each vertex from a finite set $T_V$;
+  \item $\tau_E : E \to T_E$ assigns a type to each edge from a finite set $T_E$;
+  \item $\ell_V : V \to L_V$ labels vertices with values from some set $L_V$;
+  \item $\ell_E : E \to L_E$ labels edges with values from some set $L_E$.
+\end{itemize}
+
+\paragraph{Definition 4.2 (Recursive Meta-Graph, RMG).}
+A \emph{Recursive Meta-Graph} is a typed, labeled graph $G$ together with
+a partial interpretation map
+\[
+  \iota : V \cup E \rightharpoonup \mathsf{Obj}
+\]
+where $\mathsf{Obj}$ includes:
+
+\begin{itemize}
+  \item graphs (including $G$ itself or other RMGs),
+  \item rule sets,
+  \item or higher-level objects (e.g., coarse-grainings, measures),
+\end{itemize}
+
+such that:
+
+\begin{enumerate}
+  \item If $\iota(x)$ is defined and is a graph or rule set, then $\iota(x)$
+        is itself encoded somewhere as a subgraph of $G$ (finite recursion).
+
+  \item There is no infinite descending chain of "is interpreted as’’ links;
+        i.e., the interpretation relation is well-founded.
+\end{enumerate}
+
+Intuitively: an RMG can contain encoded subgraphs, rules, and meta-objects
+as labeled nodes/edges that point back into the same or related graphs.
+
+\subsubsection*{CΩDEX.4.2 \quad DPO Rules and Rewriting Systems}
+
+\paragraph{Definition 4.3 (DPO rule).}
+A \emph{DPO rule} over a class of typed, labeled graphs is a span
+\[
+  \rho : L \xleftarrow{i_L} K \xrightarrow{i_R} R
+\]
+where $L,K,R$ are graphs and $i_L, i_R$ are injective graph morphisms
+(typically type-preserving, label-preserving embeddings).
+
+\paragraph{Definition 4.4 (Match).}
+Given a rule $\rho$ as above and a host graph $G$, a \emph{match} of $L$ in
+$G$ is a graph morphism $m : L \to G$ satisfying any imposed application
+conditions (e.g., injectivity, dangling conditions, identification
+conditions).
+
+\paragraph{Definition 4.5 (DPO rewrite step).}
+Given a rule $\rho$ and a match $m : L \to G$, a \emph{DPO rewrite step}
+is a diagram of the form in Figure~\ref{fig:dpo-diagram} such that:
+
+\begin{itemize}
+  \item the upper square is a pushout complement of $i_L$ and $m$,
+  \item the lower square is a pushout of $i_R$ and $k$,
+\end{itemize}
+
+yielding a new graph $G'$. We write $G \xRightarrow{\rho,m} G'$.
+
+\paragraph{Definition 4.6 (Rewriting system).}
+A \emph{graph rewriting system} is a pair $(\mathcal{G},\mathcal{R})$
+consisting of a class of graphs $\mathcal{G}$ and a set of DPO rules
+$\mathcal{R}$ acting on $\mathcal{G}$.
+
+\subsubsection*{CΩDEX.4.3 \quad MRMW, Causal Graphs, and Worldlines}
+
+\paragraph{Definition 4.7 (MRMW state).}
+An \emph{MRMW state} is a triple
+\[
+  x = (G,\mathcal{R},\sigma)
+\]
+where $G$ is an RMG, $\mathcal{R}$ is a rule set, and $\sigma$ is an
+(optional) scheduler or measure-specification describing how rules are
+applied (e.g., deterministic, stochastic, or amplitude-weighted).
+
+\paragraph{Definition 4.8 (Worldline / history).}
+A \emph{worldline} (or \emph{history}) is a finite or infinite sequence
+\[
+  \gamma = (x_0 \xRightarrow{e_1} x_1 \xRightarrow{e_2} x_2 \xRightarrow{}\dots)
+\]
+where each $x_t$ is an MRMW state, and each $e_t$ is a DPO rewrite event
+according to the rule set and scheduler of $x_{t-1}$.
+
+\paragraph{Definition 4.9 (Causal graph of a universe).}
+Fix an initial state $x_0$ and scheduler $\sigma$. Consider all rewrite
+events $\{e_i\}$ that occur along a worldline (or a bundle of worldlines).
+The \emph{causal graph} is the directed graph whose nodes are the events
+$e_i$ and which has an edge $e_i \to e_j$ if the application of $e_i$
+changes part of the graph used by $e_j$ (according to a chosen dependency
+relation).
+
+\paragraph{Definition 4.10 (MRMW).}
+The \emph{MRMW space} is the (large) structure whose points are MRMW
+states and whose edges represent allowed elementary transitions
+(rewrite steps) between them under some admissible scheduler class.
+Worldlines are paths in this structure, and multiversal machines act as
+transformations on distributions over this space.
+
+\subsubsection*{CΩDEX.4.4 \quad Multiversal Machines and Constitutions}
+
+\paragraph{Definition 4.11 (Multiversal machine).}
+A \emph{multiversal machine} $M$ is an operator on measures over MRMW:
+\[
+  M : \mathcal{M}(\text{MRMW}) \to \mathcal{M}(\text{MRMW}),
+\]
+where $\mathcal{M}(\text{MRMW})$ denotes the set of (sub-)probability
+measures on MRMW states or histories, such that $M$ can be decomposed
+into a finite composition of:
+
+\begin{itemize}
+  \item fork operations (splitting measure into bundles of worlds),
+  \item evolution operations (applying rewrite steps within worlds),
+  \item reweighting operations (changing measure density according to
+        some functional),
+  \item merge operations (identifying or coarse-graining worlds).
+\end{itemize}
+
+Concrete implementations (time-travel debugger, counterfactual engine,
+MORIARTY, etc.) are instances of such operators with additional structure.
+
+\paragraph{Definition 4.12 (Rulial constitution).}
+A \emph{rulial constitution} for a CΩMPUTER instance is a pair of
+predicates $(\Phi,\Psi)$ where:
+
+\begin{itemize}
+  \item $\Phi(\mathcal{R})$ is true iff a rule set $\mathcal{R}$ is
+        admissible for instantiation by the runtime;
+  \item $\Psi(\mathcal{R}\to\mathcal{R}')$ is true iff a transition in
+        rule space from $\mathcal{R}$ to $\mathcal{R}'$ is allowed
+        (e.g., under self-modification or compilation).
+\end{itemize}
+
+A multiversal machine $M$ is \emph{constitutional} with respect to
+$(\Phi,\Psi)$ if for every MRMW state it produces, the active rule set
+satisfies $\Phi$, and every transition in rulial space it performs
+satisfies $\Psi$.
+
+\subsubsection*{CΩDEX.4.5 \quad Observables and Coarse-Graining}
+
+\paragraph{Definition 4.13 (Observable).}
+Given a class of RMG states $\mathcal{G}$, an \emph{observable} is a
+measurable function
+\[
+  O : \mathcal{G} \to Y
+\]
+for some target space $Y$ (often $\mathbb{R}^k$), possibly defined only
+up to a coarse-graining $C$ (i.e., $O$ factors through $C$).
+
+\paragraph{Definition 4.14 (Coarse-graining).}
+A \emph{coarse-graining} is a surjective map
+\[
+  C : \mathcal{G} \to \mathcal{X}
+\]
+from microstates to macrostates such that:
+
+\begin{itemize}
+  \item $C$ respects relevant invariants (e.g., conserved quantities);
+  \item for many purposes, the induced process on $\mathcal{X}$ given by
+        evolving $G$ and then applying $C$ is approximately Markovian
+        and local.
+\end{itemize}
+
+\paragraph{Definition 4.15 (Entropy of a macrostate).}
+Given a coarse-graining $C$ and a macrostate $X \in \mathcal{X}$, the
+\emph{entropy} of $X$ is
+\[
+  S(X) = \log \left|\{ G \in \mathcal{G} \mid C(G) = X \}\right|,
+\]
+where the log base sets units.
+
+\medskip
+
+These definitions, together with the glossary, axioms, and diagrams above,
+form the baseline formal core of the CΩMPUTER ontology.
+
+If you extend the system, \emph{extend the CΩDEX}: add entries, axioms,
+and diagrams, or fork it for your own branch of MRMW.%
+\footnote{If your fork of the CΩDEX disagrees violently with this one,
+but still works, congratulations: you’ve discovered a new coordinate
+chart on the same underlying reality.}
