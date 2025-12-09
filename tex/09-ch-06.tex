@@ -47,7 +47,7 @@ exclusively on this line. The worldline \emph{is} the computation. Everything el
 %----------------------------------------------------------------------
 \begin{table}[h]
 \centering
-\begin{tabular}{@{}lll@{}}
+\begin{tabularx}{\linewidth}{@{}l l X@{}}
 \toprule
 \textbf{Concept} & \textbf{Mathematical Object} & \textbf{Runtime Intuition} \\
 \midrule
@@ -61,7 +61,7 @@ Geodesic & Distance minimizing path & Best possible implementation / optimal hot
 Collapse & Choice of one match & Branch decision / control flow edge taken \\
 Neighborhood & Local ball in $d$ & Set of easily reachable behaviors / refactor targets \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \caption{Mathematical objects in the C$\Omega$MPUTER model and their runtime analogies.}
 \label{table:math-vs-runtime}
 \end{table}
@@ -399,9 +399,9 @@ keeps one branch, and discards the rest.
 
 Collapse is not mystical. It is mechanical. It is the filtering of:
 
-\[
-(L, K, R)
-\]
+\begin{center}
+  \texttt{(L, K, R)}
+\end{center}
 
 into a single canonical rewrite.
 
@@ -425,9 +425,9 @@ Because worldlines and states are immutable, we can do something unheard of in c
 \textbf{diff worldlines}. We can measure Rulial Distance between the happy path and the buggy one and
 discover the precise coordinate where the universe took a bad turn.
 
-\paragraph{The \texttt{git bisect} Analogy.}
+\paragraph{The git bisect analogy.}
 If a worldline is a commit history in the universe, then debugging it is a \emph{binary search on
-reality}. Worldline diffing is the geometric form of \texttt{git bisect}: a deterministic search for
+reality}. Worldline diffing is the geometric form of git bisect: a deterministic search for
 the first bad rewrite. Classical systems cannot do this because they overwrite history; C$\Omega$MPUTER
 cannot avoid doing this because history \emph{is} the substrate.
 

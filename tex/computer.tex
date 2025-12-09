@@ -24,7 +24,7 @@
 \usepackage{listings}
 \usepackage[most]{tcolorbox}
 \usepackage{newunicodechar}
-\usepackage{hyperref}
+\usepackage[bookmarks=false]{hyperref}
 \usepackage[nameinlink]{cleveref}
 \usepackage{extpfeil} % for \xRightarrow in CODEx appendix
 \usepackage{silence}  % selectively silence noisy but harmless warnings
@@ -45,6 +45,7 @@
 \WarningFilter{newunicodechar}{Redefining Unicode character}
 \WarningFilter{latexfont}{Font shape `U/stmry/b/n' undefined}
 \WarningFilter{pdftex}{destination with the same identifier}
+\WarningFilter{latex}{Overfull \\hbox}
 
 % Relax line-breaking to avoid over/underfull box chatter
 \hbadness=10000
@@ -53,6 +54,7 @@
 \vfuzz=20pt
 \emergencystretch=2em
 \sloppy
+\tracinglostchars=0
 
 % TOC: list chapters only
 \setcounter{tocdepth}{0}
