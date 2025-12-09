@@ -1,5 +1,7 @@
 # CΩMPUTER
 
+![CΩMPUTER (4)](https://github.com/user-attachments/assets/b3ff795f-694d-48df-ac21-901df6922236)
+
 > **CΩMPUTER**   
 > The Geometry of All Possible Machines   
 > *By James Ross*
