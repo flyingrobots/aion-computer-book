@@ -30,6 +30,16 @@
 \usepackage{silence}  % selectively silence noisy but harmless warnings
 \SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n} % fix missing bold shape warning
 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{conjecture}[definition]{Conjecture}
+
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
 % Suppress noisy warnings to keep builds clean
 \WarningFilter{latex}{`h' float specifier changed to `ht'}
 \WarningFilter{newunicodechar}{Redefining Unicode character}

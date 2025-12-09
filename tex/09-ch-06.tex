@@ -1,454 +1,1174 @@
-\chapter{Worldlines: Execution as Geodesics}\label{chapter-6-worldlines-execution-as-geodesics}
+\chapter{Worldlines: Execution as Geodesics}
+\label{chapter-6-worldlines-execution-as-geodesics}
 
-\section{\texorpdfstring{\textbf{What it means for a computation to
-move.}}{What it means for a computation to move.}}\label{what-it-means-for-a-computation-to-move.}
+\section{What It Means for a Computation to Move}
+\label{what-it-means-for-a-computation-to-move}
 
-Up to now, we've been talking about \textbf{possibility} --- the cone of
-futures (Kairos), the structure that shapes it (Aios), and the path you
-took to get here (Chronos).
+Up to this point we have lived in possibility. We charted the cone of immediate futures (Kairos), the
+laws constraining them (Aios), and the fossilized past (Chronos). We built a static map of a
+dynamically evolving universe.
 
-Now we turn to the thing engineers care about most:
-
-\begin{quote}
-\textbf{What path does the computation ACTUALLY take?}
-
-Not what it \emph{could} do. Not what it \emph{might} do. Not what's
-adjacent in possibility space.
-
-\textbf{What it DOES.}
-\end{quote}
-
-This path --- the one the system \emph{actually} walks --- is called a
-\textbf{worldline}.
-
-Worldlines are how your universe moves.
-
-They are the ``film strip'' of your computation, one tick at a time, as
-each DPO rewrite collapses the Time Cube into a single next step.
-
-This chapter is about:
-
-\begin{itemize}
-\tightlist
-\item
-  how worldlines form,\\
-\item
-  why they're deterministic,
-\item
-  why they matter,
-\item
-  why they feel like ``program behavior,''
-\item
-  and why optimization \& debugging are both just geometry.
-\end{itemize}
-
-This is the chapter where execution stops being a mystery and becomes a
-path through possibility space.
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\section{\texorpdfstring{\textbf{6.1 --- What Is a
-Worldline?}}{6.1 --- What Is a Worldline?}}\label{what-is-a-worldline}
-
-A worldline is:
+But engineers don't get paid for possibility. We ship software that \emph{actually} runs. We care
+about the specific, singular trajectory our system takes through the dark sea of Rulial Space.
 
 \begin{quote}
-\textbf{A sequence of legal DPO rewrites} \textbf{applied to your RMG
-universe} \textbf{under a deterministic scheduler.}
+\textbf{Which path does the computation actually walk?}
 \end{quote}
 
-In plain language:
+That path—the fully realized, irreversible sequence of rewrites from input to output—is called a
+\textbf{worldline}. This chapter formalizes it, demystifies it, and shows how every act of debugging
+and optimization is nothing but geometry applied to these lines.
 
-\begin{itemize}
-\tightlist
-\item
-  Each tick: one rewrite fires\\
-\item
-  The rewrite transforms the RMG
-\item
-  The new RMG is the new universe state
-\item
-  Repeat
-\end{itemize}
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
 
-That chain of states, from tick 0 → tick N, is your \textbf{worldline}.
-This is not a metaphor. This is literally what execution \emph{is} in an
-RMG runtime.
+\section{6.1 --- What Is a Worldline?}
+\label{6.1-what-is-a-worldline}
 
-Not ``running code.'' Not ``executing instructions.''
-
-Just:
-
-\textbf{State → rewrite → state → rewrite → state}
-
-A worldline is the \emph{actual} history.
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\section{\texorpdfstring{\textbf{6.2 --- Why CΩMPUTER's Worldlines Are
-Deterministic}}{6.2 --- Why CΩMPUTER's Worldlines Are Deterministic}}\label{why-cux3c9mputers-worldlines-are-deterministic}
-
-Raw DPO is nondeterministic.
-
-Classical rewrite systems have no opinion about which rule fires first.
-
-But in CΩMPUTER, we introduce:
-
-\begin{itemize}
-\tightlist
-\item
-  a scheduler\\
-\item
-  a tick
-\item
-  priority rules
-\item
-  canonical match order
-\item
-  deterministic tie-breaking
-\item
-  conflict resolution
-\item
-  no-overlap constraints
-\item
-  explicit observer semantics
-\end{itemize}
-
-And with that:
+A worldline is not a metaphor. In C$\Omega$MPUTER, it is a rigorously defined mathematical object:
 
 \begin{quote}
-\textbf{Every worldline becomes deterministic.}
+\textbf{A worldline is a totally ordered sequence of legal DPO rewrites applied under a deterministic Scheduler.}
 \end{quote}
 
-One tick → one rewrite → one next universe. No randomness. No
-nondeterminism. No ambiguity.
+The traditional vocabulary—“running code,” “executing instructions”—is too fuzzy to describe what
+actually happens. In RMG space, execution is nothing but an unbroken chain of graph states:
 
-This is what makes analysis possible. It lets debugging become
-deterministic archaeology, and optimization become deterministic
-navigation.
+\[
+S_0 \to S_1 \to S_2 \to \dots \to S_N.
+\]
 
-The observer (scheduler) isn't magical. It's just the thing that picks
-one legal path out of the Time Cube. Like choosing one door in the room.
+Every log entry you've read, every stack trace you've chased, every bug you've fought—they all live
+exclusively on this line. The worldline \emph{is} the computation. Everything else is commentary.
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+%----------------------------------------------------------------------
+% Math vs Runtime Analogy Table
+%----------------------------------------------------------------------
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Concept} & \textbf{Mathematical Object} & \textbf{Runtime Intuition} \\
+\midrule
+State & RMG $S$ & Heap / object graph at a tick \\
+Rule & DPO production $(L,K,R)$ & Instruction / function with pre- and post-conditions \\
+Match & Monomorphism $L \hookrightarrow S$ & Concrete pattern match on in-memory objects \\
+Scheduler & Selection function $\sigma(S)$ & Interpreter loop / thread scheduler \\
+Worldline & Sequence $(S_i)_{i=0}^N$ & Execution trace / commit history of the universe \\
+Rulial Distance & Metric $d(S,T)$ & ``How many steps?'' between two states \\
+Geodesic & Distance minimizing path & Best possible implementation / optimal hot path \\
+Collapse & Choice of one match & Branch decision / control flow edge taken \\
+Neighborhood & Local ball in $d$ & Set of easily reachable behaviors / refactor targets \\
+\bottomrule
+\end{tabular}
+\caption{Mathematical objects in the C$\Omega$MPUTER model and their runtime analogies.}
+\label{table:math-vs-runtime}
+\end{table}
 
-\section{\texorpdfstring{\textbf{6.3 --- Worldline Sharpness: Why Small
-Changes
-Matter}}{6.3 --- Worldline Sharpness: Why Small Changes Matter}}\label{worldline-sharpness-why-small-changes-matter}
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
 
-Imagine two worldlines that share the same first 100 ticks and then
-diverge at tick 101. From that point on, they become different
-universes. Maybe similar at first. But differences compound. A small
-change in a rewrite 3 layers deep inside a wormhole can have large
-effects later.
+\section{6.2 --- Why Worldlines Are Deterministic}
+\label{6.2-why-worldlines-are-deterministic}
 
-This is \textbf{worldline sharpness}:
+Classical graph rewriting is nondeterministic. If three rules match, the theory says: “Pick one.”
+Maybe all three, in parallel universes. Fun for theorists—unusable for engineers.
+
+C$\Omega$MPUTER rejects nondeterminism outright. We impose a ruthless authoritarian:
+\textbf{The Scheduler}.
+
+It does not guess. It does not roll dice. It collapses the Time Cube into a single legal next step.
+
+To understand \emph{how}, we must expose the mechanism behind the determinism.
+
+\subsection{The Mechanics of Determinism: How the Scheduler Breaks Ties}
+
+For any given state $S$, there may be dozens of valid rule matches. The Scheduler collapses this
+ambiguity using a strict, layered decision stack:
+
+\begin{enumerate}
+    \item \textbf{Canonical Match Enumeration.}  
+    All matches are expressed as tuples of node IDs, edge IDs, and port bindings. Because the RMG
+    has stable identities, these tuples form an ordered set.
+
+    \item \textbf{Lexicographic Ordering.}  
+    Matches are sorted by:
+    \begin{enumerate}
+        \item Rule ID (priority)
+        \item Match tuple shape
+        \item Node/edge identity order
+    \end{enumerate}
+
+    \item \textbf{Conflict Resolution.}  
+    Overlapping matches are eliminated via a deterministic leftmost-priority filter.
+
+    \item \textbf{Canonical Embedding Selection.}  
+    If multiple viable matches remain, the Scheduler computes a canonical embedding hash and selects
+    the match minimizing it. This effectively performs a topological sort over match space.
+\end{enumerate}
+
+%----------------------------------------------------------------------
+% TikZ: Scheduler Tie-Breaker Visualization
+%----------------------------------------------------------------------
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    node/.style={circle, draw, minimum size=7mm, inner sep=1pt, drop shadow},
+    matchA/.style={rounded corners, draw=blue, thick, dashed},
+    matchB/.style={rounded corners, draw=orange!80!black, thick, dashed},
+    >=Stealth
+]
+
+% Nodes (universe state S)
+\node[node] (n1) at (0,0) {$n_1$};
+\node[node] (n2) at (2,0) {$n_2$};
+\node[node] (n3) at (4,0) {$n_3$};
+
+% Edges
+\draw[-{Stealth}] (n1) -- node[above, font=\scriptsize] {$e_{12}$} (n2);
+\draw[-{Stealth}] (n2) -- node[above, font=\scriptsize] {$e_{23}$} (n3);
+
+% Highlight match A: (n1, n2)
+\node[matchA, fit=(n1) (n2), inner sep=10pt, label={[blue]above:$m_A$}] (mA) {};
+
+% Highlight match B: (n2, n3)
+\node[matchB, fit=(n2) (n3), inner sep=10pt, label={[orange!80!black]below:$m_B$}] (mB) {};
+
+% Annotations
+\node[align=left, font=\footnotesize] at (0,-1.2)
+    {$\mathsf{ids}(m_A) = (n_1, n_2)$};
+\node[align=left, font=\footnotesize] at (4,-1.2)
+    {$\mathsf{ids}(m_B) = (n_2, n_3)$};
+
+\node[align=center, font=\footnotesize, anchor=west] at (-0.5,1.3)
+    {Same rule ID: $\mathrm{id}(r_A) = \mathrm{id}(r_B)$};
+
+% Arrow showing lexicographic preference
+\draw[->, thick] (0.2,-1.6) -- (3.8,-1.6)
+    node[midway, below, font=\footnotesize]
+    {$\mathsf{ids}(m_A) <_{\text{lex}} \mathsf{ids}(m_B)$, so $m_A$ wins};
+
+\end{tikzpicture}
+\caption{Deterministic tie-breaking: two competing matches of the same rule. 
+Canonical ID ordering selects $m_A$ as the unique next rewrite.}
+\label{fig:scheduler-tie-breaker}
+\end{figure}
+
+This hierarchy ensures that the transition $S \rightarrow S{+}1$ is both deterministic and
+\textbf{canonical}. Replay the same input, you get the same universe. Byte-for-byte, edge-for-edge.
+
+This property is the bedrock on which everything else stands. (For the formal specification, see Appendix~\ref{appendix:scheduler-spec}).
+
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
+
+\section{6.3 --- Worldline Sharpness: Sensitivity to Initial Conditions}
+\label{6.3-worldline-sharpness}
+
+Two universes can share the same first hundred ticks yet diverge catastrophically at tick 101. A
+single flipped bit, a reordered port, or a one-edge difference can alter which rules match at the
+next step. By tick 200, the worldlines may not even resemble each other.
+
+This sensitivity is called \textbf{Worldline Sharpness}. Systems with low curvature resist deviation;
+errors dampen out, the path self-corrects. Systems with high curvature amplify deviation; one wrong
+rewrite can throw the worldline into the abyss.
+
+Every engineer who's debugged a race condition has experienced high-curvature geometry firsthand.
+
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
+
+\section{6.4 --- Geodesics: The ``Straight Lines'' of Computation}
+\label{6.4-geodesics}
+
+If Rulial Distance measures the minimum number of rewrites required to transform $A$ into $B$, then a
+\textbf{computational geodesic} is the worldline that achieves that minimum.
 
 \begin{quote}
-\textbf{The sensitivity of a universe to small differences in its
-rewrite history.}
+\textbf{The geodesic is the most efficient execution possible.}
 \end{quote}
 
-Not chaos theory. Not randomness. Just structure.
+Real software, of course, rarely follows the geodesic. We wander. We allocate memory and free it a
+moment later. We iterate empty lists. We check conditions we already know.
 
-Systems with low curvature (Chapter 9) tend to have soft, flexible
-worldlines --- small changes don't derail everything.
+These detours are not abstract inefficiencies—they are literal curvature in the path.
 
-Systems with high curvature tend to have brittle worldlines --- tiny
-changes break everything.
+\subsection{Worldline Inertia: Curvature as Technical Debt}
 
-Every engineer has felt this. Now you have the language to describe it.
+Curved worldlines possess \textbf{inertia}: once bent, they resist straightening. Every detour adds
+structure; new structure alters rule availability; altered availability reshapes the future.
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+This is the geometric definition of \textbf{technical debt}:
 
-\section{\texorpdfstring{\textbf{6.4 --- Geodesics: The ``Straight
-Lines'' of
-Computation}}{6.4 --- Geodesics: The ``Straight Lines'' of Computation}}\label{geodesics-the-straight-lines-of-computation}
+\begin{itemize}
+    \item Bad decisions add curvature.  
+    \item Curvature gathers mass.  
+    \item Mass bends the local geometry.  
+    \item Bending the geometry increases the cost of correction.
+\end{itemize}
 
-Once we define Rulial Distance (Chapter 5), we can ask the question:
+Refactoring is not merely changing code—it is unbending spacetime.
+
+\subsection{Rulial Friction: Why Some Paths Hurt More Than Others}
+
+Inertia explains why curved worldlines resist straightening. But curvature alone
+is not the whole story. Some parts of the universe are easy to rewrite---light,
+loose, low-stakes. Others are load-bearing megastructures: dense dependency hubs,
+core libraries, highly-shared subgraphs. These carry what we call
+\textbf{Rulial Friction}.
+
+\begin{itemize}
+    \item \textbf{Low-friction regions} rewrite cleanly; small nudges realign the path.  
+    \item \textbf{High-friction regions} resist every attempt at correction; even tiny edits
+          require rewriting large amounts of connected structure.
+\end{itemize}
+
+A hacky shortcut often works by tunneling straight through a high-friction region
+and perturbing nodes that were never meant to move. Later, when you attempt a proper
+refactor, the cost is enormous: the geometry punishes you for violating a load-bearing 
+dependency.
 
 \begin{quote}
-\textbf{What is the shortest path from the initial state to the final
-state?}
+Technical debt is not just curvature. It is curvature through high-friction space.
 \end{quote}
 
-This path --- the minimal rewrite path --- is the computational
-\textbf{geodesic}.
+This is why some refactors feel effortless and others feel geological. The graph itself
+pushes back.
 
-In a perfect world:
+%----------------------------------------------------------------------
+% TikZ: Rulial Friction Diagram
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    node/.style={circle, draw=black, minimum size=6mm, inner sep=1pt, drop shadow},
+    lightnode/.style={circle, draw=black!40, fill=black!10, minimum size=6mm, drop shadow},
+    heavynode/.style={circle, draw=black!70, fill=gray!40, minimum size=6mm, drop shadow},
+    edge/.style={-{Stealth}, thin},
+    heavyedge/.style={-{Stealth}, thick},
+    dashedarrow/.style={->, dashed, thick, blue},
+    >=Stealth
+]
 
+% Low friction nodes (left)
+\node[lightnode] (l1) at (-2,0.8) {};
+\node[lightnode] (l2) at (-3,0) {};
+\node[lightnode] (l3) at (-1,0) {};
+\node[lightnode] (l4) at (-2,-0.8) {};
+
+\draw[edge] (l1) -- (l2);
+\draw[edge] (l1) -- (l3);
+\draw[edge] (l2) -- (l4);
+\draw[edge] (l3) -- (l4);
+
+\node at (-2,-1.4) {\footnotesize Low Friction Region};
+
+% High friction cluster (right)
+\node[heavynode] (h1) at (2,1) {};
+\node[heavynode] (h2) at (1.3,0.3) {};
+\node[heavynode] (h3) at (2.7,0.3) {};
+\node[heavynode] (h4) at (1.5,-0.6) {};
+\node[heavynode] (h5) at (2.5,-0.6) {};
+
+\foreach \a/\b in {h1/h2, h1/h3, h2/h3, h2/h4, h3/h5, h4/h5, h2/h5, h3/h4}
+    \draw[heavyedge] (\a) -- (\b);
+
+\node at (2,-1.4) {\footnotesize High Friction Region};
+
+% Worldline arrows
+\draw[dashedarrow, blue] (-4,0) -- (-1,0)
+    node[midway, above, font=\scriptsize] {Easy refactor};
+
+\draw[dashedarrow, red!80!black] (0,0) .. controls (1,1.5) .. (3,1)
+    node[midway, above, font=\scriptsize] {Hard refactor (high friction)};
+
+\end{tikzpicture}
+\caption{Rulial Friction: rewriting a sparse region is easy (low friction), 
+but rewrites in dense, load-bearing regions require massive structural change. 
+Technical debt is not just curvature—it is curvature through high-friction space.}
+\label{fig:rulial-friction}
+\end{figure}
+
+\subsection*{FOR THE NERDS™: A Formal Definition of Rulial Friction}
+
+Let $S$ be a universe state, and let $m = (r, \mu)$ be a legal match producing successor
+state $S' = r(S)$.
+
+We define the \textbf{local friction tensor} $\Phi(S, m)$ as:
+
+\[
+\Phi(S, m)
+= \left| \{ x \in S \;|\; x \notin S' \text{ or } x \text{ has altered adjacency in } S' \} \right|.
+\]
+
+That is: the number of nodes and edges whose structural role changes under the rewrite.
+
+Intuitively:
 \begin{itemize}
-\tightlist
-\item
-  your optimized program follows a geodesic,\\
-\item
-  your debugged program restores the geodesic,
-\item
-  your refactoring straightens the geodesic,
-\item
-  your compiler finds shorter geodesics automatically.
+    \item If a rewrite touches only a few nodes (low $|\Phi|$), the region has low friction.
+    \item If a rewrite perturbs a dense subgraph (high $|\Phi|$), the region has high friction.
 \end{itemize}
 
-In real terms:
+We extend this to a directional derivative along a worldline $(S_i)$:
 
-\begin{itemize}
-\tightlist
-\item
-  fewer rewrites\\
-\item
-  simpler transformations
-\item
-  lower cost
-\item
-  fewer steps
-\item
-  less branching
-\item
-  more direct worldline
-\end{itemize}
+\[
+\mathcal{F}(S_i)
+= \Phi(S_i, \sigma(S_i)),
+\]
 
-Optimization stops being black magic. It becomes a geometric process:
+the friction encountered at tick $i$. Finally, define the \textbf{integrated friction} over a worldline segment:
+
+\[
+\mathcal{F}_{a \to b}
+= \sum_{i=a}^{b} \mathcal{F}(S_i).
+\]
+
+This is the Rulial analog of “work” in physics:  
+the cumulative structural resistance encountered by the computation.
 
 \begin{quote}
-\textbf{Make the worldline straighter.}
+Low-friction universes evolve cleanly.  
+High-friction universes fight every rewrite.
 \end{quote}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\subsection*{FOR THE NERDS™: Curvature, Friction, and Refactor Difficulty}
+\textit{(A full treatment of curvature appears in Chapter 9. 
+This subsection provides only the local, first-order precursor.)}
 
-\section{\texorpdfstring{\textbf{6.5 --- Collapse: Choosing One
-Future}}{6.5 --- Collapse: Choosing One Future}}\label{collapse-choosing-one-future}
+Friction measures how many elements a rewrite perturbs. To capture how \emph{sensitive}
+a region is to those perturbations, we introduce a notion of \textbf{local curvature}.
 
-The Time Cube gives you a cone of futures. The scheduler picks one.
+Let $S$ be a state and $m = (r,\mu)$ a match. Consider a small \emph{perturbation family}
+of matches $\{m'\}$ differing slightly from $m$ (e.g.\ by reattaching one edge, toggling a port,
+or modifying a local subgraph). Let $S' = r(S)$ and $S'_{m'} = r_{m'}(S)$ be the corresponding
+successor states.
 
-This is \textbf{collapse}.
+Define the \textbf{local curvature} at $(S,m)$ as:
 
-It's not quantum. It's not random. It's not metaphysical.
+\[
+\kappa(S,m)
+= \max_{m' \in \mathcal{N}(m)} d\big(S', S'_{m'}\big),
+\]
 
-Collapse is the moment when:
-
-\begin{itemize}
-\tightlist
-\item
-  you match L\\
-\item
-  validate K
-\item
-  apply R
-\item
-  commit the rewrite
-\item
-  and advance Chronos by one tick
-\end{itemize}
-
-Collapse shrinks the Time Cube into a single next tick and produces the
-next RMG universe. This is \textbf{control flow} in RMG terms.
-
-Every collapse is:
+where $\mathcal{N}(m)$ is a small neighborhood of perturbed matches and
+$d$ is the Rulial Distance.
 
 \begin{itemize}
-\tightlist
-\item
-  a choice\\
-\item
-  a commitment
-\item
-  a reduction in possibility
-\item
-  a step deeper into your worldline
+    \item $\kappa$ small: nearby choices lead to similar futures (flat region).  
+    \item $\kappa$ large: tiny changes lead to wildly different futures (high curvature).
 \end{itemize}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+We then define the \textbf{Refactor Difficulty} tensor:
 
-\section{\texorpdfstring{\textbf{6.6 --- Worldlines Are
-Debugging}}{6.6 --- Worldlines Are Debugging}}\label{worldlines-are-debugging}
+\[
+\Psi(S,m) = \kappa(S,m) \cdot \Phi(S,m),
+\]
 
-Debugging in RMG terms is simple:
+the product of curvature ($\kappa$) and friction ($\Phi$) at a point.
+
+\begin{itemize}
+    \item Low $\Phi$, low $\kappa$: easy edits, forgiving future.  
+    \item High $\Phi$, low $\kappa$: heavy but predictable; costly but safe.  
+    \item Low $\Phi$, high $\kappa$: light but chaotic; subtle changes, explosive futures.  
+    \item High $\Phi$, high $\kappa$: the worst case—\emph{dense structure with explosive sensitivity}.
+\end{itemize}
+
+This last regime is what engineers experience as “touch-anything-and-everything-breaks”:
+high-friction, high-curvature regions where refactors feel like trying to perform brain
+surgery on a live, flailing universe.
 
 \begin{quote}
-\textbf{A worldline didn't go where you wanted.} \textbf{Trace it back.}
+Refactor Difficulty is not a feeling. It is a measurable property of the geometry.
 \end{quote}
 
-You're not inspecting ``stack traces'' or ``AST nodes'' or ``function
-calls.''
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
 
-You're inspecting:
+\section{6.5 --- Collapse: Choosing One Future}
+\label{6.5-collapse}
 
-\begin{itemize}
-\tightlist
-\item
-  which wormhole was chosen at each tick
-\item
-  why it was legal
-\item
-  why others weren't
-\item
-  how the universe changed
-\item
-  how Chronos diverged from the ideal geodesic
-\end{itemize}
+The Time Cube presents a cloud of potential futures; the worldline requires a single committed one.
+That transition is \textbf{Collapse}—the moment the Scheduler prunes the entire possibility tree,
+keeps one branch, and discards the rest.
 
-Debugging becomes archaeology:
+Collapse is not mystical. It is mechanical. It is the filtering of:
+
+\[
+(L, K, R)
+\]
+
+into a single canonical rewrite.
+
+Every conditional branch in imperative code is a local Collapse. Every loop guard. Every function
+call. Collapse is the act that converts possibility into history.
+
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
+
+\section{6.6 --- Worldlines Are Debugging}
+\label{6.6-worldlines-are-debugging}
+
+If execution is a path, then a bug is a wrong turn.
+
+Traditional debugging gives you snapshots—stack traces, log lines, memory dumps. Static clues.
+RMG-based debugging gives you the \emph{path} itself. You can examine where the worldline bent,
+whether it was legal, and what structural condition misdirected it.
+
+Because worldlines and states are immutable, we can do something unheard of in classical systems:
+\textbf{diff worldlines}. We can measure Rulial Distance between the happy path and the buggy one and
+discover the precise coordinate where the universe took a bad turn.
+
+\paragraph{The \texttt{git bisect} Analogy.}
+If a worldline is a commit history in the universe, then debugging it is a \emph{binary search on
+reality}. Worldline diffing is the geometric form of \texttt{git bisect}: a deterministic search for
+the first bad rewrite. Classical systems cannot do this because they overwrite history; C$\Omega$MPUTER
+cannot avoid doing this because history \emph{is} the substrate.
+
+Debugging becomes archaeology. You are not guessing—you are excavating.
+
+\paragraph{The Rulial Heat Map.}
+Diffing worldlines is not textual---it is geometric. Imagine overlaying the
+\emph{Happy Path} universe and the \emph{Buggy Path} universe atop one another.
+Nodes and edges that match perfectly cancel out; they become transparent. But
+any structural difference---a missing edge, an extra allocation, a mutated
+subgraph---begins to glow.
 
 \begin{quote}
-The study of a computational past.
+Divergence has a temperature. Stable regions stay cool. Error regions burn hot.
 \end{quote}
 
-And because RMG stores structure, you can \textbf{diff worldlines} and
-measure how far apart execution paths really are in Rulial Distance.
+A worldline diff produces a \textbf{Rulial Heat Map}:  
+\begin{itemize}
+    \item identical structure = transparent,  
+    \item locally altered structure = warm orange,  
+    \item cascading divergence = deep red,  
+    \item catastrophic bifurcations = white-hot fissures in possibility space.
+\end{itemize}
 
-That's not mystical --- it's just structural comparison.
+Debugging stops being the reading of logs and becomes the reading of geometry:
+you see where the universe itself is “hot” with error. A race condition is not a
+string of text—it is a thermal scar on the shape of execution.
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+This is visceral, visual, unforgettable. Engineers will feel this.
 
-\section{\texorpdfstring{\textbf{6.7 --- Worldlines Are
-Optimization}}{6.7 --- Worldlines Are Optimization}}\label{worldlines-are-optimization}
+%----------------------------------------------------------------------
+% TikZ: Rulial Heat Map
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    node/.style={circle, draw=black, minimum size=7mm, inner sep=1pt, drop shadow},
+    same/.style={circle, draw=black!30, fill=black!10, minimum size=7mm},
+    warm/.style={circle, draw=orange!80!black, fill=orange!40, minimum size=7mm, drop shadow},
+    hot/.style={circle, draw=red!80!black, fill=red!50, minimum size=7mm, drop shadow},
+    whitehot/.style={circle, draw=red!90!black, fill=white, line width=1pt, minimum size=7mm, drop shadow},
+    edge/.style={-{Stealth}, thick},
+    ghost/.style={draw=none, fill=none}
+]
 
-Optimizing a system becomes:
+% "Correct" baseline graph (left)
+\node[same] (c1) at (-3,0.5) {\tiny A};
+\node[same] (c2) at (-3,-0.5) {\tiny B};
+\node[same] (c3) at (-4,0) {\tiny C};
+\node[same] (c4) at (-2,0) {\tiny D};
+
+\draw[edge, gray!50] (c1) -- (c3);
+\draw[edge, gray!50] (c3) -- (c2);
+\draw[edge, gray!50] (c1) -- (c4);
+\draw[edge, gray!50] (c2) -- (c4);
+
+\node[ghost] at (-3,-1.4) {Correct Worldline Slice};
+
+% "Buggy" worldline overlay (right)
+\node[same] (b1) at (3,0.5) {\tiny A};
+\node[warm] (b2) at (3,-0.5) {\tiny B};
+\node[hot] (b3) at (2,0) {\tiny C};
+\node[whitehot] (b4) at (4,0) {\tiny D};
+
+% Edges
+\draw[edge, gray!50] (b1) -- (b3);
+\draw[edge, orange!80!black, thick] (b3) -- (b2);
+\draw[edge, red!80!black, thick] (b1) -- (b4);
+\draw[edge, red!90!black, ultra thick] (b2) -- (b4);
+
+\node[ghost] at (3,-1.4) {Buggy Worldline Slice};
+
+% Heat legend
+\node[same] at (0,-2.0) {};
+\node[ghost, right=3pt of {(0,-2.0)}] {\footnotesize Identical (transparent)};
+
+\node[warm] at (0,-2.6) {};
+\node[ghost, right=3pt of {(0,-2.6)}] {\footnotesize Local divergence (warm)};
+
+\node[hot] at (0,-3.2) {};
+\node[ghost, right=3pt of {(0,-3.2)}] {\footnotesize Strong divergence (hot)};
+
+\node[whitehot] at (0,-3.8) {};
+\node[ghost, right=3pt of {(0,-3.8)}] {\footnotesize Catastrophic divergence (white-hot)};
+
+\end{tikzpicture}
+\caption{Rulial Heat Map: comparing the happy-path universe to the buggy universe. 
+Identical structure cancels out; divergent structure radiates heat.}
+\label{fig:rulial-heat-map}
+\end{figure}
+
+%----------------------------------------------------------------------
+% TikZ: Multi-Frame Rulial Heat Animation
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    same/.style={circle, draw=black!30, fill=black!5, minimum size=5mm},
+    warm/.style={circle, draw=orange!80!black, fill=orange!40, minimum size=5mm, drop shadow},
+    hot/.style={circle, draw=red!80!black, fill=red!50, minimum size=5mm, drop shadow},
+    whitehot/.style={circle, draw=red!90!black, fill=white, line width=1pt, minimum size=5mm, drop shadow},
+    edge/.style={-{Stealth}, thin, gray!60},
+    frame/.style={rectangle, rounded corners, draw=gray!70, inner sep=6pt, drop shadow}
+]
+
+% Frame 1: Early divergence
+\node[frame] (f1) at (-4,0) {
+    \begin{tikzpicture}[scale=0.7]
+        \node[same] (a1) at (0,0.6) {};
+        \node[same] (a2) at (-0.6,0) {};
+        \node[same] (a3) at (0.6,0) {};
+        \node[warm] (a4) at (0,-0.6) {};
+        \draw[edge] (a1) -- (a2);
+        \draw[edge] (a1) -- (a3);
+        \draw[edge] (a2) -- (a4);
+        \draw[edge] (a3) -- (a4);
+    \end{tikzpicture}
+};
+
+\node[font=\scriptsize, above] at (f1.north) {$t_0$: Local anomaly};
+
+% Frame 2: Spreading heat
+\node[frame] (f2) at (0,0) {
+    \begin{tikzpicture}[scale=0.7]
+        \node[warm] (b1) at (0,0.8) {};
+        \node[warm] (b2) at (-0.7,0.2) {};
+        \node[hot]  (b3) at (0.7,0.2) {};
+        \node[hot]  (b4) at (-0.4,-0.6) {};
+        \node[same] (b5) at (0.6,-0.7) {};
+        \draw[edge] (b1) -- (b2);
+        \draw[edge] (b1) -- (b3);
+        \draw[edge] (b2) -- (b4);
+        \draw[edge] (b3) -- (b4);
+        \draw[edge] (b4) -- (b5);
+    \end{tikzpicture}
+};
+
+\node[font=\scriptsize, above] at (f2.north) {$t_1$: Heat propagates};
+
+% Frame 3: Catastrophic divergence
+\node[frame] (f3) at (4,0) {
+    \begin{tikzpicture}[scale=0.7]
+        \node[hot]     (c1) at (0,1.0) {};
+        \node[whitehot](c2) at (-0.7,0.2) {};
+        \node[whitehot](c3) at (0.7,0.2) {};
+        \node[hot]     (c4) at (-0.4,-0.6) {};
+        \node[hot]     (c5) at (0.6,-0.7) {};
+        \draw[edge] (c1) -- (c2);
+        \draw[edge] (c1) -- (c3);
+        \draw[edge, red!80!black, thick] (c2) -- (c4);
+        \draw[edge, red!80!black, thick] (c3) -- (c4);
+        \draw[edge, red!90!black, ultra thick] (c4) -- (c5);
+    \end{tikzpicture}
+};
+
+\node[font=\scriptsize, above] at (f3.north) {$t_2$: Full-blown failure region};
+
+% arrows
+\draw[->, thick, gray!70] (f1.east) -- (f2.west)
+    node[midway, above, font=\scriptsize] {propagation};
+\draw[->, thick, gray!70] (f2.east) -- (f3.west)
+    node[midway, above, font=\scriptsize] {runaway};
+
+\end{tikzpicture}
+\caption{Temporal evolution of Rulial Heat. A small local deviation at $t_0$
+becomes a structurally significant divergence at $t_1$, and by $t_2$ the bug
+has carved out an entire hot region in the universe. Debugging is the act of
+locating and cooling this region.}
+\label{fig:rulial-heat-animation}
+\end{figure}
+
+\subsection*{FOR THE NERDS™: Rulial Heat as Divergence}
+
+Let $(S_i^{\mathrm{good}})_{i=0}^N$ and $(S_i^{\mathrm{bug}})_{i=0}^N$ be two worldlines
+with the same initial state $S_0$ and identical tick index set.
+
+For each tick $i$, define the \textbf{instantaneous structural divergence}:
+
+\[
+\Delta_i
+= S_i^{\mathrm{good}} \triangle S_i^{\mathrm{bug}},
+\]
+
+where $\triangle$ denotes the symmetric difference over the set of
+\emph{typed graph elements} (nodes, edges, and their adjacencies).
+
+We define the \textbf{Rulial Heat} at tick $i$ as:
+
+\[
+H_i = |\Delta_i|.
+\]
+
+Intuitively:
+\begin{itemize}
+    \item $H_i = 0$ means the universes are structurally identical at tick $i$.
+    \item Larger $H_i$ means more structural disagreement (more “heat”).
+\end{itemize}
+
+We can then define:
+
+\[
+H_{\max} = \max_{0 \le i \le N} H_i,
+\quad
+H_{\mathrm{tot}} = \sum_{i=0}^N H_i,
+\]
+
+measuring, respectively, the \textbf{peak heat} and the \textbf{integrated heat} of the divergence.
 
 \begin{quote}
-\textbf{Find a shorter or straighter worldline} \textbf{from A to B.}
+Rulial Heat is how much the buggy universe disagrees with the correct one, measured
+not in log lines but in altered structure.
 \end{quote}
 
-This reframes:
+\paragraph{The Observer Effect Is Dead.}
+In classical debugging, attaching a debugger \emph{changes} the program. Adding
+a \texttt{printf()} shifts timing, scares away race conditions, and collapses
+the very bug you're trying to study. These “Heisenbugs” survive by reacting to
+observation.
 
-\begin{itemize}
-\tightlist
-\item
-  constant folding
-\item
-  dead code elimination
-\item
-  inline substitution
-\item
-  strength reduction
-\item
-  normalization
-\item
-  algebraic simplification
-\item
-  caching
-\item
-  memoization
-\item
-  JIT optimization
-\end{itemize}
+In C$\Omega$MPUTER, the Observer Effect is dead.
 
-\ldots as geometric moves.
-
-Optimization becomes:
-
-\begin{itemize}
-\tightlist
-\item
-  minimizing curvature\\
-\item
-  eliminating detours
-\item
-  reducing Rulial Distance
-\item
-  straightening paths
-\item
-  avoiding brittle regions
-\item
-  aligning chronos with geodesics
-\end{itemize}
-
-This is the hidden geometry behind why ``fast code feels elegant.''
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\section{\texorpdfstring{\textbf{FOR THE
-NERDS™}}{FOR THE NERDS™}}
-
-\section{\texorpdfstring{\textbf{Worldlines and Lambda Calculus
-Reduction
-Sequences}}{Worldlines and Lambda Calculus Reduction Sequences}}\label{worldlines-and-lambda-calculus-reduction-sequences}
-
-If you squint, a worldline is:
-
-\begin{itemize}
-\tightlist
-\item
-  a β-reduction trace,\\
-\item
-  a sequence of graph reductions,
-\item
-  a normal form search,
-\item
-  a deterministic rewrite strategy (call-by-X),
-\item
-  a reduction semantics with a fixed evaluation order.
-\end{itemize}
-
-But RMG+DPO worldlines:
-
-\begin{itemize}
-\tightlist
-\item
-  are multi-scale
-\item
-  include recursive edges
-\item
-  reflect wormhole structure
-\item
-  aren't term-based
-\item
-  aren't flat
-\item
-  include storage\\
-\item
-  include branching alternatives
-\item
-  include a geometry
-\item
-  are defined over typed transforms
-\item
-  and exist in a metric space
-\end{itemize}
-
-So the analogy holds --- but the structure is richer.
-
-\emph{(End sidebar.)}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\section{\texorpdfstring{\textbf{6.8 --- Transition: From Worldlines to
-Neighborhoods}}{6.8 --- Transition: From Worldlines to Neighborhoods}}\label{transition-from-worldlines-to-neighborhoods}
-
-We know:
-
-\begin{itemize}
-\tightlist
-\item
-  what possibility looks like (Time Cube),\\
-\item
-  how paths form (worldlines),
-\item
-  how geometry governs those paths (distance, geodesics),
-\item
-  and how determinism collapses possibility into history.
-\end{itemize}
-
-Now we need to understand:
+Because the Scheduler ignores the wall clock entirely, you can pause the
+universe for a thousand years between ticks, inspect every atom, and when you resume
+execution the next rewrite will be \emph{identical}. Timing cannot influence causality.
 
 \begin{quote}
-\textbf{What does the area around a worldline look like?}
+The Heisenbug cannot run. It cannot hide. Time has no power here.
 \end{quote}
 
+Determinism makes debugging safe again: observing the universe no longer disturbs the universe.
+
+%----------------------------------------------------------------------
+% TikZ: Heisenbug Extinction
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    world/.style={-{Stealth}, thick},
+    altworld/.style={-{Stealth}, thick, dashed},
+    tick/.style={circle, fill=black, inner sep=1pt},
+    labelstyle/.style={font=\scriptsize},
+    >=Stealth
+]
+
+% Classical system (top)
+\node[labelstyle] at (-4,1.8) {Classical System};
+
+\draw[world, gray!70] (-4,1.5) -- (-1,1.5);
+\draw[altworld, red!80!black] (-4,1.3) -- (-2.2,1.3) .. controls (-1.5,1.3) and (-1.0,0.9) .. (-0.5,0.6);
+
+\node[tick] (c0) at (-4,1.5) {};
+\node[tick] (c1) at (-3,1.5) {};
+\node[tick] (c2) at (-2,1.5) {};
+\node[tick] (c3) at (-1,1.5) {};
+
+\node[labelstyle, above] at (-3,1.5) {$t_1$};
+\node[labelstyle, above] at (-2,1.5) {$t_2$};
+
+% breakpoint marker
+\draw[red!80!black, thick] (-2,1.7) -- (-2,1.3);
+\node[labelstyle, above, red!80!black] at (-2,1.75) {Debugger attached};
+
+\node[labelstyle, align=left] at (0.8,1.4)
+    {\scriptsize Same input, different timing\\\scriptsize $\Rightarrow$ different outcome (Heisenbug)};
+
+% CΩMPUTER system (bottom)
+\node[labelstyle] at (-4,-0.2) {C$\Omega$MPUTER};
+
+\draw[world, blue!80!black] (-4,0) -- (-1,0);
+\draw[altworld, blue!40!black, densely dotted] (-4,-0.2) -- (-1,-0.2);
+
+\node[tick] (d0) at (-4,0) {};
+\node[tick] (d1) at (-3,0) {};
+\node[tick] (d2) at (-2,0) {};
+\node[tick] (d3) at (-1,0) {};
+
+\node[labelstyle, above] at (-3,0) {$t_1$};
+\node[labelstyle, above] at (-2,0) {$t_2$};
+
+% breakpoint marker
+\draw[gray!70, thick] (-2,0.2) -- (-2,-0.2);
+\node[labelstyle, above, gray!70] at (-2,0.25) {Paused arbitrarily};
+
+\node[labelstyle, align=left] at (0.8,0.0)
+    {\scriptsize Wall-clock ignored, Scheduler canonical\\\scriptsize $\Rightarrow$ same outcome, no Heisenbug};
+
+\end{tikzpicture}
+\caption{In classical systems, attaching a debugger perturbs timing and can change the outcome
+(a Heisenbug). In C$\Omega$MPUTER, the Scheduler ignores time, so observation cannot alter the
+worldline. The Observer Effect is dead.}
+\label{fig:heisenbug-extinction}
+\end{figure}
+
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
+
+\section{6.7 --- Worldlines Are Optimization}
+\label{6.7-worldlines-are-optimization}
+
+Optimization is nothing but \textbf{geodesic alignment}. Every classical optimization trick—
+constant folding, dead code elimination, loop unrolling—is a geometric act:
+
 \begin{itemize}
-\tightlist
-\item
-  How do worlds cluster?\\
-\item
-  Why are some universes adjacent?
-\item
-  Why are others ``far'' in possibility space?
-\item
-  Why do some futures feel ``available'' and others don't?
-\item
-  How does structure shape neighborhoods?
+    \item \textbf{Dead code elimination}: removes detours entirely.
+    \item \textbf{Inlining}: collapses wormholes, removing overhead.  
+    \item \textbf{Memoization}: creates a shortcut—effectively a wormhole—that reduces
+    the Rulial Distance between two states.
 \end{itemize}
 
-This is the domain of Chapter 7. Where we study the \textbf{local
-geometry} around a worldline --- the neighborhoods that define the feel
-of a system.
+Fast code feels elegant because it is geometrically direct.
+
+\subsection*{FOR THE NERDS™: Optimization as Discrete Gradient Descent}
+
+Fix an input state $S_{\mathrm{in}}$ and a desired output state $S_{\mathrm{out}}$.
+Consider the set $\mathcal{W}$ of all legal worldlines:
+
+\[
+\mathcal{W} =
+\left\{
+(S_i)_{i=0}^N \ \middle|\ 
+S_0 = S_{\mathrm{in}},\ S_N = S_{\mathrm{out}},\ S_{i+1} = \mathrm{step}(S_i)
+\right\}.
+\]
+
+Define a \textbf{cost functional} over worldlines:
+
+\[
+\mathcal{C}((S_i)_{i=0}^N)
+= \sum_{i=0}^{N-1} c(S_i, S_{i+1}),
+\]
+
+where $c$ is a local cost, such as:
+
+\begin{itemize}
+    \item $c = 1$ (path length, i.e.\ Rulial Distance),
+    \item or $c = \mathcal{F}(S_i)$ (friction-weighted cost),
+    \item or a weighted combination with resource usage (memory, I/O, etc.).
+\end{itemize}
+
+Optimization is then:
+
+\[
+\text{Find } (S_i^\star) \in \mathcal{W} \text{ minimizing } \mathcal{C}.
+\]
+
+Compiler transforms and refactors can be viewed as \textbf{discrete gradient steps}
+on $\mathcal{C}$: local rewrites to the rule set or program graph that strictly
+decrease the expected cost along the induced worldline.
+
+\begin{quote}
+You are not “making the code faster.” You are performing gradient descent
+on the manifold of possible universes, aligning your worldline with the geodesic.
+\end{quote}
+
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
+
+\section*{FOR THE NERDS™: Worldlines and Lambda Calculus Reduction}
+
+If you squint, a worldline is a reduction sequence in Lambda Calculus. Each rewrite is a kind of
+redex collapse. But the analogy breaks quickly: RMG reductions operate in a metric space, support
+explicit structure persistence, allow recursive edges, and operate over nested, multi-scale graphs.
+
+The key point: the \textbf{Scheduler is the reduction strategy}. Not metaphorically—literally.  
+Just as lambda calculi pick leftmost-outermost or CBV, the Scheduler picks which match collapses next.
+The difference is that RMG space is curved, structured, and globally coherent.
+
+\begin{center}
+\rule{0.5\linewidth}{0.5pt}
+\end{center}
+
+\section{6.8 --- Transition: From Worldlines to Neighborhoods}
+\label{6.8-transition}
+
+We now understand individual execution paths. But systems are not just lines—they are \emph{fields}.
+To understand real computation, we must study the \textbf{space around the worldline}:
+
+\begin{itemize}
+    \item Which nearby futures are viable?  
+    \item Which states are “adjacent,” and which require massive refactoring to reach?  
+    \item Why do some systems feel flexible while others feel rigid and brittle?  
+\end{itemize}
+
+These questions pull us into the domain of local geometry—\textbf{Neighborhoods}—the topic of Chapter 7.
+
+%----------------------------------------------------------------------
+% Deterministic Scheduler Specification
+%----------------------------------------------------------------------
+\clearpage
+
+\section{Deterministic Scheduler Specification}
+\label{appendix:scheduler-spec}
+
+\noindent\textit{This appendix is not required to understand Chapter 6, but provides the formal machinery for those implementing the runtime.}
+
+In this appendix we make precise what was stated informally in
+Chapter~\ref{chapter-6-worldlines-execution-as-geodesics}: that the
+Scheduler induces a \emph{canonical} next-step transition for every
+reachable universe state.
+
+\section{Axioms and Notation}
+
+Let:
+
+\begin{itemize}
+    \item $\mathcal{S}$ be the set of all valid RMG universe states.
+    \item $\mathcal{R}$ be a finite set of DPO rewrite rules.
+    \item Each rule $r \in \mathcal{R}$ has a unique identifier $\mathrm{id}(r)$
+          drawn from a totally ordered set $(\mathbb{R}_{\text{id}}, <_{\text{rule}})$.
+    \item Each rule $r$ is given by a production $(L_r \xleftarrow{l_r} K_r \xrightarrow{r_r} R_r)$
+          in the usual DPO sense.
+\end{itemize}
+
+For a given state $S \in \mathcal{S}$, define the set of \textbf{legal matches}:
+
+\[
+\mathsf{Matches}(S)
+= \left\{ (r, \mu) \,\middle|\,
+    r \in \mathcal{R},\;
+    \mu : L_r \hookrightarrow S\ \text{is a monomorphism satisfying all gluing conditions}
+    \right\}.
+\]
+
+We assume:
+
+\begin{enumerate}
+    \item Each universe state $S$ has a stable node and edge identity scheme,
+          inducing a total order $<_{\text{id}}$ over all node and edge IDs.
+    \item For each match $(r, \mu)$ we can extract a finite, ordered tuple of IDs
+          touched by the match:
+          \[
+          \mathsf{ids}(r, \mu) = (i_1, i_2, \dots, i_k)
+          \]
+          where $(i_1 <_{\text{id}} i_2 <_{\text{id}} \dots <_{\text{id}} i_k)$.
+    \item We assume the existence of a \emph{canonical embedding hash}
+          \[
+          h_S : \mathsf{Matches}(S) \to \mathbb{H}
+          \]
+          into a totally ordered set $(\mathbb{H}, <_{\text{hash}})$ such that
+          distinct matches induce distinct hashes. (In practice this can be a
+          deterministic hash of $(\mathrm{id}(r), \mathsf{ids}(r,\mu), S)$.)
+\end{enumerate}
+
+\section{Ordering Matches}
+
+We now define a strict total order $<_{\text{match}}$ on $\mathsf{Matches}(S)$
+which the Scheduler will use for selection.
+
+For two matches $m_1=(r_1,\mu_1)$ and $m_2=(r_2,\mu_2)$ in $\mathsf{Matches}(S)$,
+we say $m_1 <_{\text{match}} m_2$ iff the following lexicographic chain holds:
+
+\begin{enumerate}
+    \item \textbf{Rule priority:}
+          \[
+          \mathrm{id}(r_1) <_{\text{rule}} \mathrm{id}(r_2),
+          \]
+          or, if equal,
+    \item \textbf{Structural footprint:}
+          \[
+          \mathsf{ids}(r_1,\mu_1) <_{\text{lex}} \mathsf{ids}(r_2,\mu_2),
+          \]
+          or, if equal,
+    \item \textbf{Canonical embedding hash:}
+          \[
+          h_S(m_1) <_{\text{hash}} h_S(m_2).
+          \]
+\end{enumerate}
+
+Here $<_{\text{lex}}$ is the usual lexicographic order induced by $<_{\text{id}}$.
+
+\begin{quote}
+The third component ($h_S$) only matters in pathological cases where two matches
+have identical rule IDs and identical ordered ID-tuples. It serves as a
+tie-breaker of last resort, ensuring a strict total order on matches.
+\end{quote}
+
+\section{Conflict Elimination}
+
+Two matches $m_1 = (r_1, \mu_1)$ and $m_2 = (r_2, \mu_2)$ are said to
+\textbf{conflict} if their images overlap:
+
+\[
+\mathrm{im}(\mu_1) \cap \mathrm{im}(\mu_2) \neq \varnothing.
+\]
+
+Given $\mathsf{Matches}(S)$, define the \emph{conflict-free subset} selected
+by leftmost-priority elimination:
+
+\[
+\mathsf{cf}(S) = \text{the unique subset obtained by:}
+\]
+
+\begin{enumerate}
+    \item Sorting $\mathsf{Matches}(S)$ in ascending $<_{\text{match}}$ order.
+    \item Scanning from smallest to largest, greedily including a match if and only if
+          it does not conflict with any match already included.
+\end{enumerate}
+
+In the worldline semantics used in Chapter~\ref{chapter-6-worldlines-execution-as-geodesics}
+we apply exactly \emph{one} rewrite per tick, so we do not exploit the full parallelism of
+$\mathsf{cf}(S)$. However, the same machinery can later be reused to define
+\emph{parallel} steps.
+
+\section{The Scheduler Function}
+
+We can now define the Scheduler as a partial function
+\[
+\sigma : \mathcal{S} \rightharpoonup \mathsf{Matches}(S)
+\]
+given by:
+
+\[
+\sigma(S) =
+\begin{cases}
+\text{the $<_{\text{match}}$-minimal element of } \mathsf{cf}(S), & \text{if } \mathsf{cf}(S) \neq \varnothing, \\
+\bot, & \text{otherwise,}
+\end{cases}
+\]
+where $\bot$ denotes that no further rewrites are possible (a halting state).
+
+\section{Determinism Guarantee}
+
+Given an initial state $S_0$, the worldline $(S_i)_{i \ge 0}$ defined by iterative application of
+$\mathrm{step}(S)$ is uniquely determined. This guarantees that different machines cannot produce
+different universes.
+
+\section{Runtime Contract for Deterministic Execution}
+\label{appendix:runtime-contract}
+
+This appendix specifies the \emph{minimal invariants} required of any
+implementation of the C$\Omega$MPUTER runtime. These are not guidelines.
+They are hard constraints. Violate them and you do not have a deterministic
+universe anymore—you have a slot machine wearing a lab coat.
+
+This contract exists to ensure that the worldline semantics of
+Chapter~\ref{chapter-6-worldlines-execution-as-geodesics} hold exactly,
+byte-for-byte, across replays, reboots, architectures, and compilers.
+
+\section{1. Stable Identity Invariant}
+
+Every node and edge in an RMG must carry a \textbf{stable, opaque identity}
+drawn from a totally ordered set.
+
+\begin{itemize}
+    \item IDs \emph{must not} encode memory addresses, timestamps,
+          allocation order, or any machine-dependent data.
+    \item IDs \emph{must survive} serialization, deserialization,
+          snapshotting, garbage collection, graph compaction, and transport.
+    \item The order $<_{\text{id}}$ must be global and total.
+\end{itemize}
+
+\begin{quote}
+If IDs drift, reorder, or depend on runtime artifacts, the universe fractures.
+\end{quote}
+
+\section{2. Deterministic Match Enumeration}
+
+Given a state $S$, every legal match $(r,\mu)$ must be:
+
+\begin{itemize}
+    \item Constructed in a \textbf{deterministic} enumeration order.
+    \item Expressed as a tuple of IDs \emph{sorted by} $<_{\text{id}}$.
+    \item Free of any dependence on hash randomization, memory layout,
+          or concurrency artifact.
+\end{itemize}
+
+\begin{quote}
+If the set of matches is nondeterministic, the Scheduler becomes a liar.
+\end{quote}
+
+\section{3. Lexicographic Rule Ordering Must Be Canonical}
+
+Each rewrite rule $r$ must have:
+
+\begin{itemize}
+    \item A globally unique rule ID $\mathrm{id}(r)$.
+    \item A total ordering on IDs.
+\end{itemize}
+
+This means rule identities:
+
+\begin{itemize}
+    \item must not depend on file paths, loader order, timestamps,
+          random seeds, or compiler heuristics,
+    \item must not be generated at runtime,
+    \item \emph{must} be fixed at compile time or definition time.
+\end{itemize}
+
+\section{4. Conflict Resolution Must Be Purely Structural}
+
+When eliminating overlapping matches:
+
+\begin{itemize}
+    \item Overlap must be defined purely as intersection of
+          $\mathrm{im}(\mu)$ sets.
+    \item The greedy leftmost-priority rule must be used exactly as
+          defined in Appendix~\ref{appendix:scheduler-spec}.
+    \item No heuristic (“prefer larger matches”, “prefer denser subgraphs”, etc.)
+          may be substituted.
+\end{itemize}
+
+\begin{quote}
+If conflict-resolution is heuristic, replay is impossible.
+\end{quote}
+
+\section{5. Canonical Embedding Hash Must Be Deterministic}
+
+The embedding hash $h_S(m)$ must satisfy:
+
+\begin{itemize}
+    \item For a given $(S,m)$, the hash is \textbf{bit-identical} across runs.
+    \item Hash functions must not use randomized salts.
+    \item Hash inputs must derive only from:
+    \begin{enumerate}
+        \item $\mathrm{id}(r)$,
+        \item $\mathsf{ids}(r,\mu)$,
+        \item The structural context of $S$ reachable from the match.
+    \end{enumerate}
+    \item Implementation must define normalization rules for serialization.
+\end{itemize}
+
+\begin{quote}
+If the hash isn't stable, your Scheduler is choosing futures with a coin flip.
+\end{quote}
+
+\section{6. DPO Construction Must Be Canonical}
+
+Given $(r,\mu)$:
+
+\begin{itemize}
+    \item Node/edge deletions must occur in an order independent of
+          container iteration details.
+    \item Newly created IDs must be drawn in deterministic order.
+    \item Embedding of $R$ into $S'$ must use canonical port ordering.
+    \item Graph rewriting must not depend on concurrent data structures.
+\end{itemize}
+
+\begin{quote}
+Different machines cannot produce different universes.
+\end{quote}
+
+\section{7. Time Must Not Exist}
+
+No rewrite \emph{may} depend on:
+
+\begin{itemize}
+    \item wall-clock time,
+    \item monotonic clocks,
+    \item random number generators (unless seeded deterministically),
+    \item thread scheduling order,
+    \item input arrival timing,
+    \item system clock drift.
+\end{itemize}
+
+\begin{quote}
+C$\Omega$MPUTER does not know what day it is.
+\end{quote}
+
+\section{8. No Hidden State Allowed}
+
+All state influencing rewrite decisions must be:
+
+\begin{itemize}
+    \item stored explicitly in the RMG, or
+    \item encoded in the rule ID / match structure.
+\end{itemize}
+
+No implementation-defined caches, memo-tables, or thread-local scratchpads may
+influence rule applicability.
+
+\begin{quote}
+If it isn’t in the graph, it isn’t in the universe.
+\end{quote}
+
+\section{9. Serialization Must Be Lossless and Deterministic}
+
+Any serialization round-trip $S \to \text{bytes} \to S'$ must satisfy:
+
+\[
+S' = S.
+\]
+
+This includes:
+
+\begin{itemize}
+    \item Graph structure.
+    \item Node/edge identities.
+    \item Port ordering.
+    \item Rule metadata.
+    \item Provenance annotations.
+\end{itemize}
+
+\section{10. Replay Must Be Perfect}
+
+Given a worldline $(S_i)_{i=0}^N$:
+
+\[
+S'_0 = S_0 \quad \Rightarrow \quad S'_i = S_i \quad \forall i.
+\]
+
+If not, then either:
+
+\begin{itemize}
+    \item the Scheduler is nondeterministic,
+    \item or the graph is not canonical,
+    \item or serialization is flawed,
+    \item or the implementation violated this contract.
+\end{itemize}
+
+\section{11. Fast Is Optional. Determinism Is Not.}
+
+A runtime may:
+
+\begin{itemize}
+    \item parallelize match enumeration,
+    \item cache embeddings,
+    \item fuse rule applications,
+    \item compact graphs,
+    \item JIT-compile rule kernels.
+\end{itemize}
+
+But these optimizations must preserve the exact \textbf{Scheduler-visible surface}:
+
+\[
+\sigma(S) \text{ must not change.}
+\]
+
+If it does, the optimization is illegal. Parallelism is an implementation detail; Determinism is the law.
+
+\begin{center}
+\rule{0.7\linewidth}{0.7pt}
+\end{center}
+
+\section*{The One-Sentence Contract}
+
+\begin{quote}
+\Large\textbf{
+Everything in the runtime may change—except the order in which the universe chooses its next legal rewrite.
+}
+\end{quote}
+
+Break this, and you break determinism. Preserve it, and you inherit all the geometry.
