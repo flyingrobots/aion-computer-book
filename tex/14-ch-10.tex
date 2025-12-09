@@ -1,4 +1,5 @@
 \chapter{Local NP Collapse}
+\label{chapter-10-local-np-collapse}
 
 \section{\textbf{Why some "hard" problems suddenly flatten when the manifold cooperates.}}
 
@@ -115,10 +116,14 @@ A massive percentage of the exponential branches in a typical search tree exist 
     \draw[thick, ->] (-2, 2) -- (-1, 0);
     \draw[thick, ->] (2, 2) -- (1, 0);
     \draw[thick, ->] (2, 2) -- (3, 0);
-    \fill[red!20] (-3, 0) circle (0.3); % Dead end
-    \fill[red!20] (-1, 0) circle (0.3); % Dead end
-    \fill[red!20] (1, 0) circle (0.3); % Dead end
-    \fill[green!20] (3, 0) circle (0.3); % Goal
+    \filldraw[fill=red!20, draw=red!70] (-3, 0) circle (0.3);
+    \node[font=\scriptsize] at (-3, 0) {$\times$};
+    \filldraw[fill=red!20, draw=red!70] (-1, 0) circle (0.3);
+    \node[font=\scriptsize] at (-1, 0) {$\times$};
+    \filldraw[fill=red!20, draw=red!70] (1, 0) circle (0.3);
+    \node[font=\scriptsize] at (1, 0) {$\times$};
+    \filldraw[fill=green!20, draw=green!60, very thick] (3, 0) circle (0.34);
+    \node[font=\scriptsize] at (3, 0) {Goal};
     \node[red, font=\scriptsize] at (0, 1) {Exponential Waste};
 
     % Collapsed Search
@@ -128,7 +133,8 @@ A massive percentage of the exponential branches in a typical search tree exist 
         \draw[thick, dashed, gray] (0, 4) -- (-2, 2) node[midway, left] {Forbidden};
         \draw[thick, ->] (2, 2) -- (3, 0);
         \draw[thick, dashed, gray] (2, 2) -- (1, 0) node[midway, left] {Invalid};
-        \fill[green!20] (3, 0) circle (0.3); % Goal
+        \filldraw[fill=green!20, draw=green!60, very thick] (3, 0) circle (0.34);
+        \node[font=\scriptsize] at (3, 0) {Goal};
         \node[blue, font=\scriptsize] at (2.5, 3) {Legal Path};
     \end{scope}
 \end{tikzpicture}

@@ -24,7 +24,7 @@ and optimization is nothing but geometry applied to these lines.
 \end{center}
 
 \section{What Is a Worldline?}
-\label{6.1-what-is-a-worldline}
+\label{sec:worldline-definition}
 
 A worldline is not a metaphor. In C$\Omega$MPUTER, it is a rigorously defined mathematical object:
 
@@ -157,10 +157,10 @@ Canonical ID ordering selects $m_A$ as the unique next rewrite.}
 \label{fig:scheduler-tie-breaker}
 \end{figure}
 
-This hierarchy ensures that the transition $S \rightarrow S{+}1$ is both deterministic and
+This hierarchy ensures that the transition $S_i \rightarrow S_{i+1}$ is both deterministic and
 \textbf{canonical}. Replay the same input, you get the same universe. Byte-for-byte, edge-for-edge.
 
-This property is the bedrock on which everything else stands. (For the formal specification, see Appendix~\ref{appendix:scheduler-spec}).
+This property is the bedrock on which everything else stands. (For the formal specification, see Section~\ref{sec:scheduler-spec}).
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -217,7 +217,7 @@ Refactoring is not merely changing code—it is unbending spacetime.
 \subsection{Rulial Friction: Why Some Paths Hurt More Than Others}
 
 Inertia explains why curved worldlines resist straightening. But curvature alone
-is not the whole story. Some parts of the universe are easy to rewrite---light,
+is not the whole story. Some parts of the universe are easy to rewrite\emd{}light,
 loose, low-stakes. Others are load-bearing megastructures: dense dependency hubs,
 core libraries, highly-shared subgraphs. These carry what we call
 \textbf{Rulial Friction}.
@@ -299,7 +299,7 @@ Technical debt is not just curvature—it is curvature through high-friction spa
 Let $S$ be a universe state, and let $m = (r, \mu)$ be a legal match producing successor
 state $S' = r(S)$.
 
-We define the \textbf{local friction tensor} $\Phi(S, m)$ as:
+We define the \textbf{local friction measure} $\Phi(S, m)$ as:
 
 \[
 \Phi(S, m)
@@ -363,7 +363,7 @@ $d$ is the Rulial Distance.
     \item $\kappa$ large: tiny changes lead to wildly different futures (high curvature).
 \end{itemize}
 
-We then define the \textbf{Refactor Difficulty} tensor:
+We then define the \textbf{Refactor Difficulty} measure:
 
 \[
 \Psi(S,m) = \kappa(S,m) \cdot \Phi(S,m),
@@ -434,11 +434,11 @@ cannot avoid doing this because history \emph{is} the substrate.
 Debugging becomes archaeology. You are not guessing—you are excavating.
 
 \paragraph{The Rulial Heat Map.}
-Diffing worldlines is not textual---it is geometric. Imagine overlaying the
+Diffing worldlines is not textual\emd{}it is geometric. Imagine overlaying the
 \emph{Happy Path} universe and the \emph{Buggy Path} universe atop one another.
 Nodes and edges that match perfectly cancel out; they become transparent. But
-any structural difference---a missing edge, an extra allocation, a mutated
-subgraph---begins to glow.
+any structural difference\emd{}a missing edge, an extra allocation, a mutated
+subgraph\emd{}begins to glow.
 
 \begin{quote}
 Divergence has a temperature. Stable regions stay cool. Error regions burn hot.
@@ -821,11 +821,11 @@ These questions pull us into the domain of local geometry—\textbf{Neighborhood
 \clearpage
 
 \section{Deterministic Scheduler Specification}
-\label{appendix:scheduler-spec}
+\label{sec:scheduler-spec}
 
-\noindent\textit{This appendix is not required to understand Chapter 6, but provides the formal machinery for those implementing the runtime.}
+\noindent\textit{This section is not required to understand Chapter 6, but provides the formal machinery for those implementing the runtime.}
 
-In this appendix we make precise what was stated informally in
+In this section we make precise what was stated informally in
 Chapter~\ref{chapter-6-worldlines-execution-as-geodesics}: that the
 Scheduler induces a \emph{canonical} next-step transition for every
 reachable universe state.
@@ -928,6 +928,8 @@ by leftmost-priority elimination:
           it does not conflict with any match already included.
 \end{enumerate}
 
+\medskip
+
 In the worldline semantics used in Chapter~\ref{chapter-6-worldlines-execution-as-geodesics}
 we apply exactly \emph{one} rewrite per tick, so we do not exploit the full parallelism of
 $\mathsf{cf}(S)$. However, the same machinery can later be reused to define
@@ -968,7 +970,7 @@ This contract exists to ensure that the worldline semantics of
 Chapter~\ref{chapter-6-worldlines-execution-as-geodesics} hold exactly,
 byte-for-byte, across replays, reboots, architectures, and compilers.
 
-\section{1. Stable Identity Invariant}
+\section{Stable Identity Invariant}
 
 Every node and edge in an RMG must carry a \textbf{stable, opaque identity}
 drawn from a totally ordered set.
@@ -985,7 +987,7 @@ drawn from a totally ordered set.
 If IDs drift, reorder, or depend on runtime artifacts, the universe fractures.
 \end{quote}
 
-\section{2. Deterministic Match Enumeration}
+\section{Deterministic Match Enumeration}
 
 Given a state $S$, every legal match $(r,\mu)$ must be:
 
@@ -1000,7 +1002,7 @@ Given a state $S$, every legal match $(r,\mu)$ must be:
 If the set of matches is nondeterministic, the Scheduler becomes a liar.
 \end{quote}
 
-\section{3. Lexicographic Rule Ordering Must Be Canonical}
+\section{Lexicographic Rule Ordering Must Be Canonical}
 
 Each rewrite rule $r$ must have:
 
@@ -1018,7 +1020,7 @@ This means rule identities:
     \item \emph{must} be fixed at compile time or definition time.
 \end{itemize}
 
-\section{4. Conflict Resolution Must Be Purely Structural}
+\section{Conflict Resolution Must Be Purely Structural}
 
 When eliminating overlapping matches:
 
@@ -1026,7 +1028,7 @@ When eliminating overlapping matches:
     \item Overlap must be defined purely as intersection of
           $\mathrm{im}(\mu)$ sets.
     \item The greedy leftmost-priority rule must be used exactly as
-          defined in Appendix~\ref{appendix:scheduler-spec}.
+          defined in Section~\ref{sec:scheduler-spec}.
     \item No heuristic (“prefer larger matches”, “prefer denser subgraphs”, etc.)
           may be substituted.
 \end{itemize}
@@ -1035,7 +1037,7 @@ When eliminating overlapping matches:
 If conflict-resolution is heuristic, replay is impossible.
 \end{quote}
 
-\section{5. Canonical Embedding Hash Must Be Deterministic}
+\section{Canonical Embedding Hash Must Be Deterministic}
 
 The embedding hash $h_S(m)$ must satisfy:
 
@@ -1055,7 +1057,7 @@ The embedding hash $h_S(m)$ must satisfy:
 If the hash isn't stable, your Scheduler is choosing futures with a coin flip.
 \end{quote}
 
-\section{6. DPO Construction Must Be Canonical}
+\section{DPO Construction Must Be Canonical}
 
 Given $(r,\mu)$:
 
@@ -1071,7 +1073,7 @@ Given $(r,\mu)$:
 Different machines cannot produce different universes.
 \end{quote}
 
-\section{7. Time Must Not Exist}
+\section{Time Must Not Exist}
 
 No rewrite \emph{may} depend on:
 

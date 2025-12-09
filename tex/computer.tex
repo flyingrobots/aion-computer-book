@@ -24,8 +24,9 @@
 \usepackage{listings}
 \usepackage[most]{tcolorbox}
 \usepackage{newunicodechar}
-\usepackage[bookmarks=false]{hyperref}
+\usepackage[bookmarks=true]{hyperref}
 \usepackage[nameinlink]{cleveref}
+\usepackage{fancyhdr}
 \usepackage{extpfeil} % for \xRightarrow in CODEx appendix
 \usepackage{silence}  % selectively silence noisy but harmless warnings
 \SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n} % fix missing bold shape warning
@@ -39,13 +40,21 @@
 
 \theoremstyle{remark}
 \newtheorem{remark}[definition]{Remark}
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{proposition}{proposition}{propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+\crefname{conjecture}{conjecture}{conjectures}
+\Crefname{conjecture}{Conjecture}{Conjectures}
+\crefname{remark}{remark}{remarks}
+\Crefname{remark}{Remark}{Remarks}
 
 % Suppress noisy warnings to keep builds clean
 \WarningFilter{latex}{`h' float specifier changed to `ht'}
 \WarningFilter{newunicodechar}{Redefining Unicode character}
 \WarningFilter{latexfont}{Font shape `U/stmry/b/n' undefined}
 \WarningFilter{pdftex}{destination with the same identifier}
-\WarningFilter{latex}{Overfull \\hbox}
+\WarningFilter{latex}{Overfull \hbox}
 
 % Relax line-breaking to avoid over/underfull box chatter
 \hbadness=10000
@@ -58,6 +67,17 @@
 
 % TOC: list chapters only
 \setcounter{tocdepth}{0}
+
+% Centered page numbers in footer on every page (including chapter openings)
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\thepage}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[C]{\thepage}
+}
 
 \hypersetup{
   colorlinks=true,
@@ -228,7 +248,6 @@ For the full legal code of the license, see:\\[0.25em]
 
 \mainmatter
 \input{01-note-to-the-reader}
-\input{02-part-1-into}
 \input{03-ch-01}
 \input{04-ch-02}
 \input{05-ch-03}

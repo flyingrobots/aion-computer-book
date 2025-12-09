@@ -11,6 +11,8 @@
 \providecommand{\AIONSignature}[1][1]{\AIONWordmarkSerif}
 \providecommand{\AIONProjectURL}{\url{https://github.com/flyingrobots/aion}}
 
+\newcommand{\emd}{\textemdash\!}
+
 % Simple boxed callout shared by late chapters
 \newtcolorbox{nerdbox}{
   colback=black!5!white,
@@ -23,7 +25,7 @@
 % Make hyperref bookmark strings robust (avoid nullfont warnings)
 \pdfstringdefDisableCommands{%
   \def\texttt#1{#1}% strip typewriter in bookmarks
-  \def\COMPUTER{COMPUTER}% inline wordmark
+  \def\COMPUTER{CΩMPUTER}% inline wordmark in bookmarks
   \def\({}% ignore math delimiters in bookmarks
   \def\){}%
 }

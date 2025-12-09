@@ -59,9 +59,9 @@ This is the axis of permanence. Aios is the structural hull carved out by the ru
 \centering
 \begin{tikzpicture}[scale=1.2, x={(1cm,0cm)}, y={(0.5cm,0.5cm)}, z={(0cm,1cm)}]
     % Draw Axes
-    \draw[->, thick, gray] (0,0,0) -- (5,0,0) node[anchor=west]{Chronos (Time)};
-    \draw[->, thick, gray] (0,0,0) -- (0,4,0) node[anchor=south west]{Kairos (Opportunity)};
-    \draw[->, thick, gray] (0,0,0) -- (0,0,4) node[anchor=west]{Aios (Structure)};
+    \draw[->, thick, gray] (0,0,0) -- (5,0,0) node[anchor=west, xshift=4pt, outer sep=2pt]{Chronos (Time)};
+    \draw[->, thick, gray] (0,0,0) -- (0,4,0) node[anchor=west, xshift=4pt, yshift=2pt, outer sep=2pt]{Kairos (Opportunity)};
+    \draw[->, thick, gray] (0,0,0) -- (0,0,4) node[anchor=west, xshift=4pt, outer sep=2pt]{Aios (Structure)};
 
     % Draw Chronos Path
     \draw[blue, thick, ->] (0,0,0) .. controls (1,0,0.5) and (2,0,-0.5) .. (3,0,0);
@@ -137,7 +137,7 @@ The definition is beautifully simple:
 \textbf{The Rulial Distance between two states is the minimal number of legal rewrites needed to transform one into the other.}
 \end{quote}
 
-To make this concrete, let us abandon abstract graphs and use a tangible example we will return to throughout this book: the **Life-Block**. Imagine a tiny, 3x3 binary grid universe with two simple rules:
+To make this concrete, let us abandon abstract graphs and use a tangible example we will return to throughout this book: the \textbf{Life-Block}. Imagine a tiny, 3x3 binary grid universe with two simple rules:
 
 \begin{itemize}
     \item \textbf{Rule A (Spawn):} An empty cell fills (0 $\to$ 1) if it has exactly 2 horizontal neighbors.
@@ -259,7 +259,7 @@ An RMG stores state. A DPO rewrite transforms state. Therefore, it follows that 
 
 \textbf{Storage is simply frozen computation. Computation is simply storage in motion.}
 
-There is no longer a conceptual split between code and data. The Life-Block grid *is* data, but it is also the *program* that generates the next grid.
+There is no longer a conceptual split between code and data. The Life-Block grid \emph{is} data, but it is also the \emph{program} that generates the next grid.
 
 Rulial Distance is therefore a metric on computation-as-storage. It does not measure ``how different two states look''; it measures the computational work required to turn one frozen computation into another. In other words, it is the metric tensor of the machine's geometry. This is the key that eventually collapses the concepts of ``runtime'' and ``compiler'' into a singular entity, a concept we will explore fully in Part V.
 
@@ -570,7 +570,7 @@ If this conjecture holds even in restricted classes of RMGs, it opens the door t
 \section*{Forward References: Where These Structures Reappear}
 \addcontentsline{toc}{section}{Forward References}
 
-The formal machinery introduced in this appendix becomes essential in later parts of the book:
+The formal machinery introduced in this section becomes essential in later parts of the book:
 
 \begin{itemize}
 
@@ -582,17 +582,17 @@ The formal machinery introduced in this appendix becomes essential in later part
                 The discrete energy landscape introduced here generalizes to higher-dimensional
                 computational curvature.
 
-          \item \textbf{Chapter 10 (Local NP Collapse)}\,:  
+         \item \textbf{Chapter~\ref{chapter-10-local-np-collapse} (Local NP Collapse)}\,:  
                 The Rulial Distance $d(s,t)$ is used to formalize the notion of algorithmic 
                 effort as a geometric quantity. NP-like behavior appears as regions of extremely 
                 high curvature or narrow funnels in the future cones $F_k(s)$.
 
-          \item \textbf{Chapter 11 (Rewrite Bundles and Superposition)}\,:  
+         \item \textbf{Chapter~\ref{chapter-11-rewrite-bundles} (Rewrite Bundles and Superposition)}\,:  
                 The future cone $F(s)$ and observer distance $D_k(\gamma_1,\gamma_2)$ define the 
                 geometry over which rewrite bundles are superposed. Divergence of worldlines is 
                 expressed using the pseudometric structure introduced here.
 
-          \item \textbf{Chapter 12 (Interference and Collapse)}\,:  
+         \item \textbf{Chapter~\ref{chapter-12-interference} (Interference and Collapse)}\,:  
                 The categorical view of rewrites as morphisms in the free path category becomes 
                 the substrate for defining interference, collapse, and observer-dependent dynamics.
       \end{itemize}
