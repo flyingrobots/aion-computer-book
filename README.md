@@ -43,17 +43,6 @@ For engineers who've spent too many hours debugging systems that hide their own 
 
 If you’ve ever had the feeling that “computer science,” “physics,” and “AI” are secretly arguing about the same object with different accents, this book is the claim that you’re right, and a proposal for that object’s name.
 
-## License
-
-This repository contains only the CΩMPUTER manuscript, figures, compiled PDF, and documentation. These materials are © 2025 James Ross and licensed under **Creative Commons Attribution 4.0 (CC BY 4.0)**; see [`LICENSE`](./LICENSE) for details.
-
-The AIΩN Runtime and JITOS software projects referenced by the paper are *not* part of this repository. Those separate codebases are licensed under the **Apache License, Version 2.0** (see their own repositories or [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
-
-## More on AIΩN
-
-For updates, see the main AIΩN repository:
-[github.com/flyingrobots/aion](https://github.com/flyingrobots/aion)
-
 ---
 
 > *Below is the Introduction to Part 1. If you want to continue reading, please [download the pdf and read the book in its entirety for free.](./computer.pdf)*
@@ -208,5 +197,20 @@ Stay curious, and build boldly.
 > [3] For example, the ACM “Debugging Mind-Set” report (CACM Practice, 2025) cites 35–50% of developer time spent validating/debugging; the Cambridge Judge Business School study (Undo, 2023 reprint) reports roughly 50% of programming time on bug-fixing and rework.
 
 ---
+
+<div align="center">
+<h3><a href="https://github.com/flyingrobots/aion-computer-book/blob/book/computer.pdf">Download and Read CΩMPUTER for Free</a></h3>
+</div>
+
+## License
+
+This repository contains only the CΩMPUTER manuscript, figures, compiled PDF, and documentation. These materials are © 2025 James Ross and licensed under **Creative Commons Attribution 4.0 (CC BY 4.0)**; see [`LICENSE`](./LICENSE) for details.
+
+The AIΩN Runtime and JITOS software projects referenced by the paper are *not* part of this repository. Those separate codebases are licensed under the **Apache License, Version 2.0** (see their own repositories or [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
+
+## More on AIΩN
+
+For updates, see the main AIΩN repository:
+[github.com/flyingrobots/aion](https://github.com/flyingrobots/aion)
 
 > *That was the Introduction to Part 1. If you want to continue reading, please [download the pdf and read the book in its entirety for free.](./computer.pdf)*
