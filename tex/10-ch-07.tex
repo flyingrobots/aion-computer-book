@@ -1,20 +1,22 @@
 % Chapter 7: Neighborhoods of Universes
 % Preamble-free include; colors and callout box are local conveniences.
 
-% Local styling helpers
-\definecolor{deepblue}{RGB}{20, 40, 90}
-\definecolor{accentred}{RGB}{180, 40, 40}
-\definecolor{boxbg}{RGB}{245, 245, 245}
-
-% Simple call-out box for this chapter
-\newtcolorbox{callout}[1]{
-  colback=boxbg,
-  colframe=deepblue,
-  fonttitle=\bfseries,
-  title=#1,
-  boxrule=0.5pt,
-  arc=2pt
-}
+% Local styling helpers (guarded to avoid redefinition clashes)
+\makeatletter
+\@ifundefined{color@deepblue}{\definecolor{deepblue}{RGB}{20, 40, 90}}{}
+\@ifundefined{color@accentred}{\definecolor{accentred}{RGB}{180, 40, 40}}{}
+\@ifundefined{color@boxbg}{\definecolor{boxbg}{RGB}{245, 245, 245}}{}
+\@ifundefined{callout}{%
+  \newtcolorbox{callout}[1]{
+    colback=boxbg,
+    colframe=deepblue,
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.5pt,
+    arc=2pt
+  }
+}{}
+\makeatother
 
 \chapter{Neighborhoods of Universes}
 \label{chapter-7-neighborhoods-of-universes}

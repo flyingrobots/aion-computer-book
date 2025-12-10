@@ -75,22 +75,7 @@ It represents a \textbf{computational cosmology}, but only in the most functiona
 
 The core model, which we call \textbf{C\texorpdfstring{\boldmath$\Omega$}{Omega}MPUTER}, represents a shift from imperative instruction to structural evolution. It is a robust system built from just three simple, yet deeply expressive, primitives.
 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[node distance=2.5cm]
-        \node (RMG) [draw, circle, align=center, minimum size=2.5cm] {\textbf{RMG} \\ (Structure)};
-        \node (DPO) [draw, circle, align=center, minimum size=2.5cm, right of=RMG, xshift=2cm] {\textbf{DPO} \\ (Laws)};
-        \node (Worldline) [draw, circle, align=center, minimum size=2.5cm, below of=RMG, xshift=2.25cm] {\textbf{Worldlines} \\ (History)};
-        
-        \draw[->, thick, bend left] (RMG) to node[above] {Governed by} (DPO);
-        \draw[->, thick, bend left] (DPO) to node[right] {Generates} (Worldline);
-        \draw[->, thick, bend left] (Worldline) to node[left] {Records} (RMG);
-        
-        \node[align=center, below=0.5cm of Worldline] {The Trinity of \COMPUTER{}};
-    \end{tikzpicture}
-    \caption{The three primitives interact cyclically: Structure defines the state, Laws define the change, and History captures the path.}
-    \label{fig:computer_trinity}
-\end{figure}
+\input{fig-trinity}
 
 \begin{enumerate}
     \item \textbf{Graphs within Graphs (RMGs)}: The foundational structure is provided by \textbf{Recursive Meta-Graphs}. Unlike standard flat graphs, RMGs possess the fractal ability to contain other graphs within their nodes and edges. This allows for the natural, hierarchical representation of any structured data, capable of zooming from the microscopic detail of an abstract syntax tree out to the macroscopic architecture of an entire distributed system without changing the data model.

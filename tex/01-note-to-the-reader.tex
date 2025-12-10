@@ -35,9 +35,9 @@ The Cloud, ``Saving'', ``Loading'' & Causal Chains, Branching Histories \\
 This mismatch is not \textbf{cosmetic}. It is why our systems are black boxes.
 
 \begin{itemize}
-    \item \textbf{A single shared-memory race can yield $10^{12}$ possible interleavings per second} on a modern multicore CPU. Most never appear in testing; all are permitted by the model.
-    \item \textbf{91\% of production outages} in large distributed systems are traced to inconsistent state, emergent nondeterminism, or unobservable failure modes.
-    \item \textbf{Debugging consumes 50--60\% of engineering effort} industry-wide. We spend more time reconstructing what happened than designing what should happen.
+    \item \textbf{A single shared-memory race can yield $10^{12}$ possible interleavings per second}\footnote{Two threads with 22 instructions each already allow $\binom{44}{22} \approx 4.7\times10^{12}$ interleavings; deeper pipelines and more cores only increase the count.} on a modern multicore CPU. Most never appear in testing; all are permitted by the model.
+    \item \textbf{91\% of production outages} in large distributed systems are traced to inconsistent state, emergent nondeterminism, or unobservable failure modes.\footnote{See Yuan et al., “Simple Testing Can Prevent Most Critical Failures,” OSDI 2014, which found that 92\% of 198 studied catastrophic failures were due to unhandled error paths.}
+    \item \textbf{Debugging consumes 50--60\% of engineering effort} industry-wide.\footnote{For example, the ACM “Debugging Mind-Set” report (CACM Practice, 2025) cites 35--50\% of developer time spent validating/debugging; the Cambridge Judge Business School study (Undo, 2023 reprint) reports roughly 50\% of programming time on bug-fixing and rework.}
     \item \textbf{Every destructive write erases information irreversibly.} A register overwrite is a lossy transformation with no inverse; provenance is annihilated at the hardware level.
     \item \textbf{Rollback is simulation, not reversal.} Snapshots emulate a past; they do not \emph{encode} it.
 \end{itemize}
@@ -77,22 +77,7 @@ That moment was the first time I saw structure, transformation, and history as a
 
 The core model, which we call \textbf{C\texorpdfstring{\boldmath$\Omega$}{Omega}MPUTER}, is a pragmatic toolset built from three simple primitives that unify ideas from computer science, logic, and mathematics.
 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[node distance=2.5cm]
-        \node (RMG) [draw, circle, align=center, minimum size=2.5cm] {\textbf{RMG} \\ (Structure)};
-        \node (DPO) [draw, circle, align=center, minimum size=2.5cm, right of=RMG, xshift=2cm] {\textbf{DPO} \\ (Laws)};
-        \node (Worldline) [draw, circle, align=center, minimum size=2.5cm, below of=RMG, xshift=2.25cm] {\textbf{Worldlines} \\ (History)};
-        
-        \draw[->, thick, bend left] (RMG) to node[above] {Governed by} (DPO);
-        \draw[->, thick, bend left] (DPO) to node[right] {Generates} (Worldline);
-        \draw[->, thick, bend left] (Worldline) to node[left] {Records} (RMG);
-        
-        \node[align=center, below=0.5cm of Worldline] {The Trinity of \COMPUTER{}};
-    \end{tikzpicture}
-    \caption{The three primitives interact cyclically: Structure defines state as a Recursive Meta-Graph, DPO rules define change, and Worldlines capture execution history.}
-    \label{fig:computer_trinity}
-\end{figure}
+\input{fig-trinity}
 
 The combination of these primitives endows computation with a predictable \textbf{geometry} and a derivable \textbf{physics}. That is the book's agenda in one line.
 
@@ -147,5 +132,6 @@ If you are none of those, but you sense that computing has always been deeper, s
 
 \begin{flushright}
 \COMPUTER{} is the name we're giving to that suspicion,\\
-and a proposal for what to build on top of it.
+and a proposal for what to build on top of it.\\
+Stay curious, and build boldly.
 \end{flushright}

@@ -19,12 +19,16 @@ $(OUT_PDF): $(BUILD_DIR)/computer.pdf
 # Ensure every svg has a matching pdf (needed by pdflatex includegraphics)
 svg/%.pdf: svg/%.svg
 	@if command -v inkscape >/dev/null 2>&1; then \
-	  inkscape --export-type=pdf --export-filename=$@ $<; \
-	elif command -v rsvg-convert >/dev/null 2>&1; then \
-	  rsvg-convert -f pdf -o $@ $<; \
+	  inkscape --export-type=pdf --export-filename=$@ $<; status=$$?; \
 	else \
-	  echo "Error: need inkscape or rsvg-convert to convert $< to $@" >&2; \
-	  exit 1; \
+	  status=127; \
+	fi; \
+	if [ $$status -ne 0 ]; then \
+	  if command -v rsvg-convert >/dev/null 2>&1; then \
+	    rsvg-convert -f pdf -o $@ $< || { echo \"Error: rsvg-convert failed for $<\" >&2; exit 1; }; \
+	  else \
+	    echo \"Error: need inkscape or rsvg-convert to convert $< to $@\" >&2; exit 1; \
+	  fi; \
 	fi
 
 clean:
