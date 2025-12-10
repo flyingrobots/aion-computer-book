@@ -1,0 +1,16 @@
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[node distance=2.5cm]
+        \node (RMG) [draw, circle, align=center, minimum size=2.5cm] {\textbf{RMG} \\ (Structure)};
+        \node (DPO) [draw, circle, align=center, minimum size=2.5cm, right of=RMG, xshift=2cm] {\textbf{DPO} \\ (Laws)};
+        \node (Worldline) [draw, circle, align=center, minimum size=2.5cm, below of=RMG, xshift=2.25cm] {\textbf{Worldlines} \\ (History)};
+
+        \draw[->, thick, bend left] (RMG) to node[above] {Governed by} (DPO);
+        \draw[->, thick, bend left] (DPO) to node[right] {Generates} (Worldline);
+        \draw[->, thick, bend left] (Worldline) to node[left] {Records} (RMG);
+
+        \node[align=center, below=0.5cm of Worldline] {The Trinity of \COMPUTER{}};
+    \end{tikzpicture}
+    \caption{The three primitives interact cyclically: Structure defines state as a Recursive Meta-Graph, DPO rules define change, and Worldlines capture execution history.}
+    \label{fig:computer_trinity}
+\end{figure}

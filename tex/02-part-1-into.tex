@@ -2,6 +2,16 @@
 \label{chap:introduction}
 \addcontentsline{toc}{chapter}{Introduction: A New Language for Thinking About Thinking Machines}
 
+\emph{Computers are nowhere near as simple as we pretend.}
+
+We cling to metaphors inherited from the early days of computing, relics of the 1970s and 80s that have calcified into dogma. We speak of files, processes, threads, stacks, heaps, and the ethereal "cloud." We visualize our data as documents sitting in folders, or as distinct objects interacting in a rigid hierarchy. These familiar terms offer a comforting, if superficial, surface view of the digital world—a user interface for the mind. Yet, lurking beneath this established lexicon lies an operational reality that is far stranger, infinitely deeper, and universally consistent: a fundamental world constructed entirely from \textbf{transformations}.
+
+The entire digital cosmos is built on change. There is no such thing as static data; there is only data waiting to be rewritten.
+
+Every line of code, every massive distributed system, every intricate relational database, every photo-realistic simulation, every nuanced AI model, every frustrating bug report, and every massive scientific computation—all of it—is ultimately an emergent phenomenon. It is built from atomic rules acting upon structured data, progressing step by deliberate step, from one defined state to the next. It is a perpetual chain of cause, effect, and mutation.
+
+Despite erecting the entire edifice of modern civilization upon this dynamic, computational substrate, our ability to reason about it remains strikingly deficient. We lack a sophisticated, agreed-upon vocabulary for describing the \textbf{shape of computation}. We are conceptually impoverished, unable to adequately articulate how programs truly evolve, how state transforms over time, how alternative possibilities interrelate, how execution histories converge or diverge, and how different, co-existing "universes" of behavior can reside within even the most rudimentary system. 
+
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
@@ -25,16 +35,6 @@
     \caption{The disconnect between the language we use to describe computers and the reality of how they operate.}
     \label{fig:surface_vs_reality}
 \end{figure}
-
-Computers are nowhere near as simple as we pretend.
-
-We cling to metaphors inherited from the early days of computing, relics of the 1970s and 80s that have calcified into dogma. We speak of files, processes, threads, stacks, heaps, and the ethereal "cloud." We visualize our data as documents sitting in folders, or as distinct objects interacting in a rigid hierarchy. These familiar terms offer a comforting, if superficial, surface view of the digital world—a user interface for the mind. Yet, lurking beneath this established lexicon lies an operational reality that is far stranger, infinitely deeper, and universally consistent: a fundamental world constructed entirely from \textbf{transformations}.
-
-The entire digital cosmos is built on change. There is no such thing as static data; there is only data waiting to be rewritten.
-
-Every line of code, every massive distributed system, every intricate relational database, every photo-realistic simulation, every nuanced AI model, every frustrating bug report, and every massive scientific computation—all of it—is ultimately an emergent phenomenon. It is built from atomic rules acting upon structured data, progressing step by deliberate step, from one defined state to the next. It is a perpetual chain of cause, effect, and mutation.
-
-Despite erecting the entire edifice of modern civilization upon this dynamic, computational substrate, our ability to reason about it remains strikingly deficient. We lack a sophisticated, agreed-upon vocabulary for describing the \textbf{shape of computation}. We are conceptually impoverished, unable to adequately articulate how programs truly evolve, how state transforms over time, how alternative possibilities interrelate, how execution histories converge or diverge, and how different, co-existing "universes" of behavior can reside within even the most rudimentary system. 
 
 In physics, we have a language for how matter moves through space and time. In computing, we generally only have a language for the instructions we give the machine, not for the behavior that emerges from them. In essence, we lack a \textbf{physics of computation}.
 
@@ -75,22 +75,7 @@ It represents a \textbf{computational cosmology}, but only in the most functiona
 
 The core model, which we call \textbf{C\texorpdfstring{\boldmath$\Omega$}{Omega}MPUTER}, represents a shift from imperative instruction to structural evolution. It is a robust system built from just three simple, yet deeply expressive, primitives.
 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[node distance=2.5cm]
-        \node (RMG) [draw, circle, align=center, minimum size=2.5cm] {\textbf{RMG} \\ (Structure)};
-        \node (DPO) [draw, circle, align=center, minimum size=2.5cm, right of=RMG, xshift=2cm] {\textbf{DPO} \\ (Laws)};
-        \node (Worldline) [draw, circle, align=center, minimum size=2.5cm, below of=RMG, xshift=2.25cm] {\textbf{Worldlines} \\ (History)};
-        
-        \draw[->, thick, bend left] (RMG) to node[above] {Governed by} (DPO);
-        \draw[->, thick, bend left] (DPO) to node[right] {Generates} (Worldline);
-        \draw[->, thick, bend left] (Worldline) to node[left] {Records} (RMG);
-        
-        \node[align=center, below=0.5cm of Worldline] {The Trinity of \COMPUTER{}};
-    \end{tikzpicture}
-    \caption{The three primitives interact cyclically: Structure defines the state, Laws define the change, and History captures the path.}
-    \label{fig:computer_trinity}
-\end{figure}
+\input{fig-trinity}
 
 \begin{enumerate}
     \item \textbf{Graphs within Graphs (RMGs)}: The foundational structure is provided by \textbf{Recursive Meta-Graphs}. Unlike standard flat graphs, RMGs possess the fractal ability to contain other graphs within their nodes and edges. This allows for the natural, hierarchical representation of any structured data, capable of zooming from the microscopic detail of an abstract syntax tree out to the macroscopic architecture of an entire distributed system without changing the data model.

@@ -1,394 +1,185 @@
-\chapter{Neighborhoods of Universes}\label{chapter-7-neighborhoods-of-universes}
+% Chapter 7: Neighborhoods of Universes
+% Preamble-free include; colors and callout box are local conveniences.
 
-\section{\texorpdfstring{\textbf{Where alternative worlds
-live.}}{Where alternative worlds live.}}\label{where-alternative-worlds-live.}
+% Local styling helpers (guarded to avoid redefinition clashes)
+\makeatletter
+\@ifundefined{color@deepblue}{\definecolor{deepblue}{RGB}{20, 40, 90}}{}
+\@ifundefined{color@accentred}{\definecolor{accentred}{RGB}{180, 40, 40}}{}
+\@ifundefined{color@boxbg}{\definecolor{boxbg}{RGB}{245, 245, 245}}{}
+\@ifundefined{callout}{%
+  \newtcolorbox{callout}[1]{
+    colback=boxbg,
+    colframe=deepblue,
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.5pt,
+    arc=2pt
+  }
+}{}
+\makeatother
 
-Every computation doesn't just move through \emph{time.} It moves
-through \textbf{possibility space}.
+\chapter{Neighborhoods of Universes}
+\label{chapter-7-neighborhoods-of-universes}
 
-You already know the worldline --- the actual path your system takes
-through structure. And you know the Time Cube --- the cone of legal
-moves at the next tick. But what lies just outside your worldline? What
-surrounds it? How do we describe the \textbf{nearby universes} that
-almost happened, that could have happened, that still can happen?
+\section{Where alternative worlds live}
 
-To understand computation as geometry, you need more than distance. You
-need \textbf{neighborhoods} --- the regions of the Rulial Space that
-cluster around your actual history.
+Every computation moves through \emph{time}, yes --- but that only captures the part you actually lived. The part you \emph{committed}. There’s a much larger territory: the lattice of all worlds you could have entered but didn’t. Reality has neighbors.
 
-This chapter is about those clusters.
+By now, you grasp the \textbf{Worldline} --- the single, irreversible trail your system carved into the causal substrate. And you’ve met the \textbf{Time Cube} --- the immediate shell of possible next states. But focusing only on the path behind you or the slice directly ahead is like staring through a straw at a planet. It hides nearly everything that matters.
 
-Why they form. Why they matter. Why some regions feel smooth and others
-feel jagged. Why some codebases feel like strolling through a park and
-others feel like crawling across broken glass.
+What lives just beyond your actual decisions?\\
+What universes breathe just outside your path?\\
+\textit{What almost happened?}
 
-Let's explore the geometry just outside your worldline.
+To understand computation as geometry, you need a concept of \textbf{neighborhoods} --- the regions of Rulial Space clustering around your chosen timeline. These neighborhoods explain why certain systems feel effortless to modify, while others respond to change with the emotional maturity of a cornered raccoon.
 
-Welcome to the local universe.
+This chapter is about the local terrain. The lay of the land around your worldline.
+
+Welcome to the suburbs of reality.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{7.1 --- Rules Define
-Locality}}{7.1 --- Rules Define Locality}}\label{rules-define-locality}
+\section{Rules Define Locality}
+\label{7.1-rules-define-locality}
 
-The first rule of Rulial Space is simple:
+Physical space uses meters. Text diff tools use lines. But the substrate of \COMPUTER{} uses neither.
+
+The first law of locality in Rulial Space is:
 
 \begin{quote}
-\textbf{Universes are ``near'' each other} \textbf{if they differ by
-small, legal rewrites.}
+\textbf{Two universes are ``near'' if you can get from one to the other using a small number of legal DPO rewrites.}
 \end{quote}
 
-Not semantic closeness. Not code similarity. Not ``hunches.''
-
-Literal adjacency in rewrite space.
-
-If two states are:
+This isn’t “semantic closeness,” “visual similarity,” or “my gut says these states look related.” Those are folk heuristics. Rulial geometry delivers the real metric.
 
 \begin{itemize}
-\tightlist
-\item
-  one rule apart → neighbors\\
-\item
-  two rules apart → second-degree neighbors
-\item
-  many rewrites apart → distant regions
+    \item A giant state difference produced by a single rewrite? $\rightarrow$ \textbf{Adjacent.}
+    \item A tiny state difference requiring a labyrinth of rules to bridge? $\rightarrow$ \textbf{Distant.}
 \end{itemize}
 
-The \textbf{DPO rule set} defines this topology:
+Your intuition lies; the rewrite rules don’t.
 
-\begin{itemize}
-\tightlist
-\item
-  what counts as a tiny step,
-\item
-  what counts as a massive leap,
-\item
-  what's even reachable,
-\item
-  and what's totally illegal.
-\end{itemize}
+And remember --- every edge in this adjacency graph may not even be a simple line. In RMG, an edge can itself contain a nested graph, a whole process, a tiny universe folded into a structural tunnel.
 
-This is the fundamental geometry of your computational world. You aren't
-just mapping code --- you're mapping the \textbf{rules-of-motion} that
-define adjacency.
+\begin{callout}{Call-Out: Wormholes in RMG}
+When we say “edge,” we don’t mean a line. We mean a \textbf{tunnel}, possibly containing a full subgraph or running computation. In diagrams, it’s drawn as a thin connection. In reality, it is a container.
+\end{callout}
+
+You are not just defining transitions. You are defining the geometry itself. When you design your rule set, you terraform the computational cosmos.
+
+\begin{center}
+    \begin{tikzpicture}[node distance=2.5cm, auto, >=stealth]
+        % Nodes
+        \node[circle, draw, thick, fill=gray!10] (S0) {$S_0$};
+        \node[circle, draw, dashed] (S1a) [above right of=S0] {$S_{1a}$};
+        \node[circle, draw, dashed] (S1b) [below right of=S0] {$S_{1b}$};
+        \node[circle, draw, dotted] (S2) [right of=S1a] {$S_{2}$};
+        
+        % Edges
+        \draw[->, thick] (S0) -- node[above, sloped, font=\footnotesize] {Rule A} (S1a);
+        \draw[->, thick] (S0) -- node[below, sloped, font=\footnotesize] {Rule B} (S1b);
+        \draw[->, dashed] (S1a) -- node[above, font=\footnotesize] {Rule C} (S2);
+        
+        % Labels
+        \node[font=\bfseries, align=center] at (0,-1.5) {Current\\Universe};
+        \node[align=center] at (3,-1.5) {1st Degree\\Neighbors};
+        \node[align=center] at (5.5,-1.5) {2nd Degree\\Neighbors};
+    \end{tikzpicture}
+\end{center}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{7.2 --- The Adjacency Graph of
-Universes}}{7.2 --- The Adjacency Graph of Universes}}\label{the-adjacency-graph-of-universes}
+\section{The Adjacency Graph of Universes}
+\label{7.2-adjacency-graph}
 
-Think of Rulial Space as a giant graph where:
+Zoom out far enough and every possible RMG state becomes a node in a titanic adjacency structure. Each legal DPO rewrite becomes an edge connecting two full universes.
 
-\begin{itemize}
-\tightlist
-\item
-  each node = a possible RMG state\\
-\item
-  each edge = one legal DPO rewrite
-\end{itemize}
+This is the \textbf{Graph of Universes connected by wormholes}.
 
-This means the computational universe forms:
+Your worldline is a tiny red thread weaving through a near-infinite-dimensional combinatorial manifold. You occupy one node at a time; each clock tick pushes you along a single adjacent edge.
 
-\begin{quote}
-\textbf{A graph of universes connected by wormholes.}
-\end{quote}
-
-Your worldline traces through this graph like a hiking trail. But the
-graph itself is huge --- much bigger than what you actually travel. Your
-immediate neighbors --- the states one and two rewrites away --- define:
+Surrounding you is a shimmering halo of immediate neighbors --- worlds one rewrite away. They contain:
 
 \begin{itemize}
-\tightlist
-\item
-  nearby solutions,
-\item
-  alternative histories,
-\item
-  valid transformations,
-\item
-  candidate optimizations,
-\item
-  potential bug fix routes.
+    \item The alternative scheduler choices you did not take.
+    \item Counterfactual outcomes of non-deterministic I/O (if any) baked into your model.
+    \item The shadow of every optimization you chose not to apply.
 \end{itemize}
 
-This adjacency structure is \textbf{not} like program diffs.
+Further out lie $k$-step neighborhoods: regions accessible in exactly $k$ rewrites. Their volume grows (or shrinks) with the curvature of your rule algebra.
 
-It respects:
-
-\begin{itemize}
-\tightlist
-\item
-  recursive structure
-\item
-  invariants (K-graph)
-\item
-  legality
-\item
-  boundaries
-\item
-  nested RMG content
-\item
-  wormhole behavior
-\item
-  typed transitions
-\end{itemize}
-
-Two states that look very different in source code might be \emph{very
-close} in Rulial Distance. Two that look nearly identical in text might
-be \emph{far} in rewrite space. Text lies. Structure doesn't.
+\begin{callout}{Local vs. Global}
+In a high-curvature rule set, $k$-step neighborhoods can explode combinatorially or collapse into dead-ends. Neighborhood structure is therefore an empirical proxy for “change friendliness.”
+\end{callout}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{7.3 --- Smooth vs.~Jagged
-Neighborhoods}}{7.3 --- Smooth vs.~Jagged Neighborhoods}}\label{smooth-vs.-jagged-neighborhoods}
+\section{Smooth vs. Jagged Neighborhoods}
+\label{7.3-smooth-vs-jagged}
 
-Some systems have wide cones. Some have narrow cones. Some have smooth
-neighborhoods. Some are jagged hellscapes. This is curvature (Chapter
-9), but here's the simple version:
-
-\subsection{\texorpdfstring{\textbf{Smooth
-regions}}{Smooth regions}}\label{smooth-regions}
+Some systems let you hop between nearby universes with minimal effort. Others punish every deviation.
 
 \begin{itemize}
-\tightlist
-\item
-  Many legal rewrites\\
-\item
-  Rules overlap gracefully
-\item
-  Nearby worlds behave similarly
-\item
-  Small changes produce small effects
-\item
-  Debugging feels ``easy''
-\item
-  Optimization feels ``natural''
+    \item \textbf{Smooth neighborhoods}: many short rewrites connect useful states; refactors feel gentle; bugs dampen out.
+    \item \textbf{Jagged neighborhoods}: most short rewrites are invalid or explosive; refactors feel brittle; bugs cascade.
 \end{itemize}
 
-\subsection{\texorpdfstring{\textbf{Jagged
-regions}}{Jagged regions}}\label{jagged-regions}
-
-\begin{itemize}
-\tightlist
-\item
-  Few legal rewrites\\
-\item
-  Invariants clash
-\item
-  Minor changes blow up behavior
-\item
-  Worlds diverge sharply
-\item
-  Debugging feels like chasing ghosts
-\item
-  Optimization feels brittle and risky
-\end{itemize}
-
-Every engineer has experienced both. Now you know the geometric reason
-why. The ``feel'' of a codebase is just:
-
-\begin{quote}
-\textbf{The local geometry of its rewrite neighborhood.}
-\end{quote}
+In Rulial geometry, this difference is curvature again: neighborhoods with low activation barriers are “flat”; those with cliff-like barriers are “sharp.”
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{7.4 --- The Kairos Plane
-Expanded}}{7.4 --- The Kairos Plane Expanded}}\label{the-kairos-plane-expanded}
+\section{The Kairos Plane Expanded}
+\label{7.4-kairos-plane-expanded}
 
-Earlier, we treated Kairos as the Time Cube --- the slice of legal next
-options.
+The Time Cube from Chapter~\ref{chapter-5-rulial-space-rulial-distance} gave you the one-step future cone. Neighborhoods expand that picture to multiple steps and let you map gradients of effort.
 
-Now we zoom out one level:
-
-\begin{quote}
-\textbf{Kairos is actually a plane ---} \textbf{the entire local surface
-of rewrites reachable from your worldline.}
-\end{quote}
-
-Your cone is just one vertical slice. But the surface around you is
-broader and more interesting.
-
-Diagrammatically:
-
-\begin{lstlisting}
-               (Kairos Plane)
-             ╱╲╱╲╱╲╱╲╱╲╱╲
-           ╱                   ╲
- Past ●────●────●────●────● Future
-   Chronos      ↑
-              Cone
-\end{lstlisting}
-
-The Kairos Plane is:
+Define $N_k(s)$ as the set of states reachable from $s$ in $k$ rewrites. The union over $k$ yields the future cone $F(s)$. Plotting the cardinality of $N_k(s)$ over $k$ is a practical way to visualize how opportunity changes with distance.
 
 \begin{itemize}
-\tightlist
-\item
-  the ``horizon'' of legal moves
-\item
-  the surface of possible local universes
-\item
-  a finite portion of Aios
-\item
-  reshaped every tick
-\item
-  governed by DPO interfaces
-\item
-  sculpted by structure
-\item
-  defined by rule semantics
+    \item Rapid growth of $|N_k|$ indicates rich optionality (good for exploration, risky for control).
+    \item Early stagnation of $|N_k|$ indicates constrained futures (safe but possibly brittle).
 \end{itemize}
-
-It's where most reasoning happens.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{7.5 --- Navigating
-Neighborhoods}}{7.5 --- Navigating Neighborhoods}}\label{navigating-neighborhoods}
+\section{Navigating Neighborhoods}
+\label{7.5-navigating-neighborhoods}
 
-When you debug, you're looking at nearby failures. When you optimize,
-you're looking at nearby improvements. When you refactor, you're
-navigating between worlds in your neighborhood.
+You can steer through neighborhoods with three levers:
 
-Every software engineering activity --- literally all of them --- is
-neighborhood navigation:
+\begin{enumerate}
+    \item \textbf{Rewrite design}: shape the topology by adding or removing rules.
+    \item \textbf{Scheduler policy}: bias which edges are chosen (priority, heuristics, determinism vs. exploration).
+    \item \textbf{State scaffolding}: introduce structures that increase or dampen matchability.
+\end{enumerate}
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{Debugging:} ``Which nearby world fixes the problem?''
-\item
-  \textbf{Refactoring:} ``Which nearby world preserves behavior but
-  improves structure?''
-\item
-  \textbf{Optimization:} ``Which nearby world is closer to the
-  geodesic?''
-\item
-  \textbf{Design:} ``What neighborhood are we entering with this
-  architecture?''
-\item
-  \textbf{Type systems:} ``Which worlds are forbidden by invariants?''
-\item
-  \textbf{Version control:} ``Which worldlines converge or diverge?''
-\end{itemize}
-
-Once you see computation as neighborhoods, you stop reasoning about code
-as text and start reasoning about code as geometry.
-
-This is when everything starts to click.
+Navigation isn’t just about getting somewhere; it’s about bending the local geometry so that desirable futures are closer and undesirable ones are farther.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{FOR THE
-NERDS™}}{FOR THE NERDS™}}
+\section*{FOR THE NERDS™}
 
-\section{\texorpdfstring{\textbf{Why This Is Not Quantum
-Superposition}}{Why This Is Not Quantum Superposition}}\label{why-this-is-not-quantum-superposition}
-
-Some readers will feel a structural resemblance:
+Neighborhood analysis can be made quantitative:
 
 \begin{itemize}
-\tightlist
-\item
-  adjacent universes
-\item
-  many possible futures
-\item
-  collapse into one worldline
-\item
-  geometry of alternatives
+    \item \textbf{Neighborhood entropy}: $H_k(s) = -\sum_{t \in N_k(s)} p(t) \log p(t)$ for a scheduler-induced distribution.
+    \item \textbf{Clustering coefficient}: how densely interconnected $N_k(s)$ is under the rewrite graph.
+    \item \textbf{Mean activation energy}: average minimal rewrite cost to enter a basin of attraction.
 \end{itemize}
 
-This is resemblance, not equivalence.
-
-Here's the clean split: \#\#\# \textbf{Quantum:}
-
-\begin{itemize}
-\tightlist
-\item
-  amplitudes
-\item
-  interference
-\item
-  probability
-\item
-  physical
-\item
-  wavefunctions
-\end{itemize}
-
-\subsection{\texorpdfstring{\textbf{RMG+DPO:}}{RMG+DPO:}}\label{rmgdpo}
-
-\begin{itemize}
-\tightlist
-\item
-  legality
-\item
-  adjacency
-\item
-  combinatorics
-\item
-  rewrite rules
-\item
-  abstract structure
-\end{itemize}
-
-No amplitudes. No probability waves. No physical claims.
-
-Just structured nondeterministic geometry. \emph{(End sidebar.)}
+These measures turn “vibes” into metrics.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{7.6 --- Transition: From Neighborhoods
-to
-MRMW}}{7.6 --- Transition: From Neighborhoods to MRMW}}\label{transition-from-neighborhoods-to-mrmw}
+\section{Transition: From Neighborhoods to MRMW}
+\label{7.6-transition}
 
-You've seen:
+We’ve examined the path you actually took (Worldline), the futures available at each tick (Time Cube), and the surrounding terrain (Neighborhoods). But all of this still assumes a single fixed rule set.
 
-\begin{itemize}
-\tightlist
-\item
-  the shape of possibility (Time Cube)
-\item
-  the path you take (worldline)
-\item
-  the geometry around that path (neighborhoods)
-\end{itemize}
+To grasp the full architecture, we must zoom out to a meta-level: \textbf{What happens when the rules themselves change?}
 
-Now we zoom out one more level:
+How do entire rewrite models relate to one another? How do worldlines behave under different physics? How does modifying the DPO interface carve out whole new continents of computational space?
 
-\begin{quote}
-\textbf{How do you map the entire phase space of your computational
-universe?}
-\end{quote}
+This is \textbf{Multi-Rewrite Multi-World (MRMW)} --- the phase space of all possible rewrite universes.
 
-Not just:
-
-\begin{itemize}
-\tightlist
-\item
-  the path you took,
-\item
-  or the paths you could take next,
-\item
-  or the worlds nearby\ldots{}
-\end{itemize}
-
-But \textbf{the full structure} of:
-
-\begin{itemize}
-\tightlist
-\item
-  all possible rewrite models (rule-sets),
-\item
-  all possible worldlines for each model,
-\item
-  and all the relationships between them.
-\end{itemize}
-
-This is MRMW.
-
-The cosmology of your computational universe.
-
-And that's Chapter 8.
+And that is Chapter 8.

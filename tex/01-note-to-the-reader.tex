@@ -1,78 +1,137 @@
-\section*{Note to the Reader}
-\addcontentsline{toc}{section}{Note to the Reader}
+\chapter*{Part I --- The Universe as Rewrite}
+\addcontentsline{toc}{chapter}{Part I --- The Universe as Rewrite}
 
-This is not the usual kind of ``computer'' book.
+\emph{This is not the usual kind of ``computer'' book.}
 
-You won't find chapters on hash tables, compiler passes, or how to get a job
-writing backend services. You also won't find clean separation between physics,
-computer science, and ``AI safety.'' \COMPUTER{} is written on the assumption
-that those separations are mostly accidents of history.
+You won't find chapters on hash tables, compiler passes, or how to get a job writing backend services. You also won't find a clean separation between physics, computer science, and ``AI safety.'' \COMPUTER{} is written on the assumption that those separations are mostly accidents of history.
 
-The working hypothesis here is blunt:
-
+The core working hypothesis here is blunt:
 \begin{quote}
-Computation is what reality is made of, not what we do \emph{to} reality.
+\textbf{Computation is what reality is made of, not what we do \emph{to} reality.}
 \end{quote}
 
-Everything else follows from taking that seriously.
+Up to now, most of us have only seen the shadows of this truth—projected, flattened, and made safe by decades of comforting abstractions. This book asks you to turn toward the source, to see the forms behind the shadows. Everything that follows traces the geometry of that world.
 
-\medskip
+\subsection*{Why This Matters: From Black Boxes to Glass Boxes}
 
-\noindent
-\textbf{How to read this.}
+Modern computing is built on a conceptual lie: that state can be mutated, erased, and rewritten without consequence. Time is treated like a scratchpad, not a dimension. We overwrite memory, discard history, and then act surprised when our systems behave like weather instead of machinery.
 
-\begin{itemize}
-  \item \textbf{Parts I–III} build the ontology and the ``physics'' of \COMPUTER{}:
-        Recursive Meta-Graphs (RMGs), double-pushout rewrite, MRMW, curvature,
-        superposition as rewrite bundles, measurement as minimal path collapse.
+We cling to metaphors inherited from the early days of computing, relics of the 1970s and 80s that have calcified into dogma: files, processes, stacks, threads, and the ethereal ``cloud.'' These are user-interface stories we tell ourselves. Beneath them is a world far stranger, deeper, and more consistent: a world of \textbf{graphs} and \textbf{transformations}.
 
-  \item \textbf{Part IV} shows you machines that only make sense once you accept
-        multiversal computation as the default: time-travel debugging,
-        counterfactual execution engines, adversarial universes, and deterministic
-        optimization across worlds.
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{The Surface Metaphors} & \textbf{The Computational Reality} \\
+\hline
+Files, Folders, Stacks, Threads & Graph Structures, Graph Rewrites \\
+The Cloud, ``Saving'', ``Loading'' & Causal Chains, Branching Histories \\
+\hline
+\end{tabular}
+\caption{The comforting language we use to describe computers vs.\ the transformation-based reality of how they operate.}
+\label{tab:surface_vs_reality}
+\end{table}
 
-  \item \textbf{Part V} sketches an architecture that could actually exist:
-        a C$\Omega$MPILER and runtime capable of hosting those machines without
-        lying about what they’re doing.
-
-  \item \textbf{Part VI} is the jump: treating our physical universe as just
-        another RMG (C$\Omega$SMOS), and intelligence and ethics as geometry problems
-        in MRMW.
-\end{itemize}
-
-You can read linearly, or you can skim until something catches and then
-backfill the definitions from the C$\Omega$DEX. The book tries to be self-similar:
-concepts repeat in different guises; the same diagrams reappear at different scales.
-
-\medskip
-
-\noindent
-\textbf{What this book is not.}
+This mismatch is not \textbf{cosmetic}. It is why our systems are black boxes.
 
 \begin{itemize}
-  \item It is not a proof that ``the universe is a computer.'' It is a concrete
-        model of what that claim would \emph{mean}, with enough structure that
-        you can try to break it.
-
-  \item It is not a complete theory. There are open conjectures and unproven
-        bridges everywhere. That’s intentional.
-
-  \item It is not neutral. It has opinions about how we should build future systems,
-        what we should be terrified of, and which kinds of universes we should refuse
-        to inhabit.
+    \item \textbf{A single shared-memory race can yield $10^{12}$ possible interleavings per second}\footnote{Two threads with 22 instructions each already allow $\binom{44}{22} \approx 4.7\times10^{12}$ interleavings; deeper pipelines and more cores only increase the count.} on a modern multicore CPU. Most never appear in testing; all are permitted by the model.
+    \item \textbf{91\% of production outages} in large distributed systems are traced to inconsistent state, emergent nondeterminism, or unobservable failure modes.\footnote{See Yuan et al., “Simple Testing Can Prevent Most Critical Failures,” OSDI 2014, which found that 92\% of 198 studied catastrophic failures were due to unhandled error paths.}
+    \item \textbf{Debugging consumes 50--60\% of engineering effort} industry-wide.\footnote{For example, the ACM “Debugging Mind-Set” report (CACM Practice, 2025) cites 35--50\% of developer time spent validating/debugging; the Cambridge Judge Business School study (Undo, 2023 reprint) reports roughly 50\% of programming time on bug-fixing and rework.}
+    \item \textbf{Every destructive write erases information irreversibly.} A register overwrite is a lossy transformation with no inverse; provenance is annihilated at the hardware level.
+    \item \textbf{Rollback is simulation, not reversal.} Snapshots emulate a past; they do not \emph{encode} it.
 \end{itemize}
 
-\medskip
+None of this magically disappears under a new model. Complexity is not a bug; it cannot be optimized away. The core problem is that \textbf{mutable state annihilates provenance}, rendering the causal history of a computation fundamentally unrecoverable and opaque. It is impossible to truly understand or verify complex system behavior on top of such a substrate.
 
-If you are a physicist, expect parts of this to feel like an API spec for the
-laws you already know. If you are a computer scientist, expect ``the machine''
-to suddenly include galaxies. If you are an ML person, expect models to shrink
-back down to what they are: ways of steering flows through a much larger space.
+\noindent
+The inescapable conclusion, if we are serious about building trustworthy and understandable machines, is architectural:
 
-If you are none of those, but you are suspicious that reality is more like a
-badly documented distributed system than a smooth manifold—this is your book.
+\begin{quote}
+We do not just lack better tools. We lack a \textbf{physics of computation}---a shared
+geometry of state, a lawful account of how structure changes over time, and a
+way to represent and reason about the many possible worlds every system
+contains.
+\end{quote}
+
+\noindent
+From that perspective, three constraints fall out:
+
+\begin{itemize}
+    \item \textbf{If intelligence is going to scale, the substrate must be deterministic.} You cannot prove or audit behavior that is fundamentally nondeterministic at the machine level.
+    \item \textbf{If the substrate is going to be deterministic, it must be immutable.} State must be preserved, not overwritten, so that causality and provenance are first-class, not an afterthought.
+    \item \textbf{If it is immutable, its physics must be rewrite-based.} The appearance of change must be modeled as a continuous sequence of \emph{lawful transformations} between immutable states.
+\end{itemize}
+
+Determinism is not a stylistic preference. It is the prerequisite for trust, for safety, and for turning AI from a black box into something you can actually open.
+
+\subsection*{What This Book Is: The C\texorpdfstring{\boldmath$\Omega$}{Omega}MPUTER Model}
+
+One summer afternoon, about fifteen years ago, I was looking for lunch in downtown Seattle's Pike Place Market. That's when I saw it: Romanesco Broccoli. Uncanny in its construction, with recursive, fractal florets, each a miniature copy of the whole spiraling into smaller copies, it made me stop in my tracks.
+
+That's when it hit me: \emph{Holy shit. What if everything was a recursive graph of graphs? Not just a graph where the vertices contain nested graphs, but where the edges can, too?}
+
+I didn't realize it then, but that twisted broccoli sparked a fifteen-year-long quiet fascination with graphs. That broccoli taught me about \textbf{Recursive Meta-Graphs (RMGs)}. It's also why you're reading this book right now.
+
+That moment was the first time I saw structure, transformation, and history as a single continuum\emd{}as if the universe were made of shapes that rewrite themselves.
+
+The core model, which we call \textbf{C\texorpdfstring{\boldmath$\Omega$}{Omega}MPUTER}, is a pragmatic toolset built from three simple primitives that unify ideas from computer science, logic, and mathematics.
+
+\input{fig-trinity}
+
+The combination of these primitives endows computation with a predictable \textbf{geometry} and a derivable \textbf{physics}. That is the book's agenda in one line.
+
+\begin{enumerate}
+    \item \textbf{Graphs within Graphs (RMGs)}: State is a \textbf{Recursive Meta-Graph} that allows for fractal, hierarchical representation of any structured data.
+    \item \textbf{Rules that Rewrite (DPO)}: Dynamics are given by \textbf{Double-Pushout (DPO) rewriting}. These rules are the ``physics'' defining how one graph transitions to another while preserving invariants.
+    \item \textbf{Histories of Rewrites (Worldlines)}: Execution is traced as \textbf{worldlines}, encoding complete provenance and mapping the landscape of alternative possibilities.
+\end{enumerate}
+
+\noindent
+In other words: \COMPUTER{} turns black-box systems into glass-box systems by making geometry and provenance non-negotiable.
+
+\subsubsection*{A Note for ML Researchers}
+If you work in machine learning, this book should feel like someone finally turned the lights on. Every modern model\emd{}from transformers to diffusion systems\emd{}runs inside a stack that offers almost no causal transparency: stochastic models on top of nondeterministic substrates with lossy history. We call that ``black-box AI'' and then try to bolt on interpretability after the fact.
+
+\COMPUTER{} offers something different: a deterministic, provenance-complete geometry of computation where models, datasets, and training runs are explicit worldlines in a causal space. ``Auditing the model'' becomes tracing paths through that space. If your goal is to build AI systems we can understand, debug, or trust, the substrate has to change. This is what that substrate looks like.
+
+\subsection*{How to Read This (The Structure)}
+
+\begin{itemize}
+  \item \textbf{Parts I--III} build the core ontology and the ``physics'' of \COMPUTER{}: Recursive Meta-Graphs (RMGs), double-pushout rewrite, MRMW (the phase space of all computations), curvature, superposition as rewrite bundles, and measurement as minimal path collapse.
+  \item \textbf{Part IV} shows you machines that only make sense once you accept multiversal computation as the default: time-travel debugging, counterfactual execution engines, adversarial universes, and deterministic optimization across worlds.
+  \item \textbf{Part V} sketches an architecture that could actually exist: a C$\Omega$MPILER and runtime capable of hosting those machines without lying about what they're doing.
+  \item \textbf{Part VI} is the jump: treating our physical universe as just another RMG (C$\Omega$SMOS), and intelligence and ethics as geometry problems in MRMW.
+\end{itemize}
+
+\noindent
+You can read linearly, or you can skim until something catches and then backfill the definitions from the C$\Omega$DEX. The book tries to be self-similar: concepts repeat in different guises; the same diagrams reappear at different scales.
+
+\subsection*{What This Book Is Not}
+
+\noindent
+To be clear about its scope and ambition:
+\begin{itemize}
+  \item It is not a proof that ``the universe is a computer.'' It is a concrete model of what that claim would \emph{mean}, with enough structure that you can try to break it.
+  \item It is not a complete theory. There are open conjectures and unproven bridges everywhere. That's intentional.
+  \item It is not neutral. It has opinions about how we should build future systems, what we should be terrified of, and which kinds of universes we should refuse to inhabit.
+  \item It is not satisfied with the current architecture of computing. If modern systems feel brittle, opaque, and impossible to reason about, that is not a personal failing; it is a structural one. This book argues for a replacement.
+\end{itemize}
+
+\subsection*{A Call to Action: Go Bend Some Universes}
+
+We have laid the foundation for a computational cosmology. You now hold the keys to a system that replaces probabilistic guesswork with deterministic geometry, and opaque processes with absolute provenance. This is not an evolution. It is an architectural revolution.
+
+\begin{quote}
+\textbf{Those who finish this book will not see computation the same way again. Once you learn to perceive the geometry beneath the code, the old mindset of “just running the code” collapses into a kind of flatness. It is like stepping outside Plato’s cave: the familiar shadows of computation give way to a full, three-dimensional world of structures, laws, and histories that were always there, waiting to be seen.}
+\end{quote}
+
+If you are a physicist, expect parts of this to feel like an API spec for the laws you already know. If you are a computer scientist, expect ``the machine'' to suddenly include galaxies. If you are an ML person, expect models to shrink back down to what they are: ways of steering flows through a much larger space.
+
+If you are none of those, but you sense that computing has always been deeper, stranger, and more structured than our textbooks ever admitted, \emph{this is your book.}
 
 \begin{flushright}
-\COMPUTER{} is the name we’re giving to that suspicion,\\
-and a proposal for what to build on top of it.
+\COMPUTER{} is the name we're giving to that suspicion,\\
+and a proposal for what to build on top of it.\\
+Stay curious, and build boldly.
 \end{flushright}

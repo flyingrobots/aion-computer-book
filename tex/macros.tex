@@ -11,6 +11,8 @@
 \providecommand{\AIONSignature}[1][1]{\AIONWordmarkSerif}
 \providecommand{\AIONProjectURL}{\url{https://github.com/flyingrobots/aion}}
 
+\newcommand{\emd}{\textemdash\!}
+
 % Simple boxed callout shared by late chapters
 \newtcolorbox{nerdbox}{
   colback=black!5!white,
@@ -18,6 +20,18 @@
   title=\textbf{FOR THE NERDS™},
   fonttitle=\bfseries\sffamily,
   arc=0mm
+}
+
+% Make hyperref bookmark strings robust (avoid nullfont warnings)
+\pdfstringdefDisableCommands{%
+  \def\texttt#1{#1}% strip typewriter in bookmarks
+  \def\COMPUTER{CΩMPUTER}% inline wordmark in bookmarks
+  \def\({}% ignore math delimiters in bookmarks
+  \def\){}%
+}
+% Ensure a real font is selected while hyperref builds PDF strings
+\pdfstringdefPreHook{%
+  \fontencoding{T1}\fontfamily{lmr}\selectfont
 }
 
 
