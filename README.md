@@ -195,7 +195,7 @@ Stay curious, and build boldly.
 
 ---
 
-> [1] Two threads with 22 instructions each already allow (44*22) ≈ 4.7 × 1012 interleavings; deeper pipelines and more cores only increase the count.
+> [1] Two threads with 22 instructions each already allow (44/22) ≈ 4.7 × 1012 interleavings; deeper pipelines and more cores only increase the count.
 
 > [2] See Yuan et al., “Simple Testing Can Prevent Most Critical Failures,” OSDI 2014, which found that 92% of 198 studied catastrophic failures were due to unhandled error paths.
 
