@@ -212,5 +212,3 @@ The AIΩN Runtime and JITOS software projects referenced by the paper are *not* 
 
 For updates, see the main AIΩN repository:
 [github.com/flyingrobots/aion](https://github.com/flyingrobots/aion)
-
-> *That was the Introduction to Part 1. If you want to continue reading, please [download the pdf and read the book in its entirety for free.](./computer.pdf)*
