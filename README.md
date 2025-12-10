@@ -120,7 +120,9 @@ That’s when it hit me: *Holy shit. What if everything was a recursive graph of
 I didn’t realize it then, but that twisted broccoli sparked a fifteen-year-long quiet fascination with graphs. That broccoli taught me about Recursive Meta-Graphs (RMGs). It’s also why
 you’re reading this book right now.
 
-That moment was the first time I saw structure, transformation, and history as a single continuum—as if the universe were made of shapes that rewrite themselves. The core model, which we call CΩMPUTER, is a pragmatic toolset built from three simple
+That moment was the first time I saw structure, transformation, and history as a single continuum—as if the universe were made of shapes that rewrite themselves. 
+
+The core model, which we call CΩMPUTER, is a pragmatic toolset built from three simple
 primitives that unify ideas from computer science, logic, and mathematics.
 
 ```text
