@@ -364,6 +364,66 @@ d(s,t) =
 Intuitively, $d(s,t)$ is the minimal computational effort (measured in legal rewrites) required to transform one frozen computation into another.
 \end{definition}
 
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.0]
+
+% --- LEFT: UNIT COST METRIC ----------------------------------------
+
+% Title
+\node at (1.8, 3.2) {\textbf{Unit-Cost Distance}};
+
+% Nodes
+\node[circle, draw, fill=gray!10] (A) at (0,0) {$s$};
+\node[circle, draw, fill=gray!10] (B) at (2,1) {};
+\node[circle, draw, fill=gray!10] (C) at (4,0) {$t$};
+
+% Edges (all cost = 1)
+\draw[->, thick] (A) -- node[above] {$1$} (B);
+\draw[->, thick] (B) -- node[above] {$1$} (C);
+
+% Distance label
+\node at (2,-0.8) {$d(s,t) = 2$};
+
+
+% --- RIGHT: WEIGHTED COST METRIC ----------------------------------
+
+% Title
+\node at (8.2, 3.2) {\textbf{Weighted Distance via $\mathcal{L}$}};
+
+% Nodes
+\node[circle, draw, fill=gray!10] (A2) at (6,0) {$s$};
+\node[circle, draw, fill=gray!10] (B2) at (8,1) {};
+\node[circle, draw, fill=gray!10] (C2) at (10,0) {$t$};
+
+% Edges with Lagrangian weights
+\draw[->, thick] (A2) -- node[above] {$\mathcal{L}_1$} (B2);
+\draw[->, thick] (B2) -- node[above] {$\mathcal{L}_2$} (C2);
+
+% Distance label
+\node at (8,-0.8) {$d_{\mathcal{R}}(s,t) = \mathcal{L}_1 + \mathcal{L}_2$};
+
+% --- Caption -------------------------------------------------------
+
+\end{tikzpicture}
+\caption{Two parallel notions of Rulial Distance. \textbf{Left:} Each rewrite has unit cost, so distance counts the number of steps. \textbf{Right:} Each rewrite has a Lagrangian cost, producing the weighted distance used for optimization in Chapter~18. Chapter~18 generalizes the metric of Chapter~5 by replacing unit weights with resource-aware costs.}
+\end{figure}
+
+\begin{remark}[On Weighted Distances]
+\label{remark-weighted-distance}
+The Rulial Distance defined here uses a \emph{unit cost} for each legal rewrite step. In Part~IV we generalize this notion by introducing a Lagrangian $\mathcal{L}(r, s)$ that assigns a non-uniform cost to each rewrite when the system performs optimization under real resource constraints (time, memory, bandwidth, risk, energy, etc.).
+
+The weighted distance used there is:
+\[
+d_{\mathcal{R}}(s,t)
+  = \inf_{\gamma : s \to t} 
+      \sum_{(u,v) \in \gamma} \mathcal{L}(r_{uv}, u),
+\]
+which reduces to the unit-cost distance of this chapter when $\mathcal{L} \equiv 1$ for all rewrites.
+
+Thus the metric introduced here is the \emph{special case} of the general geometric machinery developed later.
+\end{remark}
+
 \begin{proposition}[Rulial Pseudometric]
 For all $s,t,u \in \mathcal{S}$, the Rulial Distance satisfies:
 \begin{enumerate}
