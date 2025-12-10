@@ -1,10 +1,9 @@
-# CΩMPUTER
-
 ![CΩMPUTER (4)](https://github.com/user-attachments/assets/b3ff795f-694d-48df-ac21-901df6922236)
 
-> **CΩMPUTER**   
-> The Geometry of All Possible Machines   
-> *By James Ross*
+<div align="center">
+<h3>The Geometry of All Possible Machines</h3>
+<p>By James Ross</p>
+</div>
 
 ## What if computation had a shape?
 
