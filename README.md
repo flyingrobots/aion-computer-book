@@ -1,4 +1,4 @@
-![CΩMPUTER (4)](https://github.com/user-attachments/assets/b3ff795f-694d-48df-ac21-901df6922236)
+[![CΩMPUTER (4)](https://github.com/user-attachments/assets/b3ff795f-694d-48df-ac21-901df6922236)](https://github.com/flyingrobots/aion-computer-book/blob/book/computer.pdf)
 
 <div align="center">
 <h3>The Geometry of All Possible Machines</h3>
