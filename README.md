@@ -43,17 +43,6 @@ For engineers who've spent too many hours debugging systems that hide their own 
 
 If you’ve ever had the feeling that “computer science,” “physics,” and “AI” are secretly arguing about the same object with different accents, this book is the claim that you’re right, and a proposal for that object’s name.
 
-## License
-
-This repository contains only the CΩMPUTER manuscript, figures, compiled PDF, and documentation. These materials are © 2025 James Ross and licensed under **Creative Commons Attribution 4.0 (CC BY 4.0)**; see [`LICENSE`](./LICENSE) for details.
-
-The AIΩN Runtime and JITOS software projects referenced by the paper are *not* part of this repository. Those separate codebases are licensed under the **Apache License, Version 2.0** (see their own repositories or [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
-
-## More on AIΩN
-
-For updates, see the main AIΩN repository:
-[github.com/flyingrobots/aion](https://github.com/flyingrobots/aion)
-
 ---
 
 > *Below is the Introduction to Part 1. If you want to continue reading, please [download the pdf and read the book in its entirety for free.](./computer.pdf)*
@@ -120,7 +109,9 @@ That’s when it hit me: *Holy shit. What if everything was a recursive graph of
 I didn’t realize it then, but that twisted broccoli sparked a fifteen-year-long quiet fascination with graphs. That broccoli taught me about Recursive Meta-Graphs (RMGs). It’s also why
 you’re reading this book right now.
 
-That moment was the first time I saw structure, transformation, and history as a single continuum—as if the universe were made of shapes that rewrite themselves. The core model, which we call CΩMPUTER, is a pragmatic toolset built from three simple
+That moment was the first time I saw structure, transformation, and history as a single continuum—as if the universe were made of shapes that rewrite themselves. 
+
+The core model, which we call CΩMPUTER, is a pragmatic toolset built from three simple
 primitives that unify ideas from computer science, logic, and mathematics.
 
 ```text
@@ -147,9 +138,13 @@ preserving invariants.
 3. **Histories of Rewrites (Worldlines):** Execution is traced as worldlines, encoding
 complete provenance and mapping the landscape of alternative possibilities.
 
-In other words: CΩMPUTER turns black-box systems into glass-box systems by making geometry and provenance non-negotiable. A Note for ML Researchers If you work in machine learning, this book should feel like someone finally turned the lights on. 
+In other words: 
 
-Every modern model—from transformers to diffusion systems—runs inside a stack that offers almost no causal transparency: stochastic models on top of nondeterministic substrates with lossy history. We call that “black-box AI” and then try to bolt on interpretability after the fact.
+> **CΩMPUTER turns black-box systems into glass-box systems by making geometry and provenance non-negotiable.**
+
+## A Note for ML Researchers 
+
+If you work in machine learning, this book should feel like someone finally turned the lights on. Every modern model—from transformers to diffusion systems—runs inside a stack that offers almost no causal transparency: stochastic models on top of nondeterministic substrates with lossy history. We call that “black-box AI” and then try to bolt on interpretability after the fact.
 
 CΩMPUTER offers something different: a deterministic, provenance-complete geometry of
 computation where models, datasets, and training runs are explicit worldlines in a causal space. “Auditing the model” becomes tracing paths through that space. If your goal is to build AI systems we can understand, debug, or trust, the substrate has to change. This is what that substrate looks like.
@@ -195,7 +190,7 @@ Stay curious, and build boldly.
 
 ---
 
-> [1] Two threads with 22 instructions each already allow (44*22) ≈ 4.7 × 1012 interleavings; deeper pipelines and more cores only increase the count.
+> [1] Two threads with 22 instructions each already allow [44 22] ≈ 4.7 × 1012 interleavings; deeper pipelines and more cores only increase the count.
 
 > [2] See Yuan et al., “Simple Testing Can Prevent Most Critical Failures,” OSDI 2014, which found that 92% of 198 studied catastrophic failures were due to unhandled error paths.
 
@@ -203,4 +198,17 @@ Stay curious, and build boldly.
 
 ---
 
-> *That was the Introduction to Part 1. If you want to continue reading, please [download the pdf and read the book in its entirety for free.](./computer.pdf)*
+<div align="center">
+<h3><a href="https://github.com/flyingrobots/aion-computer-book/blob/book/computer.pdf">Download and Read CΩMPUTER for Free</a></h3>
+</div>
+
+## License
+
+This repository contains only the CΩMPUTER manuscript, figures, compiled PDF, and documentation. These materials are © 2025 James Ross and licensed under **Creative Commons Attribution 4.0 (CC BY 4.0)**; see [`LICENSE`](./LICENSE) for details.
+
+The AIΩN Runtime and JITOS software projects referenced by the paper are *not* part of this repository. Those separate codebases are licensed under the **Apache License, Version 2.0** (see their own repositories or [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
+
+## More on AIΩN
+
+For updates, see the main AIΩN repository:
+[github.com/flyingrobots/aion](https://github.com/flyingrobots/aion)
