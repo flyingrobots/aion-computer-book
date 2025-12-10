@@ -147,9 +147,13 @@ preserving invariants.
 3. **Histories of Rewrites (Worldlines):** Execution is traced as worldlines, encoding
 complete provenance and mapping the landscape of alternative possibilities.
 
-In other words: CΩMPUTER turns black-box systems into glass-box systems by making geometry and provenance non-negotiable. A Note for ML Researchers If you work in machine learning, this book should feel like someone finally turned the lights on. 
+In other words: 
 
-Every modern model—from transformers to diffusion systems—runs inside a stack that offers almost no causal transparency: stochastic models on top of nondeterministic substrates with lossy history. We call that “black-box AI” and then try to bolt on interpretability after the fact.
+> **CΩMPUTER turns black-box systems into glass-box systems by making geometry and provenance non-negotiable. **
+
+## A Note for ML Researchers 
+
+If you work in machine learning, this book should feel like someone finally turned the lights on. Every modern model—from transformers to diffusion systems—runs inside a stack that offers almost no causal transparency: stochastic models on top of nondeterministic substrates with lossy history. We call that “black-box AI” and then try to bolt on interpretability after the fact.
 
 CΩMPUTER offers something different: a deterministic, provenance-complete geometry of
 computation where models, datasets, and training runs are explicit worldlines in a causal space. “Auditing the model” becomes tracing paths through that space. If your goal is to build AI systems we can understand, debug, or trust, the substrate has to change. This is what that substrate looks like.
