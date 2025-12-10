@@ -19,7 +19,8 @@ We call this machine \textbf{MORIARTY}. It is the adversarial multiverse intelli
 \@ifundefined{color@safe-blue}{\definecolor{safe-blue}{RGB}{30,100,200}}{}
 \makeatother
 
-\begin{center}
+\begin{figure}[h]
+\centering
 \begin{tikzpicture}[scale=1.0, transform shape]
     % Background Grid
     \draw[step=1cm,gray!10,very thin] (-1,-3) grid (11,3);
@@ -40,12 +41,10 @@ We call this machine \textbf{MORIARTY}. It is the adversarial multiverse intelli
     % Moriarty Path
     \draw[ultra thick, alertred, ->] (0,0) to[out=-20, in=160] (3, -1) to[out=-20, in=180] (6.5, -1.5);
     \node[alertred, font=\bfseries, align=left] at (3, -2) {MORIARTY Path};
-    
-    % Annotation
-    \node[text width=10cm, align=left, font=\footnotesize] at (5, -3.8) 
-    {\textbf{Figure 17.1: Adversarial Geometry.} Standard execution (Blue) naturally follows the path of least resistance (the geodesic). MORIARTY (Red) actively steers the worldline toward high-curvature regions where graph invariants shatter.};
 \end{tikzpicture}
-\end{center}
+\caption{Figure 17.1: Adversarial Geometry. Standard execution (blue) follows the geodesic. MORIARTY (red) steers toward high-curvature regions where invariants shatter.}
+\label{fig:adversarial-geometry}
+\end{figure}
 
 \section{What Is an Adversarial Universe?}
 
@@ -99,7 +98,8 @@ Interference is the primary food source of the adversarial engine. In a DPO syst
 
 MORIARTY maps your system's weakest points by intentionally colliding bundles. It actively hunts for situations where rule $A$ and rule $B$ can both fire, but firing $A$ prevents $B$. Once identified, it explores the timeline where $A$ fires, and simultaneously explores the timeline where $B$ fires, looking for a divergence that the system cannot reconcile.
 
-\begin{center}
+\begin{figure}[h]
+\centering
 \begin{tikzpicture}[scale=0.9, transform shape]
     % Central Node
     \node[circle, draw, fill=gray!20, minimum size=1.5cm] (State) at (0,0) {State $S_0$};
@@ -116,12 +116,10 @@ MORIARTY maps your system's weakest points by intentionally colliding bundles. I
     \node[star, star points=10, fill=alertred, text=white, font=\bfseries] (Conflict) at (7, 0) {CONFLICT};
     \draw[->, dashed, thick, red] (RuleA) -- (Conflict);
     \draw[->, dashed, thick, red] (RuleB) -- (Conflict);
-    
-    % Description
-    \node[text width=6cm, align=center, font=\footnotesize] at (7, -2.5) 
-    {\textbf{Figure 17.2: Critical Pair Exploitation.} MORIARTY identifies that applying Rule B destroys the preconditions for Rule A. It forces this path to test if the system handles the partial state correctly.};
 \end{tikzpicture}
-\end{center}
+\caption{Figure 17.2: Critical Pair Exploitation. MORIARTY identifies that applying Rule B destroys the preconditions for Rule A and tests whether the system handles the partial state correctly.}
+\label{fig:critical-pair-exploitation}
+\end{figure}
 
 This approach constitutes adversarial robustness testing on top of a computational manifold. It is not performed by brute force; it is performed by geometry. By exploiting these critical pairs, MORIARTY verifies if your system handles mutual exclusion and race conditions correctly, not by chance, but by mathematical necessity.
 
@@ -151,7 +149,8 @@ No other debugging or verification tool touches this because nothing else has a 
 
 It is helpful to contrast the two major engines of Part IV. While they utilize the same underlying physics of the RMG, their vectors are opposed.
 
-\begin{center}
+\begin{figure}[h]
+\centering
 \begin{tikzpicture}[node distance=4cm]
     \node (cfee) [rectangle, draw, thick, fill=safe-blue!10, text width=5cm, align=center, rounded corners] 
     {\textbf{CFEE (The Explorer)} \\[0.25em]
@@ -170,7 +169,9 @@ It is helpful to contrast the two major engines of Part IV. While they utilize t
 
     \draw[<->, thick, dashed] (cfee) -- (moriarty) node[midway, above] {Complementary Opposites};
 \end{tikzpicture}
-\end{center}
+\caption{Figure 17.3: CFEE seeks the best future while MORIARTY seeks the worst cheap future—complementary engines that bracket the design space.}
+\label{fig:cfee-vs-moriarty}
+\end{figure}
 
 Both engines are necessary components of a mature system. Both map the universe. One tells you where to go; the other tells you where the dragons are.
 

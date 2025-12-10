@@ -1,13 +1,9 @@
-Here is the revised Chapter 18. I have incorporated the **Lagrangian of Computation**, the **Horizon of Optimizability**, the explicit **EAL connection**, and the **formal theorem** in the sidebar, while maintaining the prose improvements and diagrams from the previous draft.
-
------
-
-```latex
 \chapter{Deterministic Optimization Across Worlds}
 \label{chapter-18-deterministic-optimization-across-worlds}
 
 \begin{quote}
-\emph{Navigating the Rulial Manifold to discover structurally superior universes.}
+\itshape
+Navigating the Rulial Manifold to discover structurally superior universes.
 \end{quote}
 
 For decades, software optimization has been treated as a dark art. It exists as a collection of tribal knowledge, a bag of disconnected heuristics, and a series of aggressive compiler passes that hope for the best. Engineers tweak flags, unroll loops manually, and pray that the black box of the compiler understands their intent. It is a frantic search through a disorganized state space, governed by luck as much as logic.
@@ -26,6 +22,9 @@ In the RMG+DPO (Double-Pushout) worldview, optimization is defined as steering t
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
+    % Grid lines for "geometry" feel (drawn first so it sits behind)
+    \draw[step=0.5cm, gray!30, very thin] (0,0) grid (9,5);
+
     % Draw the manifold surface
     \draw[thick, fill=gray!10] plot [smooth cycle] coordinates {(0,0) (4,1) (8,0) (9,4) (5,5) (1,4)};
     
@@ -37,9 +36,6 @@ In the RMG+DPO (Double-Pushout) worldview, optimization is defined as steering t
     % Draw a "Geodesic" optimized path
     \draw[blue, ultra thick, ->] (2,2) to[out=-20, in=200] (6,2);
     \node[blue, below] at (4,1.2) {Geodesic (Optimized)};
-
-    % Grid lines for "geometry" feel
-    \draw[step=0.5cm, gray!30, very thin] (0,0) grid (9,5);
 \end{tikzpicture}
 \caption{Optimization as Navigation: The naive execution (red) traverses a high-cost, jagged path. The optimized execution (blue) follows the geodesic—the smoothest path allowed by the manifold's curvature.}
 \end{figure}
@@ -89,12 +85,12 @@ This mechanism is the computational equivalent of gradient descent, hill-climbin
 
 While local optimization handles immediate efficiency, global optimization seeks the geodesic: the absolute shortest legal worldline between the start state and the target state. Traditional compilers attempt to approximate this using layers of brittle heuristics. In the \textbf{C$\Omega$MPUTER} framework, we find geodesics by combining structured search across counterfactual universes with rigorous curvature analysis.
 
-By analyzing the interference patterns (Chapter 12) and Rulial metrics (Chapter 5), the system can look ahead. It creates a map of the future cone, identifying paths that may initially look expensive but eventually open up "wormholes"—shortcuts through the state space that bypass vast amounts of computation. This allows for deterministic discovery of optimal simplifications, normal forms, and execution paths. The system effectively bends the computation to align with the most efficient geometry the laws of physics allow.
+By analyzing the interference patterns (\cref{chapter-12-interference}) and Rulial metrics (\cref{chapter-5-rulial-space-rulial-distance}), the system can look ahead. It creates a map of the future cone, identifying paths that may initially look expensive but eventually open up "wormholes"—shortcuts through the state space that bypass vast amounts of computation. This allows for deterministic discovery of optimal simplifications, normal forms, and execution paths. The system effectively bends the computation to align with the most efficient geometry the laws of physics allow.
 
 \section{Counterfactual Optimization: The Synthesis}
 \label{counterfactual-optimization-cfee-optimizer-magic}
 
-The true power of this architecture emerges when we combine the Counterfactual Execution Engine (CFEE) from Chapter 16 with the optimizer. This combination yields Deterministic Multiverse Optimization.
+The true power of this architecture emerges when we combine the Counterfactual Execution Engine (CFEE) from \cref{chapter-16-counterfactual-execution-engines} with the optimizer. This combination yields Deterministic Multiverse Optimization.
 
 In this cycle, the CFEE proposes alternative futures by spawning parallel universes. The optimizer then evaluates these futures using geometric metrics. Finally, the scheduler collapses reality onto the best performing branch. The system essentially "peeks" into nearby universes to see which timeline offers the flattest curvature and the most direct path to the target. It dismisses brittle or high-cost alternatives before they become reality. It is a form of look-ahead that feels prescient, but is grounded entirely in the deterministic geometry of the bundle.
 
@@ -147,7 +143,7 @@ Given RMG states $G_{start}$ and $G_{target}$ and a rule set $\mathcal{R}$, the 
 \]
 where $\gamma$ ranges over legal rewrite sequences from start to target, and $\mathcal{L}$ is the \textbf{Lagrangian of Computation}:
 \[
-\mathcal{L} = \alpha \cdot \text{Cost}_{rewrite} + \beta \cdot \Delta_{memory} + \delta \cdot \text{Interference}(B)
+\mathcal{L} = \alpha \cdot \text{Cost}_{\text{rewrite}} + \beta \cdot \Delta_{\text{memory}} + \delta \cdot \text{Interference}(B)
 \]
 \end{definition}
 
@@ -181,17 +177,15 @@ Finally, we must consider the broader context of the Multi-Rule (MR) axis. Optim
 
 By modifying K-interfaces, altering rewrite patterns, refining invariants, or adjusting recursion strategies, we can produce entirely new universes that inherently optimize better. This implies a system capable of reflective self-improvement—rewriting its own physics to better solve the problem it faces.
 
-This is a profound and complex operation, as it involves navigating the meta-space of all possible rule sets. The mathematics required to perform these "rulial updates" safely is the subject of \textbf{Differential Rulial Analysis}, which we will explore fully in \textbf{Chapter 21}. For now, understand that the ultimate optimization is not finding the best path through the universe, but designing a universe where the best path is trivial.
+This is a profound and complex operation, as it involves navigating the meta-space of all possible rule sets. The mathematics required to perform these "rulial updates" safely is the subject of \textbf{Differential Rulial Analysis}, which we will explore fully in \cref{chapter-twenty-one}. For now, understand that the ultimate optimization is not finding the best path through the universe, but designing a universe where the best path is trivial.
 
-\section*{FOR THE NERDS™}
-
+\begin{tcolorbox}[title=\textbf{FOR THE NERDS™}]
 \textbf{Theorem (Informal).} Given a rewrite bundle $B$ at state $G$ with a target state $G^*$, the optimal rewrite $r^* \in B$ satisfies:
 \[
   r^* = \arg\min_{r \in B} \left[ d_\mathcal{R}(r(G), G^*) + \lambda \cdot \kappa(r) \right]
 \]
 where $\kappa(r)$ is the local curvature induced by applying $r$, and $\lambda$ is a regularization term preventing the selection of brittle, high-curvature paths even if they are technically shorter. This ensures the optimizer favors \emph{robust} geodesics over fragile shortcuts.
-
-(End sidebar.)
+\end{tcolorbox}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -202,5 +196,4 @@ We have constructed a suite of powerful machines: the CFEE to explore futures, M
 
 Crucially, the optimizer does not simply delete these inefficient paths. Every optimization decision—including the counterfactuals examined and discarded—is recorded. The system marks them as unchosen branches in the provenance graph. To make this practical, we need a machine capable of logging not just what happened, but everything that \emph{could} have happened, forever.
 
-We call this Rulial Provenance and the Eternal Audit Log. That is the subject of Chapter 19—the final machine of Part IV.
-```
+We call this Rulial Provenance and the Eternal Audit Log. That is the subject of \cref{chapter-19-rulial-provenance-eternal-audit-logs}—the final machine of Part IV.
