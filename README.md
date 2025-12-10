@@ -1,3 +1,12 @@
+> [!note] 
+> **We are almost there!**
+>
+> I am currently wrapping up the final edits for this book. I plan to publish Version 1.0.0 within the next few weeks.
+>
+> I hope you have enjoyed the content so far. Thanks for reading, and don't forget to Star and Watch the repo so you don't miss the launch!
+>
+> _— James Ross_
+
 [![CΩMPUTER (4)](https://github.com/user-attachments/assets/b3ff795f-694d-48df-ac21-901df6922236)](https://github.com/flyingrobots/aion-computer-book/blob/book/computer.pdf)
 
 <div align="center">
