@@ -149,7 +149,7 @@ complete provenance and mapping the landscape of alternative possibilities.
 
 In other words: 
 
-> **CΩMPUTER turns black-box systems into glass-box systems by making geometry and provenance non-negotiable. **
+> **CΩMPUTER turns black-box systems into glass-box systems by making geometry and provenance non-negotiable.**
 
 ## A Note for ML Researchers 
 
