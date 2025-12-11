@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 TEX_MAIN := tex/computer.tex
 BUILD_DIR := build
 OUT_PDF := computer.pdf
@@ -6,6 +8,7 @@ SVG_SRCS := $(wildcard svg/*.svg)
 SVG_PDFS := $(SVG_SRCS:.svg=.pdf)
 
 .PHONY: all clean
+.PHONY: progress
 
 all: $(OUT_PDF)
 
@@ -35,3 +38,24 @@ clean:
 	latexmk -C -output-directory=$(BUILD_DIR) $(TEX_MAIN) || true
 	rm -rf $(BUILD_DIR) $(OUT_PDF)
 	rm -f tex/computer.{aux,log,out,fls,fdb_latexmk,synctex.gz,pdf}
+
+progress:
+	@set -e; \
+	  file="ROADMAP.md"; \
+	  done=$$(grep -ao "✅" "$$file" | wc -l | tr -d " "); \
+	  doing=$$(grep -ao "⏳" "$$file" | wc -l | tr -d " "); \
+	  todo=$$(grep -ao "◽️" "$$file" | wc -l | tr -d " "); \
+	  total=$$((done + doing + todo)); \
+	  if [ $$total -eq 0 ]; then pct=0; else pct=$$(((100*done + total/2)/total)); fi; \
+	  width=20; filled=$$(((pct*width + 50)/100)); \
+	  bar_short="["; for ((i=1;i<=width;i++)); do if [ $$i -le $$filled ]; then bar_short="$$bar_short█"; else bar_short="$$bar_short░"; fi; done; bar_short="$$bar_short]"; \
+	  width2=49; filled2=$$(((pct*width2 + 50)/100)); \
+	  bar_long="["; for ((i=1;i<=width2;i++)); do if [ $$i -le $$filled2 ]; then bar_long="$$bar_long█"; else bar_long="$$bar_long░"; fi; done; bar_long="$$bar_long]"; \
+	  bottom="0   10   20   30   40   50   60   70   80   90  100"; \
+	  for f in ROADMAP.md README.md; do \
+	    [ -f "$$f" ] || continue; \
+	    PROGPCT="$${pct}% ($${done}/$${total})" perl -0777 -CS -Mutf8 -pi -e 'my $$r=$$ENV{PROGPCT}; s|<!-- PROGRESS_PCT(?:_README)? -->.*?<!-- /PROGRESS_PCT(?:_README)? -->|<!-- PROGRESS_PCT -->$$r<!-- /PROGRESS_PCT -->|sg' "$$f"; \
+	    PROGBAR_SHORT="$${bar_short}" perl -0777 -CS -Mutf8 -pi -e 'my $$r=$$ENV{PROGBAR_SHORT}; s|<!-- PROGRESS_BAR(?:_README)? -->.*?<!-- /PROGRESS_BAR(?:_README)? -->|<!-- PROGRESS_BAR -->$$r<!-- /PROGRESS_BAR -->|sg' "$$f"; \
+	    PROGBAR_LONG="$${bar_long}" BOTTOM="$${bottom}" perl -0777 -CS -Mutf8 -pi -e 'my ($$r,$$b)=@ENV{qw/PROGBAR_LONG BOTTOM/}; s|(<!-- progress -->\n```text\n)[^\n]*\n[^\n]*\n(```\n<!-- /progress -->)|$$1$$r\n$$b\n$$2|sg' "$$f"; \
+	  done; \
+	  echo "Updated progress to $${pct}% ($${done}/$${total}) across ROADMAP.md and README.md"

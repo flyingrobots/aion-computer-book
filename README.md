@@ -5,6 +5,20 @@
 <p>By James Ross</p>
 </div>
 
+## Status
+
+**Overall Progress:** <!-- PROGRESS_PCT -->39% (178/460)<!-- /PROGRESS_PCT -->  
+<!-- PROGRESS_BAR -->–‘]<!-- /PROGRESS_BAR -->
+
+[Roadmap & checklist â†’](ROADMAP.md)
+
+<!-- progress -->
+```text
+–‘]
+0   10   20   30   40   50   60   70   80   90  100
+```
+<!-- /progress -->
+
 ## What if computation had a shape?
 
 Not metaphorically. Not as a diagram on a whiteboard. But as a navigable geometry, where programs move through possibility space, bugs are wrong turns, optimizations are shorter paths, and every execution leaves a trail you can walk backward.

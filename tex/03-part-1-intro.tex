@@ -1,0 +1,111 @@
+\part{Computation as Rewrite}
+\label{part:rewrite}
+
+\chapter*{Introduction to Part I}
+\addcontentsline{toc}{chapter}{Introduction to Part I}
+
+\begin{quote}
+\emph{Part I builds the foundation. At this layer, we stay disciplined.  
+We are talking about engineered systems\emdash{}software, pipelines, state, structure, motion.  
+Nothing more exotic is assumed.}
+\end{quote}
+
+\bigskip
+
+\section*{Why Rewrite?}
+\label{sec:why-rewrite}
+
+The Prologue showed a recurring pattern in modern systems:  
+everything we build eventually collapses into structure and change.
+
+Part I formalizes that pattern.
+
+To work honestly at this layer, we need a lens that matches the world we actually engineer.  
+Not the comforting metaphors of the 1970s\emdash{}files, threads, stacks\emdash{}but the deeper
+geometry underneath them: \textbf{state evolving under rules}.
+
+In this part of the book, we take a disciplined position:
+
+\begin{quote}
+\textbf{Computation is best understood as rewrite:  
+the transformation of structured state under explicit rules.}
+\end{quote}
+
+That’s it.  
+No cosmology. No metaphysics. No claims about “the universe.”  
+Those questions will come later, once we have earned the right to ask them.
+
+For now, we are building the formal substrate for everything that follows.
+
+\bigskip
+
+\section*{A Working Hypothesis}
+\label{sec:working-hypothesis}
+
+The systems you work on today\emdash{}distributed backends,
+data pipelines, build graphs, reactive UIs, real-time engines\emdash{}do not behave like lists of instructions.
+They behave like \textbf{structured state undergoing transformation}.
+
+Rewrite is not a metaphor.  
+Rewrite is the geometry of the motion.
+
+This part of the book establishes three ideas:
+
+\begin{enumerate}
+    \item \textbf{Structure:} why engineered systems naturally collapse into graph form.
+    \item \textbf{Rewrite:} how state evolves under rules.
+    \item \textbf{Composition:} how these rewrites build, layer, and interact.
+\end{enumerate}
+
+These ideas are the intellectual spine of the entire book.
+
+\bigskip
+
+\section*{What This Part Is Not}
+\label{sec:not-yet}
+
+You may notice echoes\emdash{}between rewrite and physics,
+rewrite and cognition, rewrite and dynamical systems.
+That is intentional.
+
+But we are not making claims about the universe.
+
+Not yet.
+
+In Parts IV–VI, we will explore how far this geometry reaches.
+For now, we stay grounded: the domain is engineered systems.
+
+Part I is about \textbf{what software already is},  
+not what the universe might be.
+
+\bigskip
+
+\section*{The Road Ahead}
+\label{sec:road-ahead}
+
+Part I sits at the base of a long ascent:
+
+\begin{itemize}
+    \item Chapters 2–4 build the substrate: Recursive Meta-Graphs, rewrite rules,
+    causality, compositional structure.
+    \item Part II explores movement: execution as path, history as geometry.
+    \item Part III introduces distance, curvature, and possibility.
+    \item Part IV builds machines atop that geometry.
+    \item Part V connects it all to correctness, concurrency, and provenance.
+    \item Part VI finally asks the forbidden question:  
+    \begin{center}
+        \emph{If rewrite explains engineered systems so elegantly\emdash{}  
+        what else might it describe?}
+    \end{center}
+\end{itemize}
+
+But all of that begins here, with a single disciplined idea:
+
+\[
+\text{state} \xrightarrow{\text{rewrite}} \text{state}'.
+\]
+
+This is computation’s most primitive motion.  
+Everything else is structure on top of it.
+
+    
