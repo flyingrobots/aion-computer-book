@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import argparse
+import pathlib
+import re
+import subprocess
+import sys
+from dataclasses import dataclass
+
+
+RE_INPUT = re.compile(r"\\input\{([^}]+)\}")
+RE_CHAPTER = re.compile(r"^[^%]*\\chapter\{", re.MULTILINE)
+
+
+@dataclass(frozen=True)
+class ChapterSpec:
+    chapter_path: pathlib.Path
+    chapter_stem: str  # e.g. "06-ch-04"
+    input_name: str  # e.g. "06-ch-04" (as used by \input{...})
+
+
+def _resolve_chapter(arg: str) -> ChapterSpec:
+    candidate = pathlib.Path(arg)
+
+    if candidate.suffix != ".tex":
+        candidate = candidate.with_suffix(".tex")
+
+    if candidate.exists():
+        chapter_path = candidate
+    else:
+        alt = pathlib.Path("tex") / candidate.name
+        if alt.exists():
+            chapter_path = alt
+        else:
+            raise SystemExit(f"error: chapter file not found: {arg!r}")
+
+    chapter_stem = chapter_path.stem
+    input_name = chapter_stem
+
+    return ChapterSpec(chapter_path=chapter_path, chapter_stem=chapter_stem, input_name=input_name)
+
+
+def _looks_like_numbered_chapter(tex_path: pathlib.Path) -> bool:
+    try:
+        content = tex_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return False
+    return RE_CHAPTER.search(content) is not None
+
+
+def _infer_book_chapter_number(target_input_name: str) -> int | None:
+    """
+    Best-effort: count numbered \\chapter{...} occurrences in the book's
+    mainmatter input order and return the chapter number for the target.
+    """
+    computer = pathlib.Path("tex") / "computer.tex"
+    try:
+        book = computer.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return None
+
+    main_idx = book.find("\\mainmatter")
+    back_idx = book.find("\\backmatter")
+    if main_idx == -1:
+        return None
+
+    slice_end = back_idx if back_idx != -1 else len(book)
+    main_block = book[main_idx:slice_end]
+
+    chapter_number = 0
+    for match in RE_INPUT.finditer(main_block):
+        raw = match.group(1).strip()
+        # In this repo the book uses \input{06-ch-04} without extensions.
+        input_name = raw.split("/")[-1]
+        tex_path = pathlib.Path("tex") / f"{input_name}.tex"
+        if not tex_path.exists():
+            continue
+
+        if _looks_like_numbered_chapter(tex_path):
+            chapter_number += 1
+            if input_name == target_input_name:
+                return chapter_number
+
+    return None
+
+
+def _write_wrapper(
+    out_tex: pathlib.Path, *, chapter_input_name: str, chapter_number: int | None
+) -> None:
+    lines: list[str] = []
+    lines.append(r"\documentclass[11pt,oneside]{book}")
+    lines.append(r"\input{tex/preamble}")
+    lines.append("")
+    lines.append(r"\begin{document}")
+    lines.append(r"\pagenumbering{arabic}")
+    lines.append(r"\setcounter{page}{1}")
+    lines.append(r"\mainmatter")
+    if chapter_number is not None:
+        # The chapter file typically starts with \chapter{...}, which increments the counter.
+        lines.append(rf"\setcounter{{chapter}}{{{chapter_number - 1}}}")
+    # Use an explicit path so we don't accidentally pick up a similarly-named
+    # file from the output directory.
+    lines.append(rf"\input{{tex/{chapter_input_name}}}")
+    lines.append(r"\end{document}")
+    lines.append("")
+
+    out_tex.parent.mkdir(parents=True, exist_ok=True)
+    out_tex.write_text("\n".join(lines), encoding="utf-8")
+
+
+def main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(
+        prog="chapter-pdf",
+        description="Build a standalone PDF for a single chapter.",
+    )
+    parser.add_argument(
+        "chapter",
+        help="Path like tex/06-ch-04.tex, or just 06-ch-04.tex.",
+    )
+    parser.add_argument(
+        "--outdir",
+        default="adhoc",
+        help="Output directory for wrapper + PDF (default: adhoc).",
+    )
+    args = parser.parse_args(argv)
+
+    spec = _resolve_chapter(args.chapter)
+    outdir = pathlib.Path(args.outdir)
+    out_tex = outdir / "_chapter-wrapper.tex"
+
+    chapter_number = None
+    if _looks_like_numbered_chapter(spec.chapter_path):
+        chapter_number = _infer_book_chapter_number(spec.input_name)
+
+    _write_wrapper(out_tex, chapter_input_name=spec.input_name, chapter_number=chapter_number)
+
+    cmd = [
+        "latexmk",
+        "-pdf",
+        "-interaction=nonstopmode",
+        f"-jobname={spec.chapter_stem}",
+        f"-output-directory={outdir.as_posix()}",
+        f"-auxdir={outdir.as_posix()}",
+        out_tex.as_posix(),
+    ]
+    proc = subprocess.run(cmd)
+    return proc.returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))

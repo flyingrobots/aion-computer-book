@@ -1,21 +1,21 @@
-\chapter{CΩSMOS: The Physical Universe as RMG}
+\chapter{CΩSMOS: The Physical Universe as WARP graph}
 \label{sec:cosmos-rmg}
 
 This is the chapter where we commit a mild act of cosmological treason.
 
 So far we’ve:
 
-- built an ontology (RMG + DPO),
+- built an ontology (WARP + DPO),
 - given it geometry (MRMW, curvature, worldlines),
 - showed how physics-like behavior \emph{emerges} from this machinery,
-- and compiled ordinary physical theories into RMG universes.
+- and compiled ordinary physical theories into WARP graph universes.
 
 That’s all cute.
 
 Now we point the gun at the only universe we actually have and say:
 
 \begin{quote}
-\textbf{There exists some RMG $G_\ast$ and some rule set $\mathcal{R}_\ast$ such that the pair $(G_\ast, \mathcal{R}_\ast)$ is\emd{}up to coarse-graining\emd{}our cosmos.}
+\textbf{There exists some WARP $G_\ast$ and some rule set $\mathcal{R}_\ast$ such that the pair $(G_\ast, \mathcal{R}_\ast)$ is\emd{}up to coarse-graining\emd{}our cosmos.}
 \end{quote}
 
 We’ll call this hypothetical pair \emph{CΩSMOS}. This chapter is not "here is the final rule of the universe." It’s:
@@ -29,7 +29,7 @@ It’s a spec, not a solution.
 
 We need a precise target.
 
-Saying "encode the universe" is useless; we need constraints an RMG can pass or fail.
+Saying "encode the universe" is useless; we need constraints a WARP graph can pass or fail.
 
 Let’s define:
 
@@ -69,7 +69,7 @@ Concretely, that means:
     \end{itemize}
 \end{enumerate}
 
-If your RMG doesn’t tick boxes like this, it’s not "our universe." It’s just fanfic.
+If your WARP graph doesn’t tick boxes like this, it’s not "our universe." It’s just fanfic.
 
 \subsubsection*{27.2  Design Constraints from Observation}
 
@@ -110,7 +110,7 @@ Automorphism groups of local graph motifs must contain something isomorphic to:
 - a product of continuous gauge groups (or a good discrete approximation),
 - acting on "matter" subgraphs in the right representations.
 
-Symmetries cannot be tacked on externally; they must be actual RMG symmetries / rule equivariances.
+Symmetries cannot be tacked on externally; they must be actual WARP symmetries / rule equivariances.
 
 \paragraph{(5) A natural low-entropy "initial" region.}
 
@@ -128,7 +128,7 @@ These are obnoxiously strong constraints. Good. That’s how you filter most of 
 
 A sane move for CΩSMOS is to go \emph{pre-geometric}:
 
-- Start with a causal RMG: a graph whose primary structure is "who can affect whom," not coordinates.
+- Start with a causal WARP graph: a graph whose primary structure is "who can affect whom," not coordinates.
 - Let spacetime, distance, and dimension fall out as emergent properties of that causal structure.
 
 So we posit:
@@ -157,7 +157,7 @@ Actual "geometry’’ then is derived:
 
 You don’t start with $\mathbb{R}^{3,1}$. You discover something that \emph{acts} like it.
 
-RMG recursion gives you a clean layering:
+WARP recursion gives you a clean layering:
 
 - Level 0: raw events and their causal edges.
 - Level 1: coarse-grained "regions" and emergent coordinates.
@@ -255,7 +255,7 @@ Gravity emerges as:
 - a tendency of rewrite trajectories to explore regions of MRMW with maximal microstate volume under macroscopic constraints,
 - leading to effective attraction between matter subgraphs because those configurations dominate combinatorially.
 
-You can mix these pictures; both live happily in RMG.
+You can mix these pictures; both live happily in WARP.
 
 The critical bit: you never add "gravity" as a separate force. You let curvature of the causal structure \emph{be} what we call gravity, with matter patterns as the source of that curvature.
 
@@ -306,7 +306,7 @@ To make CΩSMOS actually resemble our universe, you must inject the Part~III mac
   \]
   where $S$ is computed from local graph motifs along the path.
 
-- \textbf{Interference} arises when different histories lead to the same coarse-grained RMG state; their amplitudes sum (constructively or destructively) before probabilities are taken.
+- \textbf{Interference} arises when different histories lead to the same coarse-grained WARP state; their amplitudes sum (constructively or destructively) before probabilities are taken.
 
 - \textbf{Measurement} is implemented as:
   \begin{itemize}
@@ -319,7 +319,7 @@ In CΩSMOS, then, there is no ontological distinction between "classical region"
 - regimes where bundles are thick and interference is visible,
 - regimes where coarse-graining has effectively washed interference out.
 
-Our universe looks "quasi-classical" on macroscales because the observer-subgraphs we inhabit are violently coarse-grained; not because the underlying RMG forgot how to do quantum.
+Our universe looks "quasi-classical" on macroscales because the observer-subgraphs we inhabit are violently coarse-grained; not because the underlying WARP graph forgot how to do quantum.
 
 \subsubsection*{27.9  Where Are We in MRMW?}
 
@@ -359,7 +359,7 @@ Turning CΩSMOS from concept to science means:
 
   \item \textbf{Evolving them at scale} in a CΩMPUTER runtime that:
     \begin{itemize}
-      \item natively handles RMG + DPO + bundles,
+      \item natively handles WARP + DPO + bundles,
       \item tracks causal structure and curvature,
       \item supports aggressive coarse-graining and observable queries.
     \end{itemize}
@@ -387,14 +387,14 @@ In other words: "find the rule of the universe’’ becomes a large-scale inver
 Because once you do, several walls fall at once:
 
 \begin{itemize}
-  \item The wall between simulation and reality: there’s just one substrate (RMG + DPO), and "real" vs "modeled" are about which region of MRMW you’re in and how you’re coupled to it.
+  \item The wall between simulation and reality: there’s just one substrate (WARP + DPO), and "real" vs "modeled" are about which region of MRMW you’re in and how you’re coupled to it.
 
-  \item The wall between physical and non-physical systems: markets, organisms, AIs, and galaxies all become different RMG universes with different constraints.
+  \item The wall between physical and non-physical systems: markets, organisms, AIs, and galaxies all become different WARP graph universes with different constraints.
 
   \item The wall between "fundamental" and "effective" theories: both are just different coarse-grainings / coordinates on the same underlying combinatorics.
 \end{itemize}
 
-CΩSMOS is not a separate product; it’s just the name we give to the particular RMG that earned the right to be called "our universe."
+CΩSMOS is not a separate product; it’s just the name we give to the particular WARP graph that earned the right to be called "our universe."
 
 \medskip
 
@@ -403,5 +403,5 @@ The next chapter, \emph{The Future of Intelligence in MRMW}, zooms back in from 
 We’ll take everything we’ve said about CΩSMOS and ask:
 
 \begin{quote}
-Given that we live inside one particular RMG universe with all this structure, what does it really mean to be "intelligent" here\emd{}and how far can we push that, once CΩMPUTER lets us see and steer our position in MRMW?  
+Given that we live inside one particular WARP graph universe with all this structure, what does it really mean to be "intelligent" here\emd{}and how far can we push that, once CΩMPUTER lets us see and steer our position in MRMW?  
 \end{quote}

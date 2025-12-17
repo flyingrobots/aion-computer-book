@@ -22,7 +22,7 @@ They fail to answer the questions that actually matter to a distributed systems 
 
 Traditional debugging tools cannot answer these questions because traditional computation has no geometry. It has no topology. It has no notion of a ``space'' of alternatives.
 
-RMG+DPO (Recursive Metagraphs + Double Pushout rewriting) changes that. In an RMG universe, debugging is not a reactive hunt for bugs. It is geometric navigation through a manifold of possibilities.
+WARP+DPO (WARP Graphs + Double Pushout rewriting) changes that. In a WARP graph universe, debugging is not a reactive hunt for bugs. It is geometric navigation through a manifold of possibilities.
 
 Welcome to **Time Travel Debugging**—a machine that allows you to walk backward through Chronos (sequential time), step sideways across Kairos (opportunity and choice), and move diagonally into parallel histories.
 
@@ -71,7 +71,7 @@ In \COMPUTER{}, a worldline is a rich geometric object. It doesn't just store th
 
 At every tick of the clock, the system persists:
 \begin{itemize}
-    \item The **RMG** state (the graph).
+    \item The **WARP** state (the graph).
     \item The **Bundle**: The set of all valid DPO rule matches that *could* have fired.
     \item The **Interference Pattern**: Which rules were mutually exclusive (critical pairs) and which were independent.
     \item The **Collapse**: The specific choice the scheduler made to resolve conflicts.
@@ -95,12 +95,12 @@ Because every state transition is a graph rewrite rule $L \to R$ (Left-hand side
 
 This allows us to:
 \begin{itemize}
-    \item Reconstruct the prior RMG universe with perfect fidelity.
+    \item Reconstruct the prior WARP graph universe with perfect fidelity.
     \item Restore the ``bundle'' of potentiality that existed at that moment.
     \item Reveal the alternatives that were available *before* the choice was made.
 \end{itemize}
 
-This is fully reversible not because we have infinite storage, but because provenance is baked into the RMG. Time travel here is not state replay; it is **structural reconstruction**.
+This is fully reversible not because we have infinite storage, but because provenance is baked into the WARP graph. Time travel here is not state replay; it is **structural reconstruction**.
 
 \section{Sidestepping Into the Time Cube}
 
@@ -144,7 +144,7 @@ At any specific tick, you can pause and inspect the **Bundle**. This view reveal
     \item \textbf{Invariant Constraints:} Why did the system prune specific branches?
 \end{itemize}
 
-This is the moment traditional debuggers cannot show you: the adjacent futures. In the RMG worldview, debugging implies stepping sideways to inspect the ``road not taken.'' You aren't debugging the code; you are debugging the *physics* of your computational universe to understand why the probability collapsed the way it did.
+This is the moment traditional debuggers cannot show you: the adjacent futures. In the WARP worldview, debugging implies stepping sideways to inspect the ``road not taken.'' You aren't debugging the code; you are debugging the *physics* of your computational universe to understand why the probability collapsed the way it did.
 
 \section{Forward Into Counterfactual Worldlines}
 
@@ -227,7 +227,7 @@ A database transaction was lost.
     \item Diagnosis: The consensus algorithm allowed a commit before the lock was fully propagated.
 \end{itemize}
 
-This is not theory. This is a machine. A real-world tool made possible by the rigor of RMG+DPO.
+This is not theory. This is a machine. A real-world tool made possible by the rigor of WARP+DPO.
 
 \begin{nerdbox}
 \textbf{MWTT $\approx$ Traversal of the Rulial Neighborhood Graph}

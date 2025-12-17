@@ -3,13 +3,13 @@
 This roadmap tracks the CΩMPUTER manuscript from rough draft through final release v1.0.0.
 
 **Overall Progress:** <!-- PROGRESS_PCT -->39% (178/460)<!-- /PROGRESS_PCT -->  
-<!-- PROGRESS_BAR -->��]<!-- /PROGRESS_BAR -->
+<!-- PROGRESS_BAR -->[████████░░░░░░░░░░░░]<!-- /PROGRESS_BAR -->
 
 ### Progress
 
 <!-- progress -->
 ```text
-��]
+[███████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]
 0   10   20   30   40   50   60   70   80   90  100
 ```
 <!-- /progress -->
@@ -138,7 +138,7 @@ All code samples tested and working
 All diagrams accurately represent the concepts
 Category theory notation follows standard conventions
 DPO rewriting rules are formally correct
-RMG definitions are internally consistent
+WARP graph definitions are internally consistent
 No hand-wavy claims without justification
 Bibliography entries verified (authors, years, titles)
 External reviewer sign-off (if applicable)
@@ -172,7 +172,7 @@ Chapter lengths reasonably balanced
 
 Grammar checked (no dangling modifiers, subject-verb agreement)
 Punctuation consistent (Oxford comma decision applied throughout)
-Hyphenation consistent (e.g., "meta-graph" vs "metagraph" — pick one)
+Hyphenation consistent (e.g., "worldline" vs "world-line" — pick one)
 Capitalization rules applied (Title Case for headings?)
 Number style consistent (spell out under 10? Always numerals?)
 Em-dash vs en-dash vs hyphen used correctly

@@ -15,16 +15,16 @@ This chapter is where we stop treating that as a motivational poster and actuall
 spell out the mapping.
 
 We are not "simulating physics." We are identifying physics with
-\emph{statistics and invariants of rewrite} on a particular class of RMGs.
+\emph{statistics and invariants of rewrite} on a particular class of WARP graphs.
 The universe isn’t running on a computer; the universe is what it feels like
 to be a very specific CΩMPUTER instance.
 
-\subsubsection*{25.1  Substrate First: RMG + DPO as "World"}
+\subsubsection*{25.1  Substrate First: WARP + DPO as "World"}
 
 We start from the ontology built in Parts I–III:
 
 \begin{itemize}
-  \item A \textbf{Recursive Meta-Graph} (RMG) is the underlying state object.
+  \item A \textbf{WARP Graph} (WARP) is the underlying state object.
         Nodes and edges can themselves point to graphs, rules, or higher-order
         structures. "State" is not a flat configuration; it's a tower of graphs
         describing both objects and the laws that act on them.
@@ -63,7 +63,7 @@ From within a universe, nobody sees DPO diagrams. They see:
 Formally, that means:
 
 \begin{enumerate}
-  \item There exists a \textbf{coarse-graining} $C$ from the raw RMG state $G$
+  \item There exists a \textbf{coarse-graining} $C$ from the raw WARP state $G$
         to macrostates $X = C(G)$ such that the induced dynamics on $X$ is:
         \begin{itemize}
           \item approximately Markovian on relevant time scales,
@@ -81,9 +81,9 @@ Formally, that means:
 \end{enumerate}
 
 Whenever these conditions hold, embedded agents will end up inventing something
-indistinguishable from "physics," whether or not they know RMGs or DPO exist.
+indistinguishable from "physics," whether or not they know WARP graphs or DPO exist.
 
-The rest of the chapter is just spelling out those bullets in RMG language.
+The rest of the chapter is just spelling out those bullets in WARP language.
 
 \subsubsection*{25.3  Conservation Laws as Rewrite Invariants}
 
@@ -199,7 +199,7 @@ as something outside the universe.
 We define:
 
 \begin{itemize}
-  \item A \textbf{microstate} as a full RMG $G$.
+  \item A \textbf{microstate} as a full WARP graph $G$.
   \item A \textbf{macrostate} as an equivalence class $[G]$ under some coarse-graining $C$.
   \item The \textbf{entropy} of a macrostate $X$ as:
     \[
@@ -235,7 +235,7 @@ trajectories distribute over macrostates:
 This is not metaphor. It’s literally counting the ways the graph can be while
 keeping some invariants fixed.
 
-\subsubsection*{25.7  Landauer in RMG Clothing}
+\subsubsection*{25.7  Landauer in WARP Clothing}
 
 Landauer’s principle says: erasing one bit of information has a minimum
 thermodynamic cost.
@@ -266,7 +266,7 @@ that track logical and physical irreversibility separately.
 Micro DPO rules can be perfectly reversible: every step has an unambiguous inverse.
 Yet embedded observers still see an arrow of time.
 
-In RMG language:
+In WARP language:
 
 \begin{itemize}
   \item The \textbf{microscopic dynamics} can be symmetric: for every allowed
@@ -286,7 +286,7 @@ different.
 
 This lines up with standard statistical mechanics, but we now have a concrete
 computational substrate beneath it: no appeal to vague ensembles, just explicit
-counts of RMG states.
+counts of WARP states.
 
 \subsubsection*{25.9  Mapping Table: Physics $\leftrightarrow$ CΩMPUTER}
 
@@ -295,9 +295,9 @@ We can now summarize the core identifications:
 \begin{center}
 \begin{tabular}{ll}
 \toprule
-\textbf{Physics Concept} & \textbf{CΩMPUTER / RMG Concept} \\
+\textbf{Physics Concept} & \textbf{CΩMPUTER / WARP Concept} \\
 \midrule
-State of the world & RMG $G$ (possibly with layered structure) \\
+State of the world & WARP $G$ (possibly with layered structure) \\
 Law of motion & DPO rule set $\mathcal{R}$ \\
 Event & Single DPO rewrite application \\
 Spacetime point & Node in causal graph of rewrite events \\
@@ -315,7 +315,7 @@ Arrow of time & Asymmetry induced by coarse-graining $C$ \\
 \end{center}
 
 This table is not decorative. It’s the checklist for deciding whether a given
-RMG + rule set deserves to be taken seriously as a "physical" universe.
+WARP + rule set deserves to be taken seriously as a "physical" universe.
 
 \subsubsection*{25.10  Why This Matters (and What Comes Next)}
 
@@ -326,7 +326,7 @@ So what did we actually do in this chapter?
         it is a structured pattern inside MRMW.
 
   \item We grounded standard physical notions (conservation, symmetry, light cones,
-        entropy, time’s arrow) directly in RMG + DPO.
+        entropy, time’s arrow) directly in WARP + DPO.
 
   \item We set up a concrete program: given a candidate rule system,
         you can now ask, in a disciplined way, "Does this generate physics-like
@@ -337,7 +337,7 @@ The next chapter, \emph{Physics as Computation}, will push in the opposite direc
 
 \begin{quote}
 Given a traditional physical theory (say, a Lagrangian or a differential equation),
-how do we \emph{compile} it into an RMG + DPO rule set such that the mapping
+how do we \emph{compile} it into a WARP + DPO rule set such that the mapping
 outlined here becomes exact rather than hand-wavy?
 \end{quote}
 

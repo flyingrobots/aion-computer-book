@@ -53,7 +53,7 @@ We are building machines whose entire purpose is to \textbf{actively explore} co
     \item and Hypothetical execution.
 \end{itemize}
 
-You are not simulating possibilities in the colloquial sense of guessing. You are executing actual, legal RMG universes in structured, bounded, computable ways. Let's build the machine.
+You are not simulating possibilities in the colloquial sense of guessing. You are executing actual, legal WARP graph universes in structured, bounded, computable ways. Let's build the machine.
 
 ---
 
@@ -69,11 +69,11 @@ Finally, it collapses back to Chronos. It selects the best path based on concret
 
 ---
 
-\section{Why Counterfactual Execution Is Safe in RMG+DPO}
+\section{Why Counterfactual Execution Is Safe in WARP+DPO}
 
 In a traditional von Neumann architecture, exploring "what if" scenarios is dangerous and expensive. State is mutable and global; forking a process is heavy; and the space of potential inputs is effectively infinite and unstructured. If you try to explore all reachable states of a standard C++ program, you encounter the halting problem immediately.
 
-But we are in an RMG universe, and that changes the physics of exploration.
+But we are in a WARP graph universe, and that changes the physics of exploration.
 
 \begin{enumerate}
     \item \textbf{Finite Bundles:} At any given tick, the number of valid DPO rule matches is finite.
@@ -94,7 +94,7 @@ The operational loop of a CFEE is a cycle of expansion and contraction. At each 
 The engine pauses execution and identifies the ``Bundle''—the complete set of legal rewrites that satisfy the current Left-Hand Side (LHS) of the DPO rules.
 
 \textbf{2. Multiverse Spawning} \\
-For every valid rewrite in the bundle (or a heuristic subset thereof), the engine spawns a parallel universe. In implementation terms, this is a copy-on-write clone of the RMG state.
+For every valid rewrite in the bundle (or a heuristic subset thereof), the engine spawns a parallel universe. In implementation terms, this is a copy-on-write clone of the WARP graph state.
 
 \textbf{3. Bounded Forward Exploration} \\
 The engine advances each of these parallel universes forward. It applies the standard scheduler to them, respecting all invariants and minimal paths. This exploration is bounded by depth (time ticks) or Rulial Distance (structural change).
@@ -115,7 +115,7 @@ This is not "branch and bound" in the traditional sense. This is navigating a st
 \begin{center}
 \begin{tikzpicture}[node distance=2cm]
     % Nodes
-    \node (start) [rectangle, draw, rounded corners, fill=white, text width=3cm, align=center] {Current RMG State};
+    \node (start) [rectangle, draw, rounded corners, fill=white, text width=3cm, align=center] {Current WARP State};
     \node (bundle) [trapezium, draw, trapezium left angle=70, trapezium right angle=110, fill=gray!10, below of=start, text width=2.5cm, align=center] {Compute Bundle};
     
     \node (world1) [circle, draw, fill=electricblue!20, below left of=bundle, xshift=-1cm] {$W_1$};
@@ -163,7 +163,7 @@ The CFEE can act as a resilience engine. Before committing to a transaction, it 
 
 We previously discussed the Time Cube (Chapter 5) as a theoretical construct—a visualization of local history and future possibility. For the CFEE, the Time Cube is not a diagram; it is the input data structure.
 
-The ``Bundle'' is the entry point. The ``Light Cone'' is the horizon of the search depth. The ``Neighborhoods'' define the structure of the search space. When the CFEE runs, it is literally reading the geometry of the Time Cube to make decisions. This is what makes RMG+DPO a computational substrate rather than just a model: the geometry *is* the logic.
+The ``Bundle'' is the entry point. The ``Light Cone'' is the horizon of the search depth. The ``Neighborhoods'' define the structure of the search space. When the CFEE runs, it is literally reading the geometry of the Time Cube to make decisions. This is what makes WARP+DPO a computational substrate rather than just a model: the geometry *is* the logic.
 
 ---
 
@@ -183,7 +183,7 @@ We are not rolling dice. We are essentially running ten different, perfectly rig
 
 The specter of exponential explosion haunts any discussion of branching paths. Why doesn't the CFEE crash the system by spawning billions of universes?
 
-The answer lies in the structure of RMGs. The search space is heavily constrained by:
+The answer lies in the structure of WARP graphs. The search space is heavily constrained by:
 \begin{itemize}
     \item \textbf{Interference:} Many rules are mutually exclusive. Picking one prunes the others immediately.
     \item \textbf{Invariants:} Any path that violates a graph invariant is instantly terminated.

@@ -33,7 +33,7 @@ A worldline is not a metaphor. In C$\Omega$MPUTER, it is a rigorously defined ma
 \end{quote}
 
 The traditional vocabulary—“running code,” “executing instructions”—is too fuzzy to describe what
-actually happens. In RMG space, execution is nothing but an unbroken chain of graph states:
+actually happens. In WARP space, execution is nothing but an unbroken chain of graph states:
 
 \[
 S_0 \to S_1 \to S_2 \to \dots \to S_N.
@@ -51,7 +51,7 @@ exclusively on this line. The worldline \emph{is} the computation. Everything el
 \toprule
 \textbf{Concept} & \textbf{Mathematical Object} & \textbf{Runtime Intuition} \\
 \midrule
-State & RMG $S$ & Heap / object graph at a tick \\
+State & WARP $S$ & Heap / object graph at a tick \\
 Rule & DPO production $(L,K,R)$ & Instruction / function with pre- and post-conditions \\
 Match & Monomorphism $L \hookrightarrow S$ & Concrete pattern match on in-memory objects \\
 Scheduler & Selection function $\sigma(S)$ & Interpreter loop / thread scheduler \\
@@ -90,7 +90,7 @@ ambiguity using a strict, layered decision stack:
 
 \begin{enumerate}
     \item \textbf{Canonical Match Enumeration.}  
-    All matches are expressed as tuples of node IDs, edge IDs, and port bindings. Because the RMG
+    All matches are expressed as tuples of node IDs, edge IDs, and port bindings. Because the WARP graph
     has stable identities, these tuples form an ordered set.
 
     \item \textbf{Lexicographic Ordering.}  
@@ -418,7 +418,7 @@ call. Collapse is the act that converts possibility into history.
 If execution is a path, then a bug is a wrong turn.
 
 Traditional debugging gives you snapshots—stack traces, log lines, memory dumps. Static clues.
-RMG-based debugging gives you the \emph{path} itself. You can examine where the worldline bent,
+WARP-based debugging gives you the \emph{path} itself. You can examine where the worldline bent,
 whether it was legal, and what structural condition misdirected it.
 
 Because worldlines and states are immutable, we can do something unheard of in classical systems:
@@ -790,12 +790,12 @@ on the manifold of possible universes, aligning your worldline with the geodesic
 \section*{FOR THE NERDS™: Worldlines and Lambda Calculus Reduction}
 
 If you squint, a worldline is a reduction sequence in Lambda Calculus. Each rewrite is a kind of
-redex collapse. But the analogy breaks quickly: RMG reductions operate in a metric space, support
+redex collapse. But the analogy breaks quickly: WARP graph reductions operate in a metric space, support
 explicit structure persistence, allow recursive edges, and operate over nested, multi-scale graphs.
 
 The key point: the \textbf{Scheduler is the reduction strategy}. Not metaphorically—literally.  
 Just as lambda calculi pick leftmost-outermost or CBV, the Scheduler picks which match collapses next.
-The difference is that RMG space is curved, structured, and globally coherent.
+The difference is that WARP space is curved, structured, and globally coherent.
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -835,7 +835,7 @@ reachable universe state.
 Let:
 
 \begin{itemize}
-    \item $\mathcal{S}$ be the set of all valid RMG universe states.
+    \item $\mathcal{S}$ be the set of all valid WARP graph universe states.
     \item $\mathcal{R}$ be a finite set of DPO rewrite rules.
     \item Each rule $r \in \mathcal{R}$ has a unique identifier $\mathrm{id}(r)$
           drawn from a totally ordered set $(\mathbb{R}_{\text{id}}, <_{\text{rule}})$.
@@ -972,7 +972,7 @@ byte-for-byte, across replays, reboots, architectures, and compilers.
 
 \section{Stable Identity Invariant}
 
-Every node and edge in an RMG must carry a \textbf{stable, opaque identity}
+Every node and edge in a WARP graph must carry a \textbf{stable, opaque identity}
 drawn from a totally ordered set.
 
 \begin{itemize}
@@ -1095,7 +1095,7 @@ C$\Omega$MPUTER does not know what day it is.
 All state influencing rewrite decisions must be:
 
 \begin{itemize}
-    \item stored explicitly in the RMG, or
+    \item stored explicitly in the WARP graph, or
     \item encoded in the rule ID / match structure.
 \end{itemize}
 

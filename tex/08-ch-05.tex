@@ -27,13 +27,13 @@ Welcome to \textbf{Rulial Space}.
 \section{From Rewrites to Possibility}
 \label{from-rewrites-to-possibility}
 
-At any specific moment in a Recursive Meta-Graph (RMG) universe, the system is vibrant with potential. A set of Double-Pushout (DPO) rules is waiting to fire.
+At any specific moment in a WARP Graph (WARP) universe, the system is vibrant with potential. A set of Double-Pushout (DPO) rules is waiting to fire.
 
 The behavior of these rules is rarely uniform. Some rules match the current graph topology immediately. Others fail to match. Some conflict with one another, fighting for the same resources, while others overlap peacefully. There are rules that are impossible in the current tick but will become inevitable in the next, and rules that rewrite deeply nested structures inside an edge or a node.
 
 When you take all these potential interactions together, they do not form a chaotic cloud. They form a \textbf{finite set of legal next moves}.
 
-This set is the \textbf{local slice} of Rulial Space. It is the subgraph of all reachable RMG states exactly one tick away from the current worldline, bounded strictly by your specific rule system. We call this the \textbf{Kairos plane}—the field of immediate legal options.
+This set is the \textbf{local slice} of Rulial Space. It is the subgraph of all reachable WARP states exactly one tick away from the current worldline, bounded strictly by your specific rule system. We call this the \textbf{Kairos plane}—the field of immediate legal options.
 
 You feel the presence of this plane every time you write code, debug a complex system, or attempt to optimize a pipeline. You are intuitively navigating possibility, sensing which moves are legal and which are blocked. This chapter provides the formal language to make that intuition explicit.
 
@@ -255,7 +255,7 @@ Consider our Life-Block example again. Moving from $S_0$ to $S_1$ (adding one bl
 
 We must ground these geometric concepts in a fundamental realization about the nature of the machine.
 
-An RMG stores state. A DPO rewrite transforms state. Therefore, it follows that \textbf{RMG equals storage}, and \textbf{DPO equals computation}. But when you look closer, the distinction vanishes.
+A WARP graph stores state. A DPO rewrite transforms state. Therefore, it follows that \textbf{WARP equals storage}, and \textbf{DPO equals computation}. But when you look closer, the distinction vanishes.
 
 \textbf{Storage is simply frozen computation. Computation is simply storage in motion.}
 
@@ -295,7 +295,7 @@ This section collects the formal definitions underlying Rulial Space, Rulial Dis
 \begin{definition}[State Space]
 Let $\mathcal{R}$ be a fixed DPO rule algebra, and let
 \[
-\mathcal{S} = \{\, s \mid s \text{ is an RMG state legal under } \mathcal{R} \,\}.
+\mathcal{S} = \{\, s \mid s \text{ is a WARP state legal under } \mathcal{R} \,\}.
 \]
 We call $\mathcal{S}$ the \emph{Rulial State Space} determined by $\mathcal{R}$. This is the universe carved out by Aios.
 \end{definition}
@@ -612,7 +612,7 @@ A DPO rewrite $s \to t$ in $\mathcal{C}$ is realized by a pair of pushouts
     \node at (5,0.6) {$\ulcorner$};
 \end{tikzpicture}
 \]
-where the left square is a pushout complement and the right square is a pushout in $\mathcal{C}$. The RMG view treats $s$ and $t$ as objects in such a category, with DPO rewrites as morphisms.
+where the left square is a pushout complement and the right square is a pushout in $\mathcal{C}$. The WARP view treats $s$ and $t$ as objects in such a category, with DPO rewrites as morphisms.
 \end{definition}
 
 \begin{remark}[Rulial Space as a Free Category on a Rewrite Graph]
@@ -624,7 +624,7 @@ After suitable coarse-graining (e.g., quotienting by observational equivalence o
 \end{conjecture}
 
 \begin{remark}
-If this conjecture holds even in restricted classes of RMGs, it opens the door to treating long-running computations as trajectories in an emergent geometric space, with optimization, scheduling, and verification all recast as geometric problems about geodesics, curvature, and volume.
+If this conjecture holds even in restricted classes of WARP graphs, it opens the door to treating long-running computations as trajectories in an emergent geometric space, with optimization, scheduling, and verification all recast as geometric problems about geodesics, curvature, and volume.
 \end{remark}
 
 \section*{Forward References: Where These Structures Reappear}
@@ -670,7 +670,7 @@ The formal machinery introduced in this section becomes essential in later parts
 \item \textbf{Appendices}  
       \begin{itemize}
           \item The categorical DPO formalism is expanded into a full algebraic semantics for 
-                RMG rewriting, including adhesive-category properties, functorial semantics, 
+                WARP graph rewriting, including adhesive-category properties, functorial semantics, 
                 and conditions for confluence.
       \end{itemize}
 
@@ -702,7 +702,7 @@ This is where computation becomes a \textbf{journey}, not a machine. And that is
 
 $\mathcal{S}$ & The Rulial State Space: all states legal under the rule algebra $\mathcal{R}$. \\[2pt]
 
-$\mathcal{R}$ & The DPO rule algebra governing legal rewrites in the RMG universe. \\[2pt]
+$\mathcal{R}$ & The DPO rule algebra governing legal rewrites in the WARP graph universe. \\[2pt]
 
 $s \to t$ & A legal one-step rewrite from $s$ to $t$ (Chronos step). \\[2pt]
 

@@ -1,6 +1,4 @@
-\chapter{Twenty-Two}\label{chapter-twenty-two}
-
-\section{RMG Storage Systems (Git, IPLD,
+\chapter{WARP Storage Systems (Git, IPLD,
 GATOS)}\label{rmg-storage-systems-git-ipld-gatos}
 
 \begin{quote}
@@ -19,7 +17,7 @@ They stored bytes, not universes.
 Storage was treated as something external to computation, an inert
 substrate where results were dumped after-the-fact.
 
-But in an RMG ontology, there is no difference between:
+But in a WARP ontology, there is no difference between:
 
 \begin{itemize}
 \tightlist
@@ -61,7 +59,7 @@ A ``file'' is:
 \begin{itemize}
 \tightlist
 \item
-  a sub-RMG
+  a sub-WARP graph
 \item
   with canonicalized rewrite history
 \item
@@ -88,10 +86,10 @@ This is why Git, IPLD, and GATOS all converge in this chapter.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsection{2. Git as a Primitive RMG Storage
+\subsection{2. Git as a Primitive WARP Storage
 System}\label{git-as-a-primitive-rmg-storage-system}
 
-Git accidentally stumbled into RMG theory 15 years before the math
+Git accidentally stumbled into WARP theory 15 years before the math
 existed.
 
 Its core truths:
@@ -99,7 +97,7 @@ Its core truths:
 \begin{itemize}
 \tightlist
 \item
-  Content-addressed objects → nodes in the RMG
+  Content-addressed objects → nodes in the WARP graph
 \item
   Merkle edges → causal provenance
 \item
@@ -114,7 +112,7 @@ Its core truths:
 
 Git is not a version control system.
 
-Git is an early, naive, but shockingly successful RMG archiver.
+Git is an early, naive, but shockingly successful WARP archiver.
 
 Its flaws are exactly the places where it tries\emd{}and fails\emd{}to hide
 its true nature:
@@ -133,12 +131,12 @@ its true nature:
   merges treated as ad hoc text manipulation
 \end{itemize}
 
-But the skeleton is unmistakable. Git is the ``Stone Age'' of RMG
+But the skeleton is unmistakable. Git is the ``Stone Age'' of WARP
 storage\emd{}and it proved the model works.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsection{3. IPLD: The First Attempt at Universalizing the RMG
+\subsection{3. IPLD: The First Attempt at Universalizing the WARP
 Layer}\label{ipld-the-first-attempt-at-universalizing-the-rmg-layer}
 
 The InterPlanetary Linked Data (IPLD) effort recognized that Git's data
@@ -160,7 +158,7 @@ IPLD generalized:
   decentralized storage
 \end{itemize}
 
-This was the first move toward a universal address space for RMG
+This was the first move toward a universal address space for WARP graph
 fragments, but IPLD could not take the next step:
 
 \begin{itemize}
@@ -240,7 +238,7 @@ GATOS is not a key-value store. It is a many-world hyper-database.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsection{5. The Core Formal Model: Objects as RMG
+\subsection{5. The Core Formal Model: Objects as WARP
 Patches}\label{the-core-formal-model-objects-as-rmg-patches}
 
 Let's formalize.
@@ -312,7 +310,7 @@ Here's the core structural diagram you'll want in the book later:
                       └──────────┬───────────┘
                                  │
                   ┌──────────────┴──────────────┐
-                  │            RMG               │
+                  │            WARP              │
                   │    (Program Universe)        │
                   └──────────────┬──────────────┘
                                  │
@@ -330,7 +328,7 @@ Here's the core structural diagram you'll want in the book later:
          │                                                 │
 ┌────────┴───────────┐        ┌────────┴───────────┐       ┌────────┴──────────┐
 │        Git         │        │        IPLD         │       │      GATOS        │
-│   (Naive RMG)      │        │ (Generalized DAG)   │       │(Executable RMG OS)│
+│   (Naive WARP)     │        │ (Generalized DAG)   │       │(Executable WARP OS)│
 └────────────────────┘        └─────────────────────┘       └───────────────────┘
 \end{lstlisting}
 
@@ -344,7 +342,7 @@ transmitting those subgraphs.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsection{7. The Law of RMG Storage}\label{the-law-of-rmg-storage}
+\subsection{7. The Law of WARP Storage}\label{the-law-of-rmg-storage}
 
 The first law of GATOS:
 
@@ -385,7 +383,7 @@ This is what it means to store computation-as-physics.
 \subsection{8. Why This Matters for
 CΩMPUTER}\label{why-this-matters-for-cux3c9mputer}
 
-Without RMG storage systems:
+Without WARP storage systems:
 
 \begin{itemize}
 \tightlist

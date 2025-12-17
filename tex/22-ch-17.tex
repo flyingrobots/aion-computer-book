@@ -48,7 +48,7 @@ We call this machine \textbf{MORIARTY}. It is the adversarial multiverse intelli
 
 \section{What Is an Adversarial Universe?}
 
-An adversarial universe is a parallel, legally constructed RMG+DPO universe that explores worst-case futures with the explicit goal of violating system invariants.
+An adversarial universe is a parallel, legally constructed WARP+DPO universe that explores worst-case futures with the explicit goal of violating system invariants.
 
 It is crucial to distinguish this form of "malice" from moral intent. MORIARTY is not malicious in the human sense; it is malicious in the computational sense. While the Counterfactual Execution Engine (CFEE) described in Chapter 16 asks the question, ``What is the \textit{best} next worldline to achieve our goals?'', MORIARTY inverts the utility function entirely. It asks:
 
@@ -60,13 +60,13 @@ Specifically, it seeks to identify a structurally correct, legally permissible, 
 
 MORIARTY’s function is to break your system. However, unlike a chaotic fuzzer that attempts to break a system by feeding garbage data into a text field, MORIARTY breaks you by strictly following the rules of your own physics until they contradict themselves. It does not cheat; it simply plays the game of your own logic better than you do, specifically to find the losing moves.
 
-\section{Why MORIARTY Is Possible Only in RMG Universes}
+\section{Why MORIARTY Is Possible Only in WARP Graph Universes}
 
 In traditional computing architectures, true adversarial search is functionally impossible because the state space is unstructured, global, and effectively infinite. In a standard Linux environment, for example, ``adversarial behavior'' is usually synonymous with random fuzzing, brute-force input searching, or unpredictable Monte Carlo noise. It is, in essence, chaos masquerading as testing.
 
 This limitation exists because traditional systems lack geometry. They possess no formal definition of ``adjacency'' between system states, and therefore cannot intelligently navigate toward a failure state. A traditional fuzzer is like a blindfolded person stumbling around a room hoping to hit a wall; it relies on probability rather than deduction.
 
-In the \COMPUTER{} model, MORIARTY operates with full vision. Because the universe is defined by Recursive Meta-Graphs (RMG) and Double-Pushout (DPO) rules, the adversary has access to a structured map of reality. It utilizes a \textbf{computable possibility surface} where it knows exactly which states are reachable from the current moment. It utilizes \textbf{typed wormholes} that define exactly what interactions are legal, preventing the generation of irrelevant "garbage" states. It leverages \textbf{bundles} to enumerate structured alternatives rather than random guesses. Finally, and most importantly, it uses \textbf{Rulial Distance} to measure both how far the system has drifted from a safe state and how much algorithmic effort is required to do so.
+In the \COMPUTER{} model, MORIARTY operates with full vision. Because the universe is defined by WARP Graphs (WARP) and Double-Pushout (DPO) rules, the adversary has access to a structured map of reality. It utilizes a \textbf{computable possibility surface} where it knows exactly which states are reachable from the current moment. It utilizes \textbf{typed wormholes} that define exactly what interactions are legal, preventing the generation of irrelevant "garbage" states. It leverages \textbf{bundles} to enumerate structured alternatives rather than random guesses. Finally, and most importantly, it uses \textbf{Rulial Distance} to measure both how far the system has drifted from a safe state and how much algorithmic effort is required to do so.
 
 Because of this geometric awareness, MORIARTY does not guess. \textbf{He reasons}. He deduces which sequence of perfectly legal operations will lead to a state where, for example, your database believes a transaction has been committed, but your cache believes it failed.
 
@@ -76,7 +76,7 @@ The operational loop of the MORIARTY engine can be understood as an inversion of
 
 \subsection*{Phase 1: Bundle Enumeration}
 
-MORIARTY begins by freezing the current RMG state. It then identifies every possible legal rewrite rule that could fire at this specific tick. This constitutes the \emph{Bundle} --- the complete set of valid moves available to the universe. Unlike a fuzzer that invents invalid inputs, MORIARTY looks only at valid transitions defined by your own code.
+MORIARTY begins by freezing the current WARP state. It then identifies every possible legal rewrite rule that could fire at this specific tick. This constitutes the \emph{Bundle} --- the complete set of valid moves available to the universe. Unlike a fuzzer that invents invalid inputs, MORIARTY looks only at valid transitions defined by your own code.
 
 At this point, we introduce an \textbf{energy cost} to the model. Every rewrite has a cost—cheap, local updates have low cost; expensive, global operations have high cost. This allows MORIARTY to simulate real-world economic constraints.
 
@@ -147,7 +147,7 @@ No other debugging or verification tool touches this because nothing else has a 
 
 \section{MORIARTY vs. CFEE}
 
-It is helpful to contrast the two major engines of Part IV. While they utilize the same underlying physics of the RMG, their vectors are opposed.
+It is helpful to contrast the two major engines of Part IV. While they utilize the same underlying physics of the WARP graph, their vectors are opposed.
 
 \begin{figure}[h]
 \centering
