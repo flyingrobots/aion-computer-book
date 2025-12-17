@@ -9,7 +9,7 @@ You stare at a problem that smells like exponential complexity. It feels like a 
 
 And suddenly, the wall of complexity crumbles. The algorithm doesn't explode. The fan spins down. \textbf{NP-complete suddenly behaves like O(n log n).}
 
-Everyone who has shipped production code has experienced this relief. Yet, for decades, nobody has given it a proper name. It has been dismissed as a lucky break or a specific optimization trick. But in an RMG+DPO universe, this phenomenon is not luck. It is geometry. It has a name, a location, and a distinct mathematical shape:
+Everyone who has shipped production code has experienced this relief. Yet, for decades, nobody has given it a proper name. It has been dismissed as a lucky break or a specific optimization trick. But in a WARP+DPO universe, this phenomenon is not luck. It is geometry. It has a name, a location, and a distinct mathematical shape:
 
 \begin{quote}
 \textbf{Local NP Collapse --- regions of Rulial Space where exponential search drops to polynomial behavior because the manifold flattens under structure.}
@@ -27,7 +27,7 @@ Consider the Boolean Satisfiability Problem (SAT). If you represent it in Conjun
 
 The lesson is clear: complexity is not a curse cast upon the problem; it is a feature of the container you put the problem in.
 
-The same logic holds in the \COMPUTER{} framework. \textbf{RMG geometry determines search shape}.
+The same logic holds in the \COMPUTER{} framework. \textbf{WARP geometry determines search shape}.
 
 If your computational manifold is jagged, full of local minima and conflicting rules, the search will explode into exponential chaos. If the manifold is smooth, the search collapses into a straight line. If it is curved, the search bends. But if it is flat, geodesics emerge—straight lines that cut through the complexity. NP is not universal doom. It is simply a measure of \textbf{local curvature}. And as we proved in Chapter 9, curvature can be engineered.
 
@@ -35,7 +35,7 @@ If your computational manifold is jagged, full of local minima and conflicting r
 
 \section{\texorpdfstring{\textbf{Structured Manifolds Create Shortcuts}}{10.3 --- Structured Manifolds Create Shortcuts}}
 
-When you choose to represent your system as a Recursive Metagraph (RMG) governed by Double-Pushout (DPO) rules, you are doing more than just organizing data. You are actively altering the topology of the solution space. By adhering to strict typing and invariant-preserving updates, you ensure that the system evolves through local, legal rewrites.
+When you choose to represent your system as a WARP Graph (WARP) governed by Double-Pushout (DPO) rules, you are doing more than just organizing data. You are actively altering the topology of the solution space. By adhering to strict typing and invariant-preserving updates, you ensure that the system evolves through local, legal rewrites.
 
 This structural discipline produces a phenomenon that feels magical but is entirely computable: \textbf{Structure creates shortcuts.}
 
@@ -64,7 +64,7 @@ Think of it as origami for computation. You don't traverse the paper; you fold i
         \node at (2, -0.5) {\textbf{Folded via Structure}};
     \end{scope}
 \end{tikzpicture}
-\caption{Visualizing Local Collapse: In a naive representation (left), the distance between Start and Target is vast. In a structured RMG (right), a DPO rule "folds" the space, making the Target adjacent to the Start.}
+\caption{Visualizing Local Collapse: In a naive representation (left), the distance between Start and Target is vast. In a structured WARP graph (right), a DPO rule "folds" the space, making the Target adjacent to the Start.}
 \end{figure}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -83,11 +83,11 @@ That feeling of relief, that "FINALLY" moment where the solution seems to fall i
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section{\texorpdfstring{\textbf{Why RMG Recursion Creates Collapse Zones}}{10.5 --- Why RMG Recursion Creates Collapse Zones}}
+\section{\texorpdfstring{\textbf{Why WARP Recursion Creates Collapse Zones}}{10.5 --- Why WARP Recursion Creates Collapse Zones}}
 
-The secret weapon of the RMG model—the feature that distinguishes it from flat graphs or standard relational models—is recursion. \textbf{RMG recursion lets you solve subproblems at the right scale.}
+The secret weapon of the WARP graph model—the feature that distinguishes it from flat graphs or standard relational models—is recursion. \textbf{WARP recursion lets you solve subproblems at the right scale.}
 
-In a flat system, every node is a peer, meaning every interaction must be checked against every other interaction. But in an RMG, you can rewrite inside a single node, rewrite the internal logic of an edge, or rewrite entire sub-RMG blobs as single units. You can lift computation up to a high-level abstraction or lower it into the details. You can flatten nested structures when they get in the way or reorient wormholes to bypass layers of hierarchy.
+In a flat system, every node is a peer, meaning every interaction must be checked against every other interaction. But in a WARP graph, you can rewrite inside a single node, rewrite the internal logic of an edge, or rewrite entire sub-WARP blobs as single units. You can lift computation up to a high-level abstraction or lower it into the details. You can flatten nested structures when they get in the way or reorient wormholes to bypass layers of hierarchy.
 
 When you utilize this capability, the noise of the system dies down. You encounter fewer branches because the irrelevant ones are encapsulated. You hit fewer dead ends because the structure guides you. Contradictions and illegal matches vanish because the types prevent them from forming.
 

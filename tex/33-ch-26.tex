@@ -4,13 +4,13 @@
 Last chapter we went one way:
 
 \begin{center}
-\emph{Given RMG + DPO, here’s how physics shows up as invariants and statistics.}
+\emph{Given WARP + DPO, here’s how physics shows up as invariants and statistics.}
 \end{center}
 
 Now we flip it:
 
 \begin{center}
-\emph{Given a physical theory, how do we compile it into RMG + DPO so it
+\emph{Given a physical theory, how do we compile it into WARP + DPO so it
 \textbf{is} just another region of MRMW?}
 \end{center}
 
@@ -22,14 +22,14 @@ We want a literal mapping:
 \[
   \text{Physical theory } \mathcal{T}
   \quad\longmapsto\quad
-  (\text{RMG } G_\mathcal{T}, \text{ rule set } \mathcal{R}_\mathcal{T})
+  (\text{WARP } G_\mathcal{T}, \text{ rule set } \mathcal{R}_\mathcal{T})
 \]
 
 such that:
 
 - the dynamics of $\mathcal{T}$ show up as rewrite histories of $(G_\mathcal{T},\mathcal{R}_\mathcal{T})$,
 - the usual observables of $\mathcal{T}$ show up as queries / coarse-grainings on $G_\mathcal{T}$,
-- the symmetries and conservation laws of $\mathcal{T}$ are RMG symmetries and invariants,
+- the symmetries and conservation laws of $\mathcal{T}$ are WARP symmetries and invariants,
 - and the whole thing lives in MRMW on equal footing with every other computation.
 
 This is how we stop treating physics as a special external discipline and start
@@ -56,19 +56,19 @@ The compilation pipeline is:
 where:
 
 \begin{itemize}
-  \item $G$ is an initial RMG,
+  \item $G$ is an initial WARP graph,
   \item $\mathcal{R}$ is a DPO rule set,
-  \item $C$ is a coarse-graining / decoding from RMG states to "physical" macrostates,
+  \item $C$ is a coarse-graining / decoding from WARP states to "physical" macrostates,
   \item $\mathcal{Q}$ is a set of query functions implementing observables on $G$.
 \end{itemize}
 
 We will call a compilation \textbf{good} if:
 
 \begin{enumerate}
-  \item (Fidelity) For relevant time/length scales, $C$ of RMG dynamics matches predictions of $\mathcal{T}$.
+  \item (Fidelity) For relevant time/length scales, $C$ of WARP dynamics matches predictions of $\mathcal{T}$.
   \item (Locality) $\mathcal{R}$ uses bounded-radius patterns; no cheating with global rewrites.
   \item (Symmetry) Key symmetries of $\mathcal{T}$ become graph automorphisms / rule equivariances.
-  \item (Sparsity) The RMG representation is not absurdly inflated relative to the physics it encodes.
+  \item (Sparsity) The WARP representation is not absurdly inflated relative to the physics it encodes.
 \end{enumerate}
 
 Bad compilations are allowed — they’re just not interesting. Our goal is to find
@@ -76,7 +76,7 @@ and standardize good ones.
 
 \subsubsection*{26.2  World as Graph: Encoding Fields, Particles, Observers}
 
-Step one: turn “the world” into an RMG state.
+Step one: turn “the world” into a WARP state.
 
 Three recurring patterns cover most of physics:
 
@@ -100,7 +100,7 @@ So a scalar field $\phi(x)$ on a 1D lattice becomes:
         binary representation, or a symbolic "real" node with approximate arithmetic rules).
 \end{itemize}
 
-RMG recursion lets us stack these neatly: "the field" is itself a graph that
+WARP recursion lets us stack these neatly: "the field" is itself a graph that
 knows how to interpret and manipulate per-site subgraphs.
 
 \paragraph{(2) Particle worldlines.}
@@ -131,11 +131,11 @@ So, for a lattice gauge theory:
   \item Plaquettes: inferred from cycles in the graph; curvature/field strength shows up as holonomy.
 \end{itemize}
 
-This is exactly the kind of recursive structure RMGs are built for: graphs of graphs of labels.
+This is exactly the kind of recursive structure WARP graphs are built for: graphs of graphs of labels.
 
 \paragraph{Observers as subgraphs.}
 
-We won’t pretend observers are mystical. In RMG:
+We won’t pretend observers are mystical. In WARP:
 
 - \textbf{Observers} are just particular subgraphs with stable internal dynamics and:
   \begin{itemize}
@@ -202,7 +202,7 @@ Many physical theories are cleaner in action form than differential form:
 \]
 with dynamics given by $\delta S = 0$.
 
-In RMG-land we:
+In WARP-land we:
 
 \begin{enumerate}
   \item \textbf{Discretize the action.} Replace integrals with sums over local motifs (cells, plaquettes, simplices).
@@ -224,7 +224,7 @@ We can then define rules in two ways:
 
 The important point: in action form, you don’t need to guess the local rules by eye. They fall out from asking, "Which local graph changes correspond to a delta in the discrete action that satisfies the extremal principle?"
 
-\subsubsection*{26.5  Worked Example: 1D Wave Equation as RMG}
+\subsubsection*{26.5  Worked Example: 1D Wave Equation as WARP graph}
 
 Let’s actually spell one out, even if in sketch.
 
@@ -289,7 +289,7 @@ A gauge transformation is a local relabeling:
   U_{ij} \mapsto g_i U_{ij} g_j^{-1}
 \]
 
-This is literally a group action on the-labels-of-the-graph. In RMG:
+This is literally a group action on the-labels-of-the-graph. In WARP:
 
 - The map $G \to G$ that applies these relabelings is a symmetry if it commutes with DPO dynamics.
 - "Gauge invariance" becomes the requirement that every rule in $\mathcal{R}$ is equivariant under this action.
@@ -325,7 +325,7 @@ To compile a quantum theory (say, Schrödinger evolution of a wavefunction) we d
   \item Define observables as queries over the induced probability distribution on coarse-grained states.
 \end{enumerate}
 
-In RMG terms:
+In WARP terms:
 
 - The "wavefunction" is not a separate field; it is a weighting over bundles of rewrite paths.
 - Schrödinger evolution is just the linear update of these weights according to local rules derived from the Hamiltonian.
@@ -335,14 +335,14 @@ This makes quantum vs classical a choice of \emph{how} you traverse MRMW, not \e
 
 \subsubsection*{26.8  Observables as Graph Queries}
 
-We want a clean dictionary between physics lab talk and RMG ops.
+We want a clean dictionary between physics lab talk and WARP ops.
 
 Given a compiled pair $(G,\mathcal{R})$:
 
 \begin{itemize}
   \item A \textbf{physical observable} $O$ is a function on (coarse-grained) graphs:
     \[
-      O : \text{RMG states} \to \mathbb{R}^k \text{ or some measurable space}.
+      O : \text{WARP states} \to \mathbb{R}^k \text{ or some measurable space}.
     \]
   \item A \textbf{measurement procedure} is a composed process:
     \begin{enumerate}
@@ -356,13 +356,13 @@ This sounds trivial until you weaponize it:
 
 - We can distinguish observables that are \emph{local} queries (depend on limited subgraphs) from \emph{global} ones.
 - We can explicitly see which observables commute (their queries touch disjoint or causally separated regions) and which don’t.
-- We can model "apparatus" not as magical projection operators, but as additional RMG subgraphs that implement $C$ via interaction.
+- We can model "apparatus" not as magical projection operators, but as additional WARP graph subgraphs that implement $C$ via interaction.
 
 In other words, the measurement problem becomes a design problem: what queries do your observer-subgraphs implement, and how do they distort the underlying dynamics?
 
 \subsubsection*{26.9  What Makes a Compilation "Good"?}
 
-Just because you can encode a theory as RMG + DPO doesn’t mean you did it well.
+Just because you can encode a theory as WARP + DPO doesn’t mean you did it well.
 Good compilations have:
 
 \paragraph{(1) Structural locality.}
@@ -425,7 +425,7 @@ The point is:
 \textbf{Physics is now an API over MRMW.}
 \end{quote}
 
-Once a physical theory is compiled into RMG + DPO:
+Once a physical theory is compiled into WARP + DPO:
 
 - you can compose it with other universes (e.g., a market model, a biological model),
 - you can apply rulial analysis (how does complexity scale? where does curvature spike?),
@@ -450,7 +450,7 @@ The next step is obvious and a little insane:
 \end{center}
 
 \noindent
-That’s what the next chapter, \emph{CΩSMOS: The Physical Universe as RMG},
+That’s what the next chapter, \emph{CΩSMOS: The Physical Universe as WARP graph},
 attempts: not a precise final answer, but a concrete sketch of how a realistic
 candidate $(G,\mathcal{R})$ for our cosmos might look, and what it would mean
-to treat "the universe" as just one RMG instance running inside CΩMPUTER.
+to treat "the universe" as just one WARP instance running inside CΩMPUTER.

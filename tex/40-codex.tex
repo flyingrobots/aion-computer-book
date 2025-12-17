@@ -38,7 +38,7 @@ Use it as a spec, not scripture.
     against the system’s invariants, constraints, or objectives.
 
   \item[Agent.]
-    A distinguished RMG subgraph $A \subseteq G$ plus a policy $\pi$ that
+    A distinguished WARP graph subgraph $A \subseteq G$ plus a policy $\pi$ that
     biases which rewrite rules apply in and around $A$ as a function of
     its internal state and local observations.
 
@@ -63,21 +63,21 @@ Use it as a spec, not scripture.
 
   \item[CΩMPILER.]
     The compiler for CΩMPUTER: maps high-level specifications (programs,
-    models, protocols) into RMG + DPO representations, together with
+    models, protocols) into WARP + DPO representations, together with
     scheduling and instrumentation policies.
 
   \item[CΩMPUTER.]
     The whole stack: the theory, compiler, runtime, and tooling that treat
-    all computation as rewrite on RMGs and all executions as trajectories
+    all computation as rewrite on WARP graphs and all executions as trajectories
     in MRMW, with multiversal machinery as first-class.
 
   \item[CΩSMOS.]
-    A candidate RMG + rule-set pair $(G_\ast,\mathcal{R}_\ast)$, plus
+    A candidate WARP + rule-set pair $(G_\ast,\mathcal{R}_\ast)$, plus
     coarse-grainings and measures, intended to model "our" physical
     universe inside MRMW.
 
   \item[Coarse-graining.]
-    Any map $C$ from detailed RMG states to macrostates that discards
+    Any map $C$ from detailed WARP states to macrostates that discards
     microscopic information while preserving some observables or invariants
     of interest. Coarse-grainings induce thermodynamic behavior and the
     arrow of time.
@@ -100,15 +100,15 @@ Use it as a spec, not scripture.
     a match of $L$ inside $G$ by $R$ via a double-pushout construction
     in the category of (typed, labeled) graphs.
 
-  \item[Domain-specific RMG.]
-    An RMG tailored to a particular domain (physics, biology, logic,
+  \item[Domain-specific WARP graph.]
+    A WARP graph tailored to a particular domain (physics, biology, logic,
     economics, etc.), with bespoke node/edge types, invariants, and
-    convenience rules, but still living in the general RMG + DPO ontology.
+    convenience rules, but still living in the general WARP + DPO ontology.
 
   \item[Graph (base graph).]
     Unless stated otherwise, a finite, typed, labeled, directed multigraph
     $G = (V,E,s,t,\ell_V,\ell_E)$ that serves as the underlying carrier for
-    RMGs before recursion is introduced.
+    WARP graphs before recursion is introduced.
 
   \item[History / worldline.]
     A sequence of rewrite events (or states) tracing the evolution of a
@@ -122,7 +122,7 @@ Use it as a spec, not scripture.
 
   \item[MRMW (Multi-Rule Multi-World).]
     The phase space of all possible computations in the CΩMPUTER ontology:
-    all pairs $(G,\mathcal{R})$ (RMG states and rule sets), all possible
+    all pairs $(G,\mathcal{R})$ (WARP states and rule sets), all possible
     rewrite histories between them, and all measures over these histories.
 
   \item[Multiversal machine.]
@@ -130,7 +130,7 @@ Use it as a spec, not scripture.
     worlds as its basic unit of operation: it can fork, merge, reweight,
     or prune bundles of worldlines as part of its computation.
 
-  \item[RMG (Recursive Meta-Graph).]
+  \item[WARP (WARP Graph).]
     The core state object of CΩMPUTER: a typed, labeled graph whose nodes
     and edges can themselves reference graphs, rules, or higher-order
     structures, yielding a finite but recursively nested representation
@@ -156,11 +156,11 @@ Use it as a spec, not scripture.
 
   \item[Rule set.]
     A (typically finite) family $\mathcal{R}$ of DPO rules acting on a
-    particular class of RMGs, together with scheduling and applicability
-    conditions. Determines the dynamics of an RMG universe.
+    particular class of WARP graphs, together with scheduling and applicability
+    conditions. Determines the dynamics of a WARP graph universe.
 
   \item[State.]
-    In this ontology: a particular RMG $G$ (possibly with attached rule
+    In this ontology: a particular WARP $G$ (possibly with attached rule
     metadata), plus any associated measure/amplitude information if we are
     considering bundles.
 
@@ -171,7 +171,7 @@ Use it as a spec, not scripture.
     provenance.
 
   \item[Universe.]
-    A particular choice of initial RMG state $G_0$, rule set $\mathcal{R}$,
+    A particular choice of initial WARP state $G_0$, rule set $\mathcal{R}$,
     and (optionally) measure over histories, considered together with its
     induced causal graph and all resulting worldlines.
 
@@ -191,13 +191,13 @@ implementation details.
 \subsubsection*{CΩDEX.2.1 \quad Ontological Axioms}
 
 \paragraph{Axiom CΩ–1 (Computational substrate).}
-All "worlds" are represented as Recursive Meta-Graphs (RMGs).
+All "worlds" are represented as WARP Graphs (WARP graphs).
 Every physically or logically describable configuration of a system
-corresponds to (at least one) RMG state $G$.
+corresponds to (at least one) WARP state $G$.
 
 \paragraph{Axiom CΩ–2 (Rewrite as dynamics).}
 The only allowed primitive state changes are applications of DPO rules
-from a rule set $\mathcal{R}$ to an RMG $G$. There is no separate,
+from a rule set $\mathcal{R}$ to a WARP $G$. There is no separate,
 non-rewrite notion of time evolution.
 
 \paragraph{Axiom CΩ–3 (Locality).}
@@ -224,7 +224,7 @@ is approximately Markovian and approximately local on relevant scales.
 
 \paragraph{Axiom R–1 (Rulial completeness).}
 For any effectively specifiable discrete rule system $\mathcal{S}$, there
-exists a region of MRMW—a family of RMGs and rule sets—whose coarse-grained
+exists a region of MRMW—a family of WARP graphs and rule sets—whose coarse-grained
 behavior is equivalent to $\mathcal{S}$ up to semantic equivalence.
 
 \paragraph{Axiom R–2 (Compilation equivalence).}
@@ -250,7 +250,7 @@ travel and counterfactual execution are implemented on top of this.
 
 \paragraph{Axiom D–2 (Multiversality by construction).}
 The runtime exposes first-class operations for forking, bundling,
-reweighting, and merging universes (RMG states and histories). Single-world
+reweighting, and merging universes (WARP states and histories). Single-world
 execution is treated as a degenerate case.
 
 \paragraph{Axiom D–3 (Rulial transparency).}
@@ -286,7 +286,7 @@ $L \xleftarrow{i_L} K \xrightarrow{i_R} R$ applied to a graph $G$:
   \end{tikzcd}
   \caption{Double-pushout diagram for a single rewrite step. The squares
            are pushouts in the category of typed, labeled graphs.}
-  \label{fig:dpo-diagram}
+  \label{fig:codex-dpo-diagram}
 \end{figure}
 
 \subsubsection*{CΩDEX.3.2 \quad Worldline in Causal Graph}
@@ -371,7 +371,7 @@ This section gives more formal versions of several key concepts. The goal
 is to pin down one precise model consistent with the book, not to exhaust
 all possible formalisms.
 
-\subsubsection*{CΩDEX.4.1 \quad Graphs and RMGs}
+\subsubsection*{CΩDEX.4.1 \quad Graphs and WARP Graphs}
 
 \paragraph{Definition 4.1 (Typed, labeled graph).}
 A \emph{typed, labeled directed multigraph} is a tuple
@@ -390,8 +390,8 @@ where:
   \item $\ell_E : E \to L_E$ labels edges with values from some set $L_E$.
 \end{itemize}
 
-\paragraph{Definition 4.2 (Recursive Meta-Graph, RMG).}
-A \emph{Recursive Meta-Graph} is a typed, labeled graph $G$ together with
+\paragraph{Definition 4.2 (WARP Graph, WARP).}
+A \emph{WARP Graph} is a typed, labeled graph $G$ together with
 a partial interpretation map
 \[
   \iota : V \cup E \rightharpoonup \mathsf{Obj}
@@ -399,7 +399,7 @@ a partial interpretation map
 where $\mathsf{Obj}$ includes:
 
 \begin{itemize}
-  \item graphs (including $G$ itself or other RMGs),
+  \item graphs (including $G$ itself or other WARP graphs),
   \item rule sets,
   \item or higher-level objects (e.g., coarse-grainings, measures),
 \end{itemize}
@@ -414,7 +414,7 @@ such that:
         i.e., the interpretation relation is well-founded.
 \end{enumerate}
 
-Intuitively: an RMG can contain encoded subgraphs, rules, and meta-objects
+Intuitively: a WARP graph can contain encoded subgraphs, rules, and meta-objects
 as labeled nodes/edges that point back into the same or related graphs.
 
 \subsubsection*{CΩDEX.4.2 \quad DPO Rules and Rewriting Systems}
@@ -435,7 +435,7 @@ conditions).
 
 \paragraph{Definition 4.5 (DPO rewrite step).}
 Given a rule $\rho$ and a match $m : L \to G$, a \emph{DPO rewrite step}
-is a diagram of the form in Figure~\ref{fig:dpo-diagram} such that:
+is a diagram of the form in Figure~\ref{fig:codex-dpo-diagram} such that:
 
 \begin{itemize}
   \item the upper square is a pushout complement of $i_L$ and $m$,
@@ -456,7 +456,7 @@ An \emph{MRMW state} is a triple
 \[
   x = (G,\mathcal{R},\sigma)
 \]
-where $G$ is an RMG, $\mathcal{R}$ is a rule set, and $\sigma$ is an
+where $G$ is a WARP graph, $\mathcal{R}$ is a rule set, and $\sigma$ is an
 (optional) scheduler or measure-specification describing how rules are
 applied (e.g., deterministic, stochastic, or amplitude-weighted).
 
@@ -525,7 +525,7 @@ satisfies $\Psi$.
 \subsubsection*{CΩDEX.4.5 \quad Observables and Coarse-Graining}
 
 \paragraph{Definition 4.13 (Observable).}
-Given a class of RMG states $\mathcal{G}$, an \emph{observable} is a
+Given a class of WARP states $\mathcal{G}$, an \emph{observable} is a
 measurable function
 \[
   O : \mathcal{G} \to Y

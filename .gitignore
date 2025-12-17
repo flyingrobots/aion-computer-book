@@ -47,6 +47,7 @@ build/
 output/
 _minted*/
 auto/
+adhoc/
 
 
 #--------------------------------------------------
@@ -108,3 +109,4 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
+.obsidian/

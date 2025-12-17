@@ -27,13 +27,13 @@ Welcome to \textbf{Rulial Space}.
 \section{From Rewrites to Possibility}
 \label{from-rewrites-to-possibility}
 
-At any specific moment in a Recursive Meta-Graph (RMG) universe, the system is vibrant with potential. A set of Double-Pushout (DPO) rules is waiting to fire.
+At any specific moment in a WARP Graph (WARP) universe, the system is vibrant with potential. A set of Double-Pushout (DPO) rules is waiting to fire.
 
 The behavior of these rules is rarely uniform. Some rules match the current graph topology immediately. Others fail to match. Some conflict with one another, fighting for the same resources, while others overlap peacefully. There are rules that are impossible in the current tick but will become inevitable in the next, and rules that rewrite deeply nested structures inside an edge or a node.
 
 When you take all these potential interactions together, they do not form a chaotic cloud. They form a \textbf{finite set of legal next moves}.
 
-This set is the \textbf{local slice} of Rulial Space. It is the subgraph of all reachable RMG states exactly one tick away from the current worldline, bounded strictly by your specific rule system. We call this the \textbf{Kairos plane}—the field of immediate legal options.
+This set is the \textbf{local slice} of Rulial Space. It is the subgraph of all reachable WARP states exactly one tick away from the current worldline, bounded strictly by your specific rule system. We call this the \textbf{Kairos plane}—the field of immediate legal options.
 
 You feel the presence of this plane every time you write code, debug a complex system, or attempt to optimize a pipeline. You are intuitively navigating possibility, sensing which moves are legal and which are blocked. This chapter provides the formal language to make that intuition explicit.
 
@@ -255,7 +255,7 @@ Consider our Life-Block example again. Moving from $S_0$ to $S_1$ (adding one bl
 
 We must ground these geometric concepts in a fundamental realization about the nature of the machine.
 
-An RMG stores state. A DPO rewrite transforms state. Therefore, it follows that \textbf{RMG equals storage}, and \textbf{DPO equals computation}. But when you look closer, the distinction vanishes.
+A WARP graph stores state. A DPO rewrite transforms state. Therefore, it follows that \textbf{WARP equals storage}, and \textbf{DPO equals computation}. But when you look closer, the distinction vanishes.
 
 \textbf{Storage is simply frozen computation. Computation is simply storage in motion.}
 
@@ -295,7 +295,7 @@ This section collects the formal definitions underlying Rulial Space, Rulial Dis
 \begin{definition}[State Space]
 Let $\mathcal{R}$ be a fixed DPO rule algebra, and let
 \[
-\mathcal{S} = \{\, s \mid s \text{ is an RMG state legal under } \mathcal{R} \,\}.
+\mathcal{S} = \{\, s \mid s \text{ is a WARP state legal under } \mathcal{R} \,\}.
 \]
 We call $\mathcal{S}$ the \emph{Rulial State Space} determined by $\mathcal{R}$. This is the universe carved out by Aios.
 \end{definition}
@@ -363,6 +363,66 @@ d(s,t) =
 \]
 Intuitively, $d(s,t)$ is the minimal computational effort (measured in legal rewrites) required to transform one frozen computation into another.
 \end{definition}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.0]
+
+% --- LEFT: UNIT COST METRIC ----------------------------------------
+
+% Title
+\node at (1.8, 3.2) {\textbf{Unit-Cost Distance}};
+
+% Nodes
+\node[circle, draw, fill=gray!10] (A) at (0,0) {$s$};
+\node[circle, draw, fill=gray!10] (B) at (2,1) {};
+\node[circle, draw, fill=gray!10] (C) at (4,0) {$t$};
+
+% Edges (all cost = 1)
+\draw[->, thick] (A) -- node[above] {$1$} (B);
+\draw[->, thick] (B) -- node[above] {$1$} (C);
+
+% Distance label
+\node at (2,-0.8) {$d(s,t) = 2$};
+
+
+% --- RIGHT: WEIGHTED COST METRIC ----------------------------------
+
+% Title
+\node at (8.2, 3.2) {\textbf{Weighted Distance via $\mathcal{L}$}};
+
+% Nodes
+\node[circle, draw, fill=gray!10] (A2) at (6,0) {$s$};
+\node[circle, draw, fill=gray!10] (B2) at (8,1) {};
+\node[circle, draw, fill=gray!10] (C2) at (10,0) {$t$};
+
+% Edges with Lagrangian weights
+\draw[->, thick] (A2) -- node[above] {$\mathcal{L}_1$} (B2);
+\draw[->, thick] (B2) -- node[above] {$\mathcal{L}_2$} (C2);
+
+% Distance label
+\node at (8,-0.8) {$d_{\mathcal{R}}(s,t) = \mathcal{L}_1 + \mathcal{L}_2$};
+
+% --- Caption -------------------------------------------------------
+
+\end{tikzpicture}
+\caption{Two parallel notions of Rulial Distance. \textbf{Left:} Each rewrite has unit cost, so distance counts the number of steps. \textbf{Right:} Each rewrite has a Lagrangian cost, producing the weighted distance used for optimization in Chapter~18. Chapter~18 generalizes the metric of Chapter~5 by replacing unit weights with resource-aware costs.}
+\end{figure}
+
+\begin{remark}[On Weighted Distances]
+\label{remark-weighted-distance}
+The Rulial Distance defined here uses a \emph{unit cost} for each legal rewrite step. In Part~IV we generalize this notion by introducing a Lagrangian $\mathcal{L}(r, s)$ that assigns a non-uniform cost to each rewrite when the system performs optimization under real resource constraints (time, memory, bandwidth, risk, energy, etc.).
+
+The weighted distance used there is:
+\[
+d_{\mathcal{R}}(s,t)
+  = \inf_{\gamma : s \to t} 
+      \sum_{(u,v) \in \gamma} \mathcal{L}(r_{uv}, u),
+\]
+which reduces to the unit-cost distance of this chapter when $\mathcal{L} \equiv 1$ for all rewrites.
+
+Thus the metric introduced here is the \emph{special case} of the general geometric machinery developed later.
+\end{remark}
 
 \begin{proposition}[Rulial Pseudometric]
 For all $s,t,u \in \mathcal{S}$, the Rulial Distance satisfies:
@@ -552,7 +612,7 @@ A DPO rewrite $s \to t$ in $\mathcal{C}$ is realized by a pair of pushouts
     \node at (5,0.6) {$\ulcorner$};
 \end{tikzpicture}
 \]
-where the left square is a pushout complement and the right square is a pushout in $\mathcal{C}$. The RMG view treats $s$ and $t$ as objects in such a category, with DPO rewrites as morphisms.
+where the left square is a pushout complement and the right square is a pushout in $\mathcal{C}$. The WARP view treats $s$ and $t$ as objects in such a category, with DPO rewrites as morphisms.
 \end{definition}
 
 \begin{remark}[Rulial Space as a Free Category on a Rewrite Graph]
@@ -564,7 +624,7 @@ After suitable coarse-graining (e.g., quotienting by observational equivalence o
 \end{conjecture}
 
 \begin{remark}
-If this conjecture holds even in restricted classes of RMGs, it opens the door to treating long-running computations as trajectories in an emergent geometric space, with optimization, scheduling, and verification all recast as geometric problems about geodesics, curvature, and volume.
+If this conjecture holds even in restricted classes of WARP graphs, it opens the door to treating long-running computations as trajectories in an emergent geometric space, with optimization, scheduling, and verification all recast as geometric problems about geodesics, curvature, and volume.
 \end{remark}
 
 \section*{Forward References: Where These Structures Reappear}
@@ -610,7 +670,7 @@ The formal machinery introduced in this section becomes essential in later parts
 \item \textbf{Appendices}  
       \begin{itemize}
           \item The categorical DPO formalism is expanded into a full algebraic semantics for 
-                RMG rewriting, including adhesive-category properties, functorial semantics, 
+                WARP graph rewriting, including adhesive-category properties, functorial semantics, 
                 and conditions for confluence.
       \end{itemize}
 
@@ -642,7 +702,7 @@ This is where computation becomes a \textbf{journey}, not a machine. And that is
 
 $\mathcal{S}$ & The Rulial State Space: all states legal under the rule algebra $\mathcal{R}$. \\[2pt]
 
-$\mathcal{R}$ & The DPO rule algebra governing legal rewrites in the RMG universe. \\[2pt]
+$\mathcal{R}$ & The DPO rule algebra governing legal rewrites in the WARP graph universe. \\[2pt]
 
 $s \to t$ & A legal one-step rewrite from $s$ to $t$ (Chronos step). \\[2pt]
 

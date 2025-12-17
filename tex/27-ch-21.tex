@@ -1,12 +1,48 @@
-\chapter{Twenty-One}\label{chapter-twenty-one}
+\chapter{Differential Rulial Analysis}
+\label{chapter-21-differential-rulial-analysis}
 
 \begin{quote}
-{[}!NOTE{]} Diagrams Required
+\emph{When the laws of computation can move, we need calculus.}
 \end{quote}
 
-\begin{quote}
-{[}!NOTE{]} Formalisms Required
-\end{quote}
+Up to now, our exploration of the Rulial Manifold has assumed a fixed universe.
+The rules were stable; the invariants were immovable; the metric was carved 
+directly into the geometry of the rewrite system. This stability allowed us to
+define distances (Chapter~5), gradients (Chapter~18), geodesics, curvature, 
+and even a Lagrangian of Computation that shaped how the system found 
+efficient worldlines.
+
+But optimization eventually reaches the limits of any fixed rule system.
+Chapter~18 ended with a critical observation: once the optimizer encounters 
+the \emph{Horizon of Optimizability}, further improvement becomes impossible 
+without changing the universe itself. The rule set becomes the bottleneck.
+
+To move beyond that boundary, we must do more than navigate a manifold.
+We must learn how to \emph{deform} one.
+
+Differential Rulial Analysis is the mathematics of this deformation. It asks:
+
+\begin{itemize}
+    \item How does the Rulial metric $d_{\mathcal{R}}$ change when a rule is added, removed, or rewritten?
+    \item How does the Lagrangian $\mathcal{L}$ transform when the resource model evolves?
+    \item How does curvature respond when invariants tighten or loosen?
+    \item How can one compare two universes that differ not in state, but in law?
+\end{itemize}
+
+In physics, geometry bends when mass or energy move.  
+In computation, geometry bends when \emph{rules} move.
+
+This chapter develops the calculus that lets us reason about such motion. 
+It extends the static geometric tools of earlier chapters into a dynamic 
+framework capable of describing 
+rule drift, invariant deformation, metric evolution, and universe-to-universe continuity.
+
+Where Chapter~18 taught us how to follow geodesics \emph{within} a universe, 
+this chapter teaches us how to compute geodesics \emph{between} universes.
+
+It is the machinery required for Multi-Model Optimization, 
+system evolution, self-adaptation, meta-compilers, and any computational 
+architecture that rewrites its own laws.
 
 \section{Differential Rulial
 Analysis}\label{differential-rulial-analysis}
@@ -26,7 +62,7 @@ physics. Differential Rulial Analysis is the invention that tames rulial
 change in computation.
 
 This chapter introduces the missing mathematical machinery that
-transforms RMGs from static combinatorial curiosities into genuine
+transforms WARP graphs from static combinatorial curiosities into genuine
 dynamical objects. It gives us derivatives, gradients, curvature, and
 conservation laws in the space of all possible programs.
 
@@ -51,7 +87,7 @@ constraints bend the space of possible futures?
 They all treat computation as flat --- a rigid step-by-step march with
 no geometry.
 
-RMGs blew that open: every rewrite creates local curvature, every bundle
+WARP graphs blew that open: every rewrite creates local curvature, every bundle
 induces branching, every constraint creates stress, and every
 measurement collapses a manifold of possibilities.
 

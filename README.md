@@ -14,6 +14,20 @@
 <p>By James Ross</p>
 </div>
 
+## Status
+
+**Overall Progress:** <!-- PROGRESS_PCT -->39% (178/460)<!-- /PROGRESS_PCT -->  
+<!-- PROGRESS_BAR -->[████████░░░░░░░░░░░░]<!-- /PROGRESS_BAR -->
+
+[Roadmap & checklist →](ROADMAP.md)
+
+<!-- progress -->
+```text
+[███████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]
+0   10   20   30   40   50   60   70   80   90  100
+```
+<!-- /progress -->
+
 ## What if computation had a shape?
 
 Not metaphorically. Not as a diagram on a whiteboard. But as a navigable geometry, where programs move through possibility space, bugs are wrong turns, optimizations are shorter paths, and every execution leaves a trail you can walk backward.
@@ -24,7 +38,7 @@ Not metaphorically. Not as a diagram on a whiteboard. But as a navigable geometr
 
 This book builds a full-stack ontology for that claim. Starting with a simple observation: that every real system is graphs inside graphs inside graphs, *James Ross* constructs a formal model where:
 
-**Structure is Recursive Meta-Graphs (RMGs)**: The underlying state of reality. Graphs that can contain graphs, rules, and meta-structure.
+**Structure is WARP Graphs (WARP)**: The underlying state of reality. Graphs that can contain graphs, rules, and meta-structure.
 
 **Change is Double-pushout (DPO) Rewrite**: The only law of motion. Typed wormhole rewriting—local graph transformations instead of differential equations or opcodes.
 
@@ -36,7 +50,7 @@ This book builds a full-stack ontology for that claim. Starting with a simple ob
 
 **Multiversal Machines**: Time-travel debuggers, counterfactual engines, adversarial universes, and cross-world optimizers as a new class of computers that operate on families of universes instead of single runs.
 
-**Architecture**: The CΩMPILER and runtime as an architecture that treats code, models, physical simulations, and institutions as first-class RMG universes.
+**Architecture**: The CΩMPILER and runtime as an architecture that treats code, models, physical simulations, and institutions as first-class WARP graph universes.
 
 This isn't another programming paradigm. It's a new physics of computation, where the black box opens, hallucinations have receipts, and “what actually happened” is a question with a computable answer.
 
@@ -115,7 +129,7 @@ One summer afternoon, about fifteen years ago, I was looking for lunch in downto
 
 That’s when it hit me: *Holy shit. What if everything was a recursive graph of graphs? Not just a graph where the vertices contain nested graphs, but where the edges can, too?*
 
-I didn’t realize it then, but that twisted broccoli sparked a fifteen-year-long quiet fascination with graphs. That broccoli taught me about Recursive Meta-Graphs (RMGs). It’s also why
+I didn’t realize it then, but that twisted broccoli sparked a fifteen-year-long quiet fascination with graphs. That broccoli taught me about WARP Graphs (WARP). It’s also why
 you’re reading this book right now.
 
 That moment was the first time I saw structure, transformation, and history as a single continuum—as if the universe were made of shapes that rewrite themselves. 
@@ -124,7 +138,7 @@ The core model, which we call CΩMPUTER, is a pragmatic toolset built from thre
 primitives that unify ideas from computer science, logic, and mathematics.
 
 ```text
-            RMG 
+            WARP 
         (Structure)-------------+
            DPO ^                V
                +----+    +----(Laws)
@@ -135,11 +149,11 @@ primitives that unify ideas from computer science, logic, and mathematics.
 
 > The Trinity of CΩMPUTER
 >
-> *Figure 1: The three primitives interact cyclically: Structure defines state as a Recursive Meta-Graph, DPO rules define change, and Worldlines capture execution  history.*
+> *Figure 1: The three primitives interact cyclically: Structure defines state as a WARP Graph, DPO rules define change, and Worldlines capture execution  history.*
 
 The combination of these primitives endows computation with a predictable geometry and a derivable physics. That is the book’s agenda in one line.
 
-1. **Graphs within Graphs (RMGs):** State is a Recursive Meta-Graph that allows for
+1. **Graphs within Graphs (WARP):** State is a WARP Graph that allows for
 fractal, hierarchical representation of any structured data.
 2. **Rules that Rewrite (DPO):** Dynamics are given by Double-Pushout (DPO) rewrit-
 ing. These rules are the “physics” defining how one graph transitions to another while
@@ -160,14 +174,14 @@ computation where models, datasets, and training runs are explicit worldlines in
 
 ## How to Read This (The Structure)
 
-- **Parts I–III** build the core ontology and the “physics” of CΩMPUTER: Recursive Meta- Graphs (RMGs), double-pushout rewrite, MRMW (the phase space of all computations),
+- **Parts I–III** build the core ontology and the “physics” of CΩMPUTER: WARP Graphs (WARP), double-pushout rewrite, MRMW (the phase space of all computations),
 curvature, superposition as rewrite bundles, and measurement as minimal path collapse.
 - **Part IV** shows you machines that only make sense once you accept multiversal computa-
 tion as the default: time-travel debugging, counterfactual execution engines, adversarial
 universes, and deterministic optimization across worlds.
 - **Part V** sketches an architecture that could actually exist: a CΩMPILER and runtime
 capable of hosting those machines without lying about what they’re doing.
-- **Part VI** is the jump: treating our physical universe as just another RMG (CΩSMOS),
+- **Part VI** is the jump: treating our physical universe as just another WARP graph (CΩSMOS),
 and intelligence and ethics as geometry problems in MRMW.
 
 You can read linearly, or you can skim until something catches and then backfill the definitions from the CΩDEX. The book tries to be self-similar: concepts repeat in different guises; the same diagrams reappear at different scales.

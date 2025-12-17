@@ -3,7 +3,7 @@
 
 Up to now, we've treated CΩMPUTER as physics.
 
-In Part I, we said the quiet part out loud: computation isn’t an accidental abstraction layered on top of reality — it \emph{is} the substrate. We built Recursive Meta-Graphs (RMGs), double-pushout (DPO) rewrite, and the idea that “state” is just where the graph happens to be when you look.
+In Part I, we said the quiet part out loud: computation isn’t an accidental abstraction layered on top of reality — it \emph{is} the substrate. We built WARP Graphs (WARP), double-pushout (DPO) rewrite, and the idea that “state” is just where the graph happens to be when you look.
 
 In Part II, we took that substrate seriously enough to give it geometry. Rulial space, distance, and worldlines let us talk about “where” a computation is, not just “what” it is. MRMW became the phase space of all possible executions — all programs, all inputs, all schedules, all models — as one giant, entangled combinatorial manifold.
 
@@ -27,7 +27,7 @@ A \emph{machine that spans universes} is any construct that:
 
 In other words: instead of running “the program,” these machines run \emph{the space of the program}, and then carve out answers by steering through that space.
 
-Nothing here requires exotic hardware. CΩMPUTER’s multiversal machines are defined at the level of RMGs and rewrite rules. Classical hardware is enough to approximate and exploit them. The “quantumness” is in the structure of the state space and the policy that explores it, not in the silicon.
+Nothing here requires exotic hardware. CΩMPUTER’s multiversal machines are defined at the level of WARP graphs and rewrite rules. Classical hardware is enough to approximate and exploit them. The “quantumness” is in the structure of the state space and the policy that explores it, not in the silicon.
 
 \paragraph{From trace to tapestry}
 
@@ -49,7 +49,7 @@ Part IV is a catalog of such motions, packaged as machines.
 
 \paragraph{What we build in this part}
 
-\textbf{Time Travel Debugging} is the first machine. Here we take the notion of reversibility and the arrow of computation from Part III and turn it into a practical debugging paradigm. Programs are no longer run-then-autopsy; they are embedded in an RMG whose rewrite history is navigable. You can:
+\textbf{Time Travel Debugging} is the first machine. Here we take the notion of reversibility and the arrow of computation from Part III and turn it into a practical debugging paradigm. Programs are no longer run-then-autopsy; they are embedded in a WARP graph whose rewrite history is navigable. You can:
 
 - step backward by literally undoing rewrites,
 - branch the universe at arbitrary points,
@@ -62,7 +62,7 @@ Part IV is a catalog of such motions, packaged as machines.
 - fork bundles of worlds from a shared prefix,
 - apply small perturbations as local rule variations,
 - propagate the consequences through the MRMW neighborhood, and
-- compare resulting universes as structured diffs over RMGs.
+- compare resulting universes as structured diffs over WARP graphs.
 
 This is simulation, but done in the language of rulial geometry: you don’t just flip bits and rerun — you move along controlled directions in MRMW and measure the curvature you encounter.
 
@@ -99,9 +99,9 @@ Part IV is still “theory-heavy,” but its primary job isn’t to impress a ma
 - Parts I–III: \emph{What is the space of all possible computations, and what are its laws?}
 - Part IV: \emph{Given that space and those laws, what new machines can we build that current computing stacks literally cannot express?}
 
-We will still talk in terms of RMGs, DPO diagrams, and MRMW neighborhoods, but always with a bias toward constructivity: what object you would actually implement, what invariants it enforces, what guarantees it buys you.
+We will still talk in terms of WARP graphs, DPO diagrams, and MRMW neighborhoods, but always with a bias toward constructivity: what object you would actually implement, what invariants it enforces, what guarantees it buys you.
 
-In Part V, we’ll wire these machines into the CΩMPILER and runtime — down to storage systems, domain-specific RMGs, and execution environments. Part IV is the architectural sketch: it defines the devices we care enough about to industrialize.
+In Part V, we’ll wire these machines into the CΩMPILER and runtime — down to storage systems, domain-specific WARP graphs, and execution environments. Part IV is the architectural sketch: it defines the devices we care enough about to industrialize.
 
 \begin{quote}
 \emph{The rest of this book refuses to ship a single-threaded reality. Part IV is your first taste of software that treats entire \textbf{universes} as a programmable resource.}
