@@ -67,6 +67,7 @@ Once I started seeing this, I couldn't stop seeing it. You can draw every depend
     \end{tikzpicture}
 
     \caption{A crash bug visualized as a path through state space.}
+    \label{fig:crash-path}
 \end{figure}
 
 Everything I looked at—builds, merges, crashes, asset pipelines, scripts, even the coordination of the humans involved—suddenly made more sense when drawn as nodes and edges. It wasn't a thunderclap epiphany. It was a slow, creeping realization:
@@ -116,6 +117,7 @@ We pay for the linear lie in time—in endless debugging, archaeology, and re-co
     \node at (7.2,-1.0) {\small How it runs};
 \end{tikzpicture}
 \caption{The mismatch between code-as-text and code-as-structure.}
+\label{fig:code-vs-structure}
 \end{figure}
 
 What code \textit{actually} is, is a set of rules that transform one state into another:
@@ -243,6 +245,7 @@ Back at that studio—long before I had the vocabulary for any of this—I notic
         \draw[<->, dashed, gray] (C) -- (F);
     \end{tikzpicture}
     \caption{The structural isomorphism between a physics engine and a compiler pipeline.}
+\label{fig:pipeline-isomorphism}
 \end{figure}
 
 Totally different domains. Totally different math. Totally different problems. Same shape:  

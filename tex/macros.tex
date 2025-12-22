@@ -15,6 +15,10 @@
 % In preamble (main.tex)
 \newcommand{\emdash}{\textemdash{}}
 
+% Web-only directives (safe in PDF builds; ignored by LaTeX).
+% The website extraction pipeline can look for these to map figures -> interactive demos.
+\providecommand{\webdemo}[1]{}
+
 % WARP term: small caps in prose, italic in math.
 % Force upright small caps in text to avoid missing scit font shapes.
 \DeclareRobustCommand{\WARP}{\ifmmode\mathit{WARP}\else{\upshape\scshape warp}\fi}

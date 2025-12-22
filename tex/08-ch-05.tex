@@ -49,7 +49,7 @@ Modern software engineering suffers from a temporal myopia; it generally possess
 \subsection{Chronos — The Worldline You Actually Took}
 This is the axis of history. It represents the deterministic, tick-by-tick execution that brought the system to its current state. It is the linear path behind you, the committed decisions, and the immutable logs.
 
-\subsection{Kairos — The Time Cube}
+\subsection{Kairos — The Time Cone}
 This is the axis of opportunity. Kairos represents the shape of legal next steps from the present moment. It is the local cone of possibility, the width of the choice you have right now before the scheduler collapses it into history.
 
 \subsection{Aios — The Structural Arena}
@@ -93,10 +93,10 @@ This three-way model allows us to express the totality of a program's life. We c
 \rule{0.5\linewidth}{0.5pt}
 \end{center}
 
-\section{The Time Cube: A Local Lens on Rulial Space}
+\section{The Time Cone: A Local Lens on Rulial Space}
 \label{the-time-cube-a-local-lens-on-rulial-space}
 
-You can visualize the immediate future not just as a list of options, but geometrically as a \textbf{Time Cube}—or more accurately, a \textbf{cone of possible futures}.
+You can visualize the immediate future not just as a list of options, but geometrically as a \textbf{Time Cone}—a \textbf{cone of possible futures}.
 
 When your worldline (Chronos) hits a specific moment, the single point of ``now'' expands. From that point, a fan of legal DPO rewrites opens outward. This cone is defined by specific properties: it is \textbf{finite}, because only legal rewrites count; it is \textbf{local}, because it depends entirely on the current state; and it is \textbf{computable}, meaning we can strictly enumerate every lawful match.
 
@@ -120,7 +120,7 @@ Before we proceed, we must clarify who is actually looking at this cone. This di
 \end{center}
 \vspace{0.5cm}
 
-The Time Cube is the lens through which the \textbf{Observer} sees where the Scheduler \textit{could} go next. It reveals that you cannot go everywhere; you can only reach the nearby computational futures allowed by the geometry of the graph.
+The Time Cone is the lens through which the \textbf{Observer} sees where the Scheduler \textit{could} go next. It reveals that you cannot go everywhere; you can only reach the nearby computational futures allowed by the geometry of the graph.
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -309,7 +309,7 @@ if $r$ admits a DPO match on $s$ whose pushout complement yields $t$. When the s
 \end{definition}
 
 \begin{definition}[Kairos Slice / Local Neighborhood]
-For a state $s \in \mathcal{S}$, the \emph{local slice} (or \emph{Time Cube}) is
+For a state $s \in \mathcal{S}$, the \emph{local slice} (or \emph{Time Cone}) is
 \[
 N(s) = \{\, t \in \mathcal{S} \mid s \to t \,\}.
 \]
@@ -683,7 +683,7 @@ In summary, Rulial Space is not merely a metaphorical ``space of possibilities.'
 \section{Transition: From Possibility to Path}
 \label{transition-from-possibility-to-path}
 
-We have established the vocabulary of the new world. We have seen the lens (Time Cube), the space (Aios), the actual path (Chronos), and the geometry (Rulial Distance). We can finally answer the question: \textbf{``What is execution, really?''}
+We have established the vocabulary of the new world. We have seen the lens (Time Cone), the space (Aios), the actual path (Chronos), and the geometry (Rulial Distance). We can finally answer the question: \textbf{``What is execution, really?''}
 
 Execution is not a mechanical ticking of a clock. Execution is \textbf{a worldline—a geodesic path through possibility space.}
 

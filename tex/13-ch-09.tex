@@ -77,7 +77,7 @@ This is the missing theoretical link behind every frustrated conversation engine
 
 \section{\texorpdfstring{\textbf{Low Curvature: Smooth, Friendly, Forgiving Systems}}{9.2 --- Low Curvature: Smooth, Friendly, Forgiving Systems}}
 
-When a system exhibits low curvature, it possesses a specific kind of geometric stability. In these regions, nearby "Time Cubes" overlap significantly. Many different rewrite sequences lead to structurally similar worlds, meaning that the exact order of operations often matters less than the aggregate result. Legal transformations cascade gently through the graph, and structural invariants work in harmony with the developer rather than fighting against them.
+When a system exhibits low curvature, it possesses a specific kind of geometric stability. In these regions, nearby "Time Cones" overlap significantly. Many different rewrite sequences lead to structurally similar worlds, meaning that the exact order of operations often matters less than the aggregate result. Legal transformations cascade gently through the graph, and structural invariants work in harmony with the developer rather than fighting against them.
 
 In a low-curvature universe, small divergences reconverge naturally. Optimization paths feel intuitive because the gradient is smooth; you can see the destination and walk toward it. Refactoring does not cause explosions, and debugging feels like walking downhill—gravity is on your side.
 
@@ -95,7 +95,7 @@ In these systems, the "cone" of future possibilities points downhill. You can ph
 
 Conversely, a system dominated by high curvature is a hostile environment. Here, the butterfly effect is not a metaphor; it is the daily operational reality. Small changes produce massive, catastrophic divergences.
 
-In these jagged spaces, many DPO rules block each other. Applying Rule A invalidates the preconditions for Rule B, forcing the system into a corner. Invariants fight one another, creating tension where any move breaks a rule. The Time Cube becomes dangerously narrow; the number of legal next steps vanishes abruptly, leaving the system stalled or crashed.
+In these jagged spaces, many DPO rules block each other. Applying Rule A invalidates the preconditions for Rule B, forcing the system into a corner. Invariants fight one another, creating tension where any move breaks a rule. The Time Cone becomes dangerously narrow; the number of legal next steps vanishes abruptly, leaving the system stalled or crashed.
 
 Adjacent universes in high-curvature space behave wildly differently. A single boolean flag change might alter the entire control flow of the application. Debugging feels like climbing uphill in loose gravel, where every step slides you backward. Optimization feels like bushwhacking through a dense jungle with no line of sight. Refactoring feels less like architecture and more like disarming a live bomb.
 
@@ -125,9 +125,9 @@ Ultimately, curvature is the difference between a system that feels like it \tex
 
 ---
 
-\section{\texorpdfstring{\textbf{Curvature and the Time Cube}}{9.5 --- Curvature and the Time Cube}}
+\section{\texorpdfstring{\textbf{Curvature and the Time Cone}}{9.5 --- Curvature and the Time Cone}}
 
-Recall the Time Cube: the localized cone of legal next futures available to a system at any given moment. Curvature dramatically alters the behavior of this cone.
+Recall the Time Cone: the localized cone of legal next futures available to a system at any given moment. Curvature dramatically alters the behavior of this cone.
 
 \begin{figure}[h]
 \centering
@@ -186,7 +186,7 @@ This serves as the primer for the revelations of Chapter 10. We have established
 
 In these smooth, highly structured regions, problems that are theoretically exponential (NP-hard) in the general case explode significantly less. Why does this happen?
 
-It happens because the rulial manifold contains structural shortcuts. These are legal rewrites that effectively "fold space," shortening the path between the start state and the solution state inside the Time Cube. This phenomenon is known as \textbf{local NP collapse}.
+It happens because the rulial manifold contains structural shortcuts. These are legal rewrites that effectively "fold space," shortening the path between the start state and the solution state inside the Time Cone. This phenomenon is known as \textbf{local NP collapse}.
 
 To be absolutely clear:
 This is \textbf{\textit{not}} global. We are not claiming P = NP.
