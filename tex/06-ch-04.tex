@@ -83,6 +83,8 @@ To make this less abstract, here's a toy rule we'll use as a running example. It
 
 \begin{figure}[h]
 \centering
+% Scale to fit text width; avoids overfull hboxes from wide TikZ layout
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[auto, thick, every node/.style={circle,draw,minimum size=6mm}]
     % --- L ---
     \node[double] (Lp) at (0,0) {$p$};
@@ -106,9 +108,10 @@ To make this less abstract, here's a toy rule we'll use as a running example. It
     \node[draw=none, rectangle, font=\small] (Rlab) at (10.0,-0.9) {$R$};
 
     % --- arrows (the span) ---
-    \draw[->, thick] (Klab) -- node[above, draw=none, rectangle, font=\small] {$l$} (Llab);
-    \draw[->, thick] (Klab) -- node[above, draw=none, rectangle, font=\small] {$r$} (Rlab);
-\end{tikzpicture}
+\draw[->, thick] (Klab) -- node[above, draw=none, rectangle, font=\small] {$l$} (Llab);
+\draw[->, thick] (Klab) -- node[above, draw=none, rectangle, font=\small] {$r$} (Rlab);
+\end{tikzpicture}%
+}% end resizebox
 \caption{A concrete DPO rule. The interface $K$ (double-bordered nodes) must survive the rewrite. Everything in $L$ outside of $K$ is removed; everything in $R$ outside of $K$ is added.}
 \label{fig:dpo-rule-example}
 \end{figure}
@@ -116,6 +119,8 @@ To make this less abstract, here's a toy rule we'll use as a running example. It
 
 \begin{figure}[h]
 \centering
+% Scale to text width to avoid overfull hboxes from wide layout
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[auto, thick, every node/.style={circle,draw,minimum size=6mm}]
     % --- G ---
     \begin{scope}
@@ -166,7 +171,8 @@ To make this less abstract, here's a toy rule we'll use as a running example. It
         \draw[->] (Hq) -- (Hs);
         \node[draw=none, rectangle, font=\small] at (1.6,-1.7) {$H$ (result)};
     \end{scope}
-\end{tikzpicture}
+\end{tikzpicture}%
+}% end resizebox
 \caption{A cut-and-glue view of one DPO step. The dashed box marks the matched region. The double-bordered nodes are the interface: they stay. The cut removes the interior. The glue installs a replacement interior along the same boundary.}
 \label{fig:dpo-cut-glue}
 \end{figure}

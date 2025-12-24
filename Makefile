@@ -7,6 +7,9 @@ TEX_SRCS := $(shell find tex -name '*.tex')
 SVG_SRCS := $(wildcard svg/*.svg)
 SVG_PDFS := $(SVG_SRCS:.svg=.pdf)
 
+# Force a UTF-8 locale so latexmk/perl doesn't choke on unavailable defaults
+LATEX_ENV := LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
+
 .PHONY: all clean
 .PHONY: progress
 .PHONY: pdf
@@ -15,7 +18,7 @@ all: $(OUT_PDF)
 
 $(BUILD_DIR)/computer.pdf: $(TEX_SRCS) $(SVG_PDFS)
 	mkdir -p $(BUILD_DIR)
-	latexmk -pdf -interaction=nonstopmode -output-directory=$(BUILD_DIR) -auxdir=$(BUILD_DIR) $(TEX_MAIN)
+	$(LATEX_ENV) latexmk -pdf -interaction=nonstopmode -output-directory=$(BUILD_DIR) -auxdir=$(BUILD_DIR) $(TEX_MAIN)
 
 $(OUT_PDF): $(BUILD_DIR)/computer.pdf
 	cp $< $@
@@ -36,7 +39,7 @@ svg/%.pdf: svg/%.svg
 	fi
 
 clean:
-	latexmk -C -output-directory=$(BUILD_DIR) $(TEX_MAIN) || true
+	$(LATEX_ENV) latexmk -C -output-directory=$(BUILD_DIR) $(TEX_MAIN) || true
 	rm -rf $(BUILD_DIR) $(OUT_PDF)
 	rm -f tex/computer.{aux,log,out,fls,fdb_latexmk,synctex.gz,pdf}
 
