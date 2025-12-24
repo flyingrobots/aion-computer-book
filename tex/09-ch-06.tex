@@ -6,18 +6,36 @@
 
 Up to this point we have lived in possibility. We charted the cone of immediate futures (Kairos), the
 laws constraining them (Aios), and the fossilized past (Chronos). We built a static map of a
-dynamically evolving universe.
+dynamically evolving universe. We stood outside time, looking at what \emph{could} happen.
 
 But engineers don't get paid for possibility. We ship software that \emph{actually} runs. We care
-about the specific, singular trajectory our system takes through the dark sea of Rulial Space.
+about the specific, singular trajectory our system takes through the dark sea of Rulial Space. We
+care about the one path that executes, not the million paths that didn't. Every other worldline
+remains a ghost—an untraversed branch in the multiverse of what might have been.
 
 \begin{quote}
 \textbf{Which path does the computation actually walk?}
 \end{quote}
 
 That path—the fully realized, irreversible sequence of rewrites from input to output—is called a
-\textbf{worldline}. This chapter formalizes it, demystifies it, and shows how every act of debugging
-and optimization is nothing but geometry applied to these lines.
+\textbf{worldline}. It is not a metaphor borrowed from physics. It is not poetic language draped
+over dry machinery. In \COMPUTER{}, it is a rigorously defined mathematical object with
+measurable properties. This chapter formalizes it, demystifies it, and shows how every act of
+debugging and optimization is nothing but geometry applied to these lines.
+
+When we say a computation "moves," we mean something precise: the universe state changes. One graph
+becomes another. Nodes are deleted, edges rewired, new structure appears. The \WARP graph that was
+$S_0$ a moment ago is now $S_1$, and the transformation between them happened because some rule
+fired, some match was selected, some pattern was consumed and replaced. That step—that singular,
+irreversible rewrite—is the atom of computational motion. String enough of these atoms together, and
+you get a worldline: the complete trajectory of a running program through the geometry of Rulial Space.
+
+This is fundamentally different from how we typically think about execution. In classical models,
+execution is a black box. The CPU does something. Instructions happen. State mutates somewhere in
+RAM. We instrument it with logs and breakpoints, but the structure of the path itself remains
+invisible. In \COMPUTER{}, the path \emph{is} the structure. Every log entry you've ever read,
+every stack trace you've chased, every bug you've fought—they all live exclusively on this line. The
+worldline \emph{is} the computation. Everything else is commentary.
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -26,21 +44,76 @@ and optimization is nothing but geometry applied to these lines.
 \section{What Is a Worldline?}
 \label{sec:worldline-definition}
 
-A worldline is not a metaphor. In C$\Omega$MPUTER, it is a rigorously defined mathematical object:
-
-\begin{quote}
-\textbf{A worldline is a totally ordered sequence of legal DPO rewrites applied under a deterministic Scheduler.}
-\end{quote}
-
-The traditional vocabulary—“running code,” “executing instructions”—is too fuzzy to describe what
-actually happens. In WARP space, execution is nothing but an unbroken chain of graph states:
+A worldline is a totally ordered sequence of legal DPO rewrites applied under a deterministic
+Scheduler. The traditional vocabulary—"running code," "executing instructions," "the program
+counter"—is too fuzzy to describe what actually happens. In WARP space, execution is nothing but an
+unbroken chain of graph states:
 
 \[
 S_0 \to S_1 \to S_2 \to \dots \to S_N.
 \]
 
-Every log entry you've read, every stack trace you've chased, every bug you've fought—they all live
-exclusively on this line. The worldline \emph{is} the computation. Everything else is commentary.
+Each arrow is a rewrite. Each state $S_i$ is a complete snapshot of the universe at tick $i$. There
+are no gaps, no hidden transitions, no magic. If you want to know what the program did between $S_5$
+and $S_6$, the answer is: exactly one rewrite, chosen by the Scheduler, applied via DPO. If you want
+to know what the entire execution did, the answer is: this sequence, in this order, deterministically.
+
+This bears repeating because it is so alien to how we usually think. A worldline does not summarize
+execution. It does not approximate it. It \emph{is} execution, with perfect fidelity. Every
+intermediate state is materialized. Every choice is recorded. Every branching moment is collapsed
+into a single canonical decision. The worldline is the truth.
+
+%----------------------------------------------------------------------
+% NEW DIAGRAM: Worldline as Path Through State Space
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    state/.style={circle, draw=blue!60, fill=blue!10, minimum size=8mm, drop shadow},
+    path/.style={-{Stealth}, thick, blue!80!black},
+    ghost/.style={circle, draw=gray!60, fill=gray!15, minimum size=6mm, dashed},
+    ghostpath/.style={-{Stealth}, thin, gray!60, dashed},
+    >=Stealth
+]
+
+% Cloud of possibility (background) - DRAW FIRST so it's behind everything
+\draw[gray!30, rounded corners, dashed, fill=gray!5]
+    (-0.5,-1.8) rectangle (8.5,2.2);
+\node[font=\scriptsize, gray] at (7.5,1.9) {Rulial Space};
+
+% The worldline path (bold, followed)
+\node[state] (s0) at (0,0) {$S_0$};
+\node[state] (s1) at (2,0.5) {$S_1$};
+\node[state] (s2) at (4,0.3) {$S_2$};
+\node[state] (s3) at (6,-0.2) {$S_3$};
+\node[state] (s4) at (8,0.4) {$S_4$};
+
+\draw[path] (s0) -- (s1);
+\draw[path] (s1) -- (s2);
+\draw[path] (s2) -- (s3);
+\draw[path] (s3) -- (s4);
+
+% Ghost paths (not taken)
+\node[ghost] (g1) at (2,-1.2) {};
+\node[ghost] (g2) at (4,1.5) {};
+\node[ghost] (g3) at (6,1.8) {};
+
+\draw[ghostpath] (s0) -- (g1);
+\draw[ghostpath] (s1) -- (g2);
+\draw[ghostpath] (s2) -- (g3);
+
+% Labels
+\node[font=\footnotesize, below] at (s0.south) {Initial};
+\node[font=\footnotesize, above] at (s4.north) {Halted};
+\node[font=\footnotesize, gray, below] at (g1.south) {Not taken};
+\node[font=\footnotesize, gray, above] at (g2.north) {Not taken};
+
+\end{tikzpicture}
+\caption{A worldline is the actual path taken through Rulial Space. Ghost paths represent
+possible futures that were never chosen. The Scheduler collapses this cloud of possibility into a
+single deterministic sequence.}
+\label{fig:worldline-path}
+\end{figure}
 
 %----------------------------------------------------------------------
 % Math vs Runtime Analogy Table
@@ -62,7 +135,7 @@ Collapse & Choice of one match & Branch decision / control flow edge taken \\
 Neighborhood & Local ball in $d$ & Set of easily reachable behaviors / refactor targets \\
 \bottomrule
 \end{tabularx}
-\caption{Mathematical objects in the C$\Omega$MPUTER model and their runtime analogies.}
+\caption{Mathematical objects in the \COMPUTER{} model and their runtime analogies.}
 \label{table:math-vs-runtime}
 \end{table}
 
@@ -73,41 +146,38 @@ Neighborhood & Local ball in $d$ & Set of easily reachable behaviors / refactor 
 \section{Why Worldlines Are Deterministic}
 \label{6.2-why-worldlines-are-deterministic}
 
-Classical graph rewriting is nondeterministic. If three rules match, the theory says: “Pick one.”
-Maybe all three, in parallel universes. Fun for theorists—unusable for engineers.
+Classical graph rewriting is nondeterministic. If three rules match, the theory says: "Pick one."
+Maybe all three, in parallel universes. Fun for theorists—unusable for engineers. You cannot
+reproduce a bug if the system picks different rules each time. You cannot optimize what you cannot
+measure. You cannot reason about what refuses to sit still.
 
-C$\Omega$MPUTER rejects nondeterminism outright. We impose a ruthless authoritarian:
-\textbf{The Scheduler}.
-
-It does not guess. It does not roll dice. It collapses the Time Cone into a single legal next step.
+\COMPUTER{} rejects nondeterminism outright. We impose a ruthless authoritarian:
+\textbf{The Scheduler}. It does not guess. It does not roll dice. It does not consult a random
+number generator or check the wall clock. Every time it looks at a state $S$, it computes the same
+canonical next step. Run the same input twice, you get the same worldline. Byte-for-byte,
+edge-for-edge, tick-for-tick. This is not a nice-to-have property. It is the foundation on which
+everything else stands.
 
 To understand \emph{how}, we must expose the mechanism behind the determinism.
 
 \subsection{The Mechanics of Determinism: How the Scheduler Breaks Ties}
 
-For any given state $S$, there may be dozens of valid rule matches. The Scheduler collapses this
-ambiguity using a strict, layered decision stack:
+For any given state $S$, there may be dozens of valid rule matches. The left-hand side of rule $A$
+might match nodes $(n_1, n_2)$. The left-hand side of rule $B$ might match nodes $(n_2, n_3)$. Both
+are legal. Both satisfy the gluing conditions. Both could fire. Classical graph rewriting shrugs and
+says "either one." \COMPUTER{} does not shrug. It makes a choice, and that choice is always the
+same.
 
-\begin{enumerate}
-    \item \textbf{Canonical Match Enumeration.}  
-    All matches are expressed as tuples of node IDs, edge IDs, and port bindings. Because the WARP graph
-    has stable identities, these tuples form an ordered set.
-
-    \item \textbf{Lexicographic Ordering.}  
-    Matches are sorted by:
-    \begin{enumerate}
-        \item Rule ID (priority)
-        \item Match tuple shape
-        \item Node/edge identity order
-    \end{enumerate}
-
-    \item \textbf{Conflict Resolution.}  
-    Overlapping matches are eliminated via a deterministic leftmost-priority filter.
-
-    \item \textbf{Canonical Embedding Selection.}  
-    If multiple viable matches remain, the Scheduler computes a canonical embedding hash and selects
-    the match minimizing it. This effectively performs a topological sort over match space.
-\end{enumerate}
+The Scheduler collapses this ambiguity using a strict, layered decision stack. First, it enumerates
+all legal matches as tuples of node IDs, edge IDs, and port bindings. Because the WARP graph has
+stable identities—IDs that do not depend on memory addresses, allocation order, or the phase of the
+moon—these tuples form an ordered set. Second, it sorts the matches lexicographically by rule ID,
+then by match tuple shape, then by node and edge identity order. Third, overlapping matches are
+eliminated via a deterministic leftmost-priority filter: if two matches touch the same node or edge,
+the one that appears earlier in the sorted order wins, and the other is discarded. Finally, if
+multiple viable matches remain—a rare case, but possible—the Scheduler computes a canonical
+embedding hash and selects the match minimizing it. This effectively performs a topological sort over
+match space, breaking the final ties with a stable, reproducible function.
 
 %----------------------------------------------------------------------
 % TikZ: Scheduler Tie-Breaker Visualization
@@ -124,8 +194,8 @@ ambiguity using a strict, layered decision stack:
 
 % Nodes (universe state S)
 \node[node] (n1) at (0,0) {$n_1$};
-\node[node] (n2) at (2,0) {$n_2$};
-\node[node] (n3) at (4,0) {$n_3$};
+\node[node] (n2) at (2.5,0) {$n_2$};
+\node[node] (n3) at (5,0) {$n_3$};
 
 % Edges
 \draw[-{Stealth}] (n1) -- node[above, font=\scriptsize] {$e_{12}$} (n2);
@@ -138,29 +208,33 @@ ambiguity using a strict, layered decision stack:
 \node[matchB, fit=(n2) (n3), inner sep=10pt, label={[orange!80!black]below:$m_B$}] (mB) {};
 
 % Annotations
-\node[align=left, font=\footnotesize] at (0,-1.2)
+\node[align=left, font=\footnotesize] at (0,-1.5)
     {$\mathsf{ids}(m_A) = (n_1, n_2)$};
-\node[align=left, font=\footnotesize] at (4,-1.2)
+\node[align=left, font=\footnotesize] at (5,-1.5)
     {$\mathsf{ids}(m_B) = (n_2, n_3)$};
 
-\node[align=center, font=\footnotesize, anchor=west] at (-0.5,1.3)
+\node[align=center, font=\footnotesize, anchor=west] at (-0.5,1.6)
     {Same rule ID: $\mathrm{id}(r_A) = \mathrm{id}(r_B)$};
 
 % Arrow showing lexicographic preference
-\draw[->, thick] (0.2,-1.6) -- (3.8,-1.6)
+\draw[->, thick] (0.2,-2.0) -- (4.8,-2.0)
     node[midway, below, font=\footnotesize]
     {$\mathsf{ids}(m_A) <_{\text{lex}} \mathsf{ids}(m_B)$, so $m_A$ wins};
 
 \end{tikzpicture}
-\caption{Deterministic tie-breaking: two competing matches of the same rule. 
+\caption{Deterministic tie-breaking: two competing matches of the same rule.
 Canonical ID ordering selects $m_A$ as the unique next rewrite.}
 \label{fig:scheduler-tie-breaker}
 \end{figure}
 
 This hierarchy ensures that the transition $S_i \rightarrow S_{i+1}$ is both deterministic and
 \textbf{canonical}. Replay the same input, you get the same universe. Byte-for-byte, edge-for-edge.
+No race conditions. No timing bugs. No Heisenbugs that vanish when you attach a debugger. The system
+has one legal future, and the Scheduler finds it every single time.
 
-This property is the bedrock on which everything else stands. (For the formal specification, see Section~\ref{sec:scheduler-spec}).
+This property is the bedrock on which everything else stands. Without it, we have nothing. (For the
+formal specification of how this machinery works, see Section~\ref{sec:scheduler-spec} at the end of
+this chapter.)
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -171,13 +245,80 @@ This property is the bedrock on which everything else stands. (For the formal sp
 
 Two universes can share the same first hundred ticks yet diverge catastrophically at tick 101. A
 single flipped bit, a reordered port, or a one-edge difference can alter which rules match at the
-next step. By tick 200, the worldlines may not even resemble each other.
+next step. By tick 200, the worldlines may not even resemble each other. One may have halted
+successfully. The other may be stuck in an infinite loop, allocating memory until the heat death of
+the system.
 
-This sensitivity is called \textbf{Worldline Sharpness}. Systems with low curvature resist deviation;
-errors dampen out, the path self-corrects. Systems with high curvature amplify deviation; one wrong
-rewrite can throw the worldline into the abyss.
+This sensitivity is called \textbf{Worldline Sharpness}. It is the computational analog of chaos in
+dynamical systems: small changes in initial conditions lead to large differences in outcomes. But
+unlike chaotic systems, where sensitivity is often treated as a nuisance, in \COMPUTER{} it is a
+feature we can measure and reason about. Systems with low curvature resist deviation; errors dampen
+out, the path self-corrects, and small mistakes are forgiven by the geometry. Systems with high
+curvature amplify deviation; one wrong rewrite can throw the worldline into the abyss, and recovery
+becomes impossible.
 
 Every engineer who's debugged a race condition has experienced high-curvature geometry firsthand.
+You change one line of code—a single function call, moved up or down by three lines—and the entire
+system behaves differently. Not slightly differently. Completely differently. The bug vanishes. Or it
+gets worse. Or it moves to a different module entirely. This is not magic. It is geometry. The
+worldline bent, and you are now walking a different path through Rulial Space.
+
+%----------------------------------------------------------------------
+% NEW DIAGRAM: Worldline Divergence / Sharpness
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    state/.style={circle, draw=black!60, fill=black!10, minimum size=6mm, drop shadow},
+    path/.style={-{Stealth}, thick},
+    >=Stealth
+]
+
+% Common initial path
+\node[state] (s0) at (0,0) {$S_0$};
+\node[state] (s1) at (1.5,0) {$S_1$};
+\node[state] (s2) at (3,0) {$S_2$};
+
+\draw[path, blue!80!black] (s0) -- (s1) -- (s2);
+
+% Divergence point label
+\node[font=\footnotesize, above] at (s2.north) {Divergence};
+
+% Upper path (worldline A)
+\node[state, fill=blue!20] (a3) at (4.5,1.2) {$A_3$};
+\node[state, fill=blue!20] (a4) at (6,1.8) {$A_4$};
+\node[state, fill=blue!20] (a5) at (7.5,2.2) {$A_5$};
+
+\draw[path, blue!80!black] (s2) -- (a3) -- (a4) -- (a5);
+\node[font=\scriptsize, blue!80!black, above right] at (a5.east) {Worldline A};
+
+% Lower path (worldline B)
+\node[state, fill=orange!20] (b3) at (4.5,-1.2) {$B_3$};
+\node[state, fill=orange!20] (b4) at (6,-1.8) {$B_4$};
+\node[state, fill=orange!20] (b5) at (7.5,-2.2) {$B_5$};
+
+\draw[path, orange!80!black] (s2) -- (b3) -- (b4) -- (b5);
+\node[font=\scriptsize, orange!80!black, below right] at (b5.east) {Worldline B};
+
+% Annotation
+\node[font=\footnotesize, align=center] at (5.5,0)
+    {Tiny change at $S_2$\\leads to completely\\different futures};
+
+% Distance measure
+\draw[<->, thick, red!70!black] (a5.south) -- (b5.north)
+    node[midway, right, font=\scriptsize] {$d(A_5, B_5) \gg 0$};
+
+\end{tikzpicture}
+\caption{Worldline sharpness: a small perturbation at $S_2$ causes worldlines A and B to diverge
+dramatically. High-sharpness systems amplify tiny differences into catastrophic outcomes.}
+\label{fig:worldline-divergence}
+\end{figure}
+
+Sharpness is not inherently bad. Sometimes you want sensitivity. A security system should react
+violently to unauthorized input. A compiler should reject malformed syntax immediately, not try to
+limp along. But when sharpness is accidental—when it emerges from poorly structured rules or tangled
+dependencies—it becomes a nightmare. Debugging high-sharpness systems feels like defusing a bomb:
+touch anything, and the universe explodes.
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -187,58 +328,129 @@ Every engineer who's debugged a race condition has experienced high-curvature ge
 \label{6.4-geodesics}
 
 If Rulial Distance measures the minimum number of rewrites required to transform $A$ into $B$, then a
-\textbf{computational geodesic} is the worldline that achieves that minimum.
+\textbf{computational geodesic} is the worldline that achieves that minimum. It is the straightest
+path through curved space. It is the fastest route from input to output. It is the worldline with no
+wasted motion.
 
 \begin{quote}
 \textbf{The geodesic is the most efficient execution possible.}
 \end{quote}
 
 Real software, of course, rarely follows the geodesic. We wander. We allocate memory and free it a
-moment later. We iterate empty lists. We check conditions we already know.
+moment later. We iterate empty lists. We check conditions we already know. We call functions that do
+nothing. We build data structures we never read. These detours are not abstract inefficiencies—they
+are literal curvature in the path. Every unnecessary rewrite bends the worldline away from the
+geodesic. Every wasted cycle is a deviation that could have been avoided.
 
-These detours are not abstract inefficiencies—they are literal curvature in the path.
+Why does this happen? Sometimes it is deliberate. We add logging, bounds checking, defensive copies.
+We trade performance for safety or debuggability. But often, the curvature is accidental. It emerges
+from poor design, accumulated cruft, or ignorance of better algorithms. The code does too much
+because nobody ever stopped to ask: what is the minimum path from here to there?
+
+%----------------------------------------------------------------------
+% NEW DIAGRAM: Geodesic vs Curved Worldline
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    state/.style={circle, draw, fill=gray!10, minimum size=5mm, drop shadow},
+    geodesic/.style={-{Stealth}, thick, green!60!black, line width=1.5pt},
+    curved/.style={-{Stealth}, thick, red!70!black},
+    >=Stealth
+]
+
+% Start and end states - moved down by 1.5 units
+\node[state, fill=green!20] (start) at (0,-2.0) {$S_{\text{in}}$};
+\node[state, fill=green!20] (end) at (8,-2.0) {$S_{\text{out}}$};
+
+% Geodesic (straight line)
+\draw[geodesic] (start) -- (end)
+    node[midway, above, font=\footnotesize, green!60!black] {Geodesic: $d_{\min}$ steps};
+
+% Curved worldline (with detours) - moved down by 1.5 units
+\node[state, fill=red!10] (c1) at (2,-0.8) {};
+\node[state, fill=red!10] (c2) at (3,-0.2) {};
+\node[state, fill=red!10] (c3) at (5,-0.5) {};
+\node[state, fill=red!10] (c4) at (6.5,-1.2) {};
+
+\draw[curved] (start) to[out=45, in=180] (c1);
+\draw[curved] (c1) to[out=0, in=180] (c2);
+\draw[curved] (c2) to[out=0, in=120] (c3);
+\draw[curved] (c3) to[out=-60, in=120] (c4);
+\draw[curved] (c4) to[out=-60, in=90] (end);
+
+\node[font=\footnotesize, red!70!black, align=center] at (4,0.4)
+    {Actual worldline:\\detours, waste, curvature};
+
+% Distance annotation - moved down by 1.5 units
+\node[font=\scriptsize, below] at (4,-2.7)
+    {Optimization = reducing curvature, approaching the geodesic};
+
+\end{tikzpicture}
+\caption{The geodesic (green) is the shortest path through Rulial Space. Real worldlines (red)
+wander, accumulating unnecessary rewrites. Optimization is the process of straightening the path.}
+\label{fig:geodesic-comparison}
+\end{figure}
+
+The geodesic is not always obvious. In a sufficiently complex system, finding it may be computationally
+intractable. But we can often find \emph{approximations}—worldlines that are straighter than what we
+started with, even if not perfectly straight. This is what profilers and optimizers do: they identify
+the parts of the worldline where curvature is highest, and they suggest ways to reduce it. Inline
+this function. Memoize that result. Hoist this computation out of the loop. Each of these
+transformations is a geometric operation: unbending the path, reducing the deviation from the
+geodesic.
+
+Understanding geodesics changes how we think about performance. It is not about "making things
+faster" in some vague sense. It is about \emph{aligning the worldline with the geometry of the
+space}. Fast code feels elegant because it is geometrically direct. Slow code feels wrong because it
+is wandering through high-curvature regions for no good reason.
 
 \subsection{Worldline Inertia: Curvature as Technical Debt}
 
 Curved worldlines possess \textbf{inertia}: once bent, they resist straightening. Every detour adds
-structure; new structure alters rule availability; altered availability reshapes the future.
+structure to the universe. New structure alters which rules can fire in the future. Altered rule
+availability reshapes the geometry ahead. What began as a small inefficiency—a single unnecessary
+allocation, say—grows into a dependency. Other parts of the code start assuming that allocation
+exists. Functions are written to consume it. Invariants are established around it. The longer the
+curved worldline persists, the more mass it gathers, and the harder it becomes to straighten.
 
-This is the geometric definition of \textbf{technical debt}:
+This is the geometric definition of \textbf{technical debt}. Bad decisions add curvature to the
+worldline. Curvature gathers mass as the system evolves around it. Mass bends the local geometry,
+making it harder for future rewrites to take the straight path. Bending the geometry increases the
+cost of correction. Eventually, the debt becomes so entrenched that paying it off requires rewriting
+large portions of the system—not because the code is "bad" in some abstract sense, but because the
+\emph{geometry of the worldline} has become irreparably warped.
 
-\begin{itemize}
-    \item Bad decisions add curvature.  
-    \item Curvature gathers mass.  
-    \item Mass bends the local geometry.  
-    \item Bending the geometry increases the cost of correction.
-\end{itemize}
-
-Refactoring is not merely changing code—it is unbending spacetime.
+Refactoring is not merely changing code. It is unbending spacetime. You are reshaping the geometry so
+that future worldlines can take straighter paths. You are reducing the mass of accumulated cruft so
+that the system can move more freely. This is why good refactors feel like relief: you are literally
+straightening out the universe.
 
 \subsection{Rulial Friction: Why Some Paths Hurt More Than Others}
 
 Inertia explains why curved worldlines resist straightening. But curvature alone
-is not the whole story. Some parts of the universe are easy to rewrite\emd{}light,
-loose, low-stakes. Others are load-bearing megastructures: dense dependency hubs,
-core libraries, highly-shared subgraphs. These carry what we call
-\textbf{Rulial Friction}.
+is not the whole story. Some parts of the universe are easy to rewrite—light,
+loose, low-stakes. You can shuffle them around with minimal consequences. Others are load-bearing
+megastructures: dense dependency hubs, core libraries, highly-shared subgraphs. Touch one node, and
+fifty others feel the ripple. These regions carry what we call \textbf{Rulial Friction}.
 
-\begin{itemize}
-    \item \textbf{Low-friction regions} rewrite cleanly; small nudges realign the path.  
-    \item \textbf{High-friction regions} resist every attempt at correction; even tiny edits
-          require rewriting large amounts of connected structure.
-\end{itemize}
+Low-friction regions rewrite cleanly. A small nudge realigns the path. You refactor a helper
+function, and nothing else notices. High-friction regions resist every attempt at correction. Even
+tiny edits require rewriting large amounts of connected structure. You touch a core abstraction, and
+the entire codebase convulses.
 
-A hacky shortcut often works by tunneling straight through a high-friction region
-and perturbing nodes that were never meant to move. Later, when you attempt a proper
-refactor, the cost is enormous: the geometry punishes you for violating a load-bearing 
-dependency.
+A hacky shortcut often works by tunneling straight through a high-friction region and perturbing
+nodes that were never meant to move. It "works" in the sense that it produces the desired output, but
+it leaves the geometry scarred. Later, when you attempt a proper refactor, the cost is enormous: the
+graph itself pushes back. Every change you try to make conflicts with the dependencies that formed
+around the hack. You are not fighting the code. You are fighting the geometry.
 
 \begin{quote}
 Technical debt is not just curvature. It is curvature through high-friction space.
 \end{quote}
 
 This is why some refactors feel effortless and others feel geological. The graph itself
-pushes back.
+pushes back against changes that violate its load-bearing structure.
 
 %----------------------------------------------------------------------
 % TikZ: Rulial Friction Diagram
@@ -281,20 +493,23 @@ pushes back.
 \node at (2,-1.4) {\footnotesize High Friction Region};
 
 % Worldline arrows
-\draw[dashedarrow, blue] (-4,0) -- (-1,0)
-    node[midway, above, font=\scriptsize] {Easy refactor};
+\draw[dashedarrow, blue] (-4,0) -- (-1,0);
+\node[font=\scriptsize, blue, below] at (-2.5,-0.3) {Easy refactor};
 
 \draw[dashedarrow, red!80!black] (0,0) .. controls (1,1.5) .. (3,1)
-    node[midway, above, font=\scriptsize] {Hard refactor (high friction)};
+    node[pos=0.6, above, font=\scriptsize, yshift=2pt] {Hard refactor (high friction)};
 
 \end{tikzpicture}
-\caption{Rulial Friction: rewriting a sparse region is easy (low friction), 
-but rewrites in dense, load-bearing regions require massive structural change. 
+\caption{Rulial Friction: rewriting a sparse region is easy (low friction),
+but rewrites in dense, load-bearing regions require massive structural change.
 Technical debt is not just curvature—it is curvature through high-friction space.}
 \label{fig:rulial-friction}
 \end{figure}
 
-\subsection*{FOR THE NERDS™: A Formal Definition of Rulial Friction}
+\begin{mdframed}[linewidth=1pt, linecolor=black!50, innertopmargin=8pt, innerbottommargin=8pt]
+\noindent\textbf{FOR THE NERDS™: A Formal Definition of Rulial Friction}
+
+\medskip
 
 Let $S$ be a universe state, and let $m = (r, \mu)$ be a legal match producing successor
 state $S' = r(S)$.
@@ -308,11 +523,7 @@ We define the \textbf{local friction measure} $\Phi(S, m)$ as:
 
 That is: the number of nodes and edges whose structural role changes under the rewrite.
 
-Intuitively:
-\begin{itemize}
-    \item If a rewrite touches only a few nodes (low $|\Phi|$), the region has low friction.
-    \item If a rewrite perturbs a dense subgraph (high $|\Phi|$), the region has high friction.
-\end{itemize}
+Intuitively, if a rewrite touches only a few nodes (low $|\Phi|$), the region has low friction. If a rewrite perturbs a dense subgraph (high $|\Phi|$), the region has high friction.
 
 We extend this to a directional derivative along a worldline $(S_i)$:
 
@@ -328,16 +539,22 @@ the friction encountered at tick $i$. Finally, define the \textbf{integrated fri
 = \sum_{i=a}^{b} \mathcal{F}(S_i).
 \]
 
-This is the Rulial analog of “work” in physics:  
+This is the Rulial analog of "work" in physics:
 the cumulative structural resistance encountered by the computation.
 
 \begin{quote}
-Low-friction universes evolve cleanly.  
+Low-friction universes evolve cleanly.
 High-friction universes fight every rewrite.
 \end{quote}
 
-\subsection*{FOR THE NERDS™: Curvature, Friction, and Refactor Difficulty}
-\textit{(A full treatment of curvature appears in Chapter 9. 
+\end{mdframed}
+
+\begin{mdframed}[linewidth=1pt, linecolor=black!50, innertopmargin=8pt, innerbottommargin=8pt]
+\noindent\textbf{FOR THE NERDS™: Curvature, Friction, and Refactor Difficulty}
+
+\medskip
+
+\textit{(A full treatment of curvature appears in Chapter 9.
 This subsection provides only the local, first-order precursor.)}
 
 Friction measures how many elements a rewrite perturbs. To capture how \emph{sensitive}
@@ -358,10 +575,9 @@ Define the \textbf{local curvature} at $(S,m)$ as:
 where $\mathcal{N}(m)$ is a small neighborhood of perturbed matches and
 $d$ is the Rulial Distance.
 
-\begin{itemize}
-    \item $\kappa$ small: nearby choices lead to similar futures (flat region).  
-    \item $\kappa$ large: tiny changes lead to wildly different futures (high curvature).
-\end{itemize}
+If $\kappa$ is small, then nearby choices lead to similar futures—a flat region where mistakes are
+cheap. If $\kappa$ is large, then tiny changes lead to wildly different futures—high curvature, where
+one wrong move can send the worldline careening into disaster.
 
 We then define the \textbf{Refactor Difficulty} measure:
 
@@ -369,22 +585,23 @@ We then define the \textbf{Refactor Difficulty} measure:
 \Psi(S,m) = \kappa(S,m) \cdot \Phi(S,m),
 \]
 
-the product of curvature ($\kappa$) and friction ($\Phi$) at a point.
+the product of curvature ($\kappa$) and friction ($\Phi$) at a point. This gives us four regimes.
+Low friction and low curvature: easy edits, forgiving futures—the sweet spot of clean code. High
+friction but low curvature: heavy but predictable—costly but safe, like refactoring a large,
+well-structured library. Low friction but high curvature: light but chaotic—subtle changes with
+explosive consequences, the domain of race conditions and timing bugs. Finally, high friction
+\emph{and} high curvature: dense structure with explosive sensitivity—the absolute worst case, where
+every attempt to fix something breaks three other things.
 
-\begin{itemize}
-    \item Low $\Phi$, low $\kappa$: easy edits, forgiving future.  
-    \item High $\Phi$, low $\kappa$: heavy but predictable; costly but safe.  
-    \item Low $\Phi$, high $\kappa$: light but chaotic; subtle changes, explosive futures.  
-    \item High $\Phi$, high $\kappa$: the worst case—\emph{dense structure with explosive sensitivity}.
-\end{itemize}
-
-This last regime is what engineers experience as “touch-anything-and-everything-breaks”:
-high-friction, high-curvature regions where refactors feel like trying to perform brain
-surgery on a live, flailing universe.
+This last regime is what engineers experience as "touch-anything-and-everything-breaks." It is not a
+feeling. It is not bad luck. It is a measurable property of the geometry. You are trying to perform
+brain surgery on a live, flailing universe, and the universe is not cooperating.
 
 \begin{quote}
 Refactor Difficulty is not a feeling. It is a measurable property of the geometry.
 \end{quote}
+
+\end{mdframed}
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -393,20 +610,82 @@ Refactor Difficulty is not a feeling. It is a measurable property of the geometr
 \section{Collapse: Choosing One Future}
 \label{6.5-collapse}
 
-The Time Cone presents a cloud of potential futures; the worldline requires a single committed one.
+The Time Cone presents a cloud of potential futures. The worldline requires a single committed one.
 That transition is \textbf{Collapse}—the moment the Scheduler prunes the entire possibility tree,
 keeps one branch, and discards the rest.
 
-Collapse is not mystical. It is mechanical. It is the filtering of:
+Collapse is not mystical. It is not quantum. It is not pulling some metaphysical trick borrowed from
+physics we don't understand. It is mechanical. It is the filtering of all legal matches down to a
+single canonical rewrite. Given a state $S$ and a set of matching rules, the Scheduler evaluates
+them, orders them, eliminates conflicts, and picks the winner. That winner is the rule that fires.
+Everything else is forgotten.
 
-\begin{center}
-  \texttt{(L, K, R)}
-\end{center}
+Every conditional branch in imperative code is a local Collapse. The \texttt{if} statement evaluates
+a boolean, and one of two paths is taken. The other ceases to exist. Every loop guard is a Collapse:
+continue or break. Every function call is a Collapse: which implementation gets invoked? Every
+pattern match is a Collapse: which arm of the \texttt{match} expression wins? Collapse is the act
+that converts possibility into history. It is the instant where the future becomes the past, and the
+present ceases to be an open question.
 
-into a single canonical rewrite.
+%----------------------------------------------------------------------
+% NEW DIAGRAM: Collapse Visualization
+%----------------------------------------------------------------------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    state/.style={circle, draw=blue!60, fill=blue!10, minimum size=7mm, drop shadow},
+    ghost/.style={circle, draw=gray!30, fill=gray!5, minimum size=6mm, dashed},
+    path/.style={-{Stealth}, thick, blue!80!black},
+    ghostpath/.style={-{Stealth}, thin, gray!40, dashed},
+    cone/.style={draw=orange!60, fill=orange!10, opacity=0.3},
+    >=Stealth
+]
 
-Every conditional branch in imperative code is a local Collapse. Every loop guard. Every function
-call. Collapse is the act that converts possibility into history.
+% Future possibilities (cone) - DRAW FIRST so it's behind everything
+\draw[cone, rounded corners]
+    (0.8,0) -- (5.5,3.5) -- (5.5,-3.5) -- (0.8,0);
+
+\node[font=\footnotesize, orange!80!black] at (4.8,0.2) {Time Cone};
+
+% Current state
+\node[state] (now) at (0,0) {$S_i$};
+
+% Ghost futures (not taken) - wider spacing
+\node[ghost] (g1) at (4.0,2.5) {};
+\node[ghost] (g2) at (4.0,0.9) {};
+\node[ghost] (g3) at (4.0,-0.9) {};
+\node[ghost] (g4) at (4.0,-2.5) {};
+
+\draw[ghostpath] (now) -- (g1);
+\draw[ghostpath] (now) -- (g2);
+\draw[ghostpath] (now) -- (g3);
+\draw[ghostpath] (now) -- (g4);
+
+% The chosen path (collapse)
+\node[state] (next) at (4.0,0) {$S_{i+1}$};
+\draw[path] (now) -- (next);
+
+% Labels - positioned to avoid overlaps
+\node[font=\footnotesize, blue!80!black, above=3pt] at (next.north) {Chosen};
+\node[font=\scriptsize, gray, right=3pt] at (g1.east) {Discarded};
+\node[font=\scriptsize, gray, right=3pt] at (g4.east) {Discarded};
+
+% Collapse annotation - moved left to avoid overlapping diagram
+\draw[->, ultra thick, red!70!black] (1.2,4.0) -- (1.2,0.7)
+    node[midway, right=5pt, font=\footnotesize, align=left]
+    {Collapse:\\Scheduler\\picks one};
+
+\end{tikzpicture}
+\caption{Collapse is the moment the Time Cone of possibilities narrows to a single chosen worldline.
+The Scheduler evaluates all legal futures and commits to one, discarding the rest.}
+\label{fig:collapse}
+\end{figure}
+
+This is the fundamental irreversibility of computation. Once a rewrite fires, you cannot un-fire it.
+You cannot go back and try the other branch. You are committed. The state $S_i$ became $S_{i+1}$, and
+there is no rewinding the tape. Classical systems hide this irreversibility behind abstractions like
+"undo" and "rollback," but these are illusions built on top of careful state snapshotting.
+\COMPUTER{} makes it explicit: Collapse is one-way. The worldline only grows forward.
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -415,48 +694,58 @@ call. Collapse is the act that converts possibility into history.
 \section{Worldlines Are Debugging}
 \label{6.6-worldlines-are-debugging}
 
-If execution is a path, then a bug is a wrong turn.
+If execution is a path, then a bug is a wrong turn. Traditional debugging gives you
+snapshots—stack traces, log lines, memory dumps. Static clues frozen in time. You get to see where
+the program \emph{ended up}, but not how it got there. The path is invisible. You have to
+reconstruct it from fragments, guessing at the sequence of events that led to the crash.
 
-Traditional debugging gives you snapshots—stack traces, log lines, memory dumps. Static clues.
 WARP-based debugging gives you the \emph{path} itself. You can examine where the worldline bent,
-whether it was legal, and what structural condition misdirected it.
+whether the rewrite was legal, and what structural condition misdirected it. You can replay the
+execution tick by tick, inspecting every intermediate state. You can compare the buggy worldline to a
+known-good worldline and see exactly where they diverge. You can measure Rulial Distance between them
+and discover the precise coordinate where the universe took a bad turn.
 
 Because worldlines and states are immutable, we can do something unheard of in classical systems:
-\textbf{diff worldlines}. We can measure Rulial Distance between the happy path and the buggy one and
-discover the precise coordinate where the universe took a bad turn.
+\textbf{diff worldlines}. Not in the textual sense—this is not git diff on source code. This is a
+geometric diff, a structural comparison of two paths through Rulial Space. We overlay the graphs,
+cancel out identical nodes and edges, and highlight the differences. What remains is a map of
+divergence: the exact subgraphs where the universes disagree.
 
 \paragraph{The git bisect analogy.}
 If a worldline is a commit history in the universe, then debugging it is a \emph{binary search on
-reality}. Worldline diffing is the geometric form of git bisect: a deterministic search for
-the first bad rewrite. Classical systems cannot do this because they overwrite history; C$\Omega$MPUTER
-cannot avoid doing this because history \emph{is} the substrate.
+reality}. You know the first tick was good. You know tick $N$ is bad. Binary search the worldline:
+check tick $N/2$. If it's good, the bug is in the second half. If it's bad, the bug is in the first
+half. Recurse until you isolate the single rewrite that introduced the error. Classical systems
+cannot do this because they overwrite history. \COMPUTER{} cannot avoid doing this because
+history \emph{is} the substrate. Every tick is recorded. Every state is preserved. The past is
+immutable, and that makes it searchable.
 
-Debugging becomes archaeology. You are not guessing—you are excavating.
+Debugging becomes archaeology. You are not guessing—you are excavating. The evidence is all there,
+buried in the worldline. You just have to dig in the right place.
 
 \paragraph{The Rulial Heat Map.}
-Diffing worldlines is not textual\emd{}it is geometric. Imagine overlaying the
-\emph{Happy Path} universe and the \emph{Buggy Path} universe atop one another.
-Nodes and edges that match perfectly cancel out; they become transparent. But
-any structural difference\emd{}a missing edge, an extra allocation, a mutated
-subgraph\emd{}begins to glow.
+Diffing worldlines is not textual—it is geometric. Imagine overlaying the \emph{Happy Path} universe
+and the \emph{Buggy Path} universe atop one another. Nodes and edges that match perfectly cancel
+out; they become transparent. But any structural difference—a missing edge, an extra allocation, a
+mutated subgraph—begins to glow.
 
 \begin{quote}
 Divergence has a temperature. Stable regions stay cool. Error regions burn hot.
 \end{quote}
 
-A worldline diff produces a \textbf{Rulial Heat Map}:  
-\begin{itemize}
-    \item identical structure = transparent,  
-    \item locally altered structure = warm orange,  
-    \item cascading divergence = deep red,  
-    \item catastrophic bifurcations = white-hot fissures in possibility space.
-\end{itemize}
+A worldline diff produces a \textbf{Rulial Heat Map}. Identical structure is transparent. Locally
+altered structure glows warm orange. Cascading divergence burns deep red. Catastrophic
+bifurcations—points where the two worldlines split into completely incompatible futures—appear as
+white-hot fissures in possibility space.
 
-Debugging stops being the reading of logs and becomes the reading of geometry:
-you see where the universe itself is “hot” with error. A race condition is not a
-string of text—it is a thermal scar on the shape of execution.
+Debugging stops being the reading of logs and becomes the reading of geometry. You see where the
+universe itself is "hot" with error. A race condition is not a string of text in a log file. It is a
+thermal scar on the shape of execution. It is a visible wound in the geometry, and you can point to
+it and say: there. That is where the worldline broke.
 
-This is visceral, visual, unforgettable. Engineers will feel this.
+This is visceral, visual, unforgettable. Engineers will feel this. They will see the heat map and
+understand, in their gut, what went wrong. This is not abstract theory. This is debugging with your
+eyes open.
 
 %----------------------------------------------------------------------
 % TikZ: Rulial Heat Map
@@ -502,19 +791,19 @@ This is visceral, visual, unforgettable. Engineers will feel this.
 
 % Heat legend
 \node[same] at (0,-2.0) {};
-\node[ghost, right=3pt of {(0,-2.0)}] {\footnotesize Identical (transparent)};
+\node[ghost, right=8pt of {(0,-2.0)}] {\footnotesize Identical (transparent)};
 
 \node[warm] at (0,-2.6) {};
-\node[ghost, right=3pt of {(0,-2.6)}] {\footnotesize Local divergence (warm)};
+\node[ghost, right=8pt of {(0,-2.6)}] {\footnotesize Local divergence (warm)};
 
 \node[hot] at (0,-3.2) {};
-\node[ghost, right=3pt of {(0,-3.2)}] {\footnotesize Strong divergence (hot)};
+\node[ghost, right=8pt of {(0,-3.2)}] {\footnotesize Strong divergence (hot)};
 
 \node[whitehot] at (0,-3.8) {};
-\node[ghost, right=3pt of {(0,-3.8)}] {\footnotesize Catastrophic divergence (white-hot)};
+\node[ghost, right=8pt of {(0,-3.8)}] {\footnotesize Catastrophic divergence (white-hot)};
 
 \end{tikzpicture}
-\caption{Rulial Heat Map: comparing the happy-path universe to the buggy universe. 
+\caption{Rulial Heat Map: comparing the happy-path universe to the buggy universe.
 Identical structure cancels out; divergent structure radiates heat.}
 \label{fig:rulial-heat-map}
 \end{figure}
@@ -525,12 +814,12 @@ Identical structure cancels out; divergent structure radiates heat.}
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-    same/.style={circle, draw=black!30, fill=black!5, minimum size=5mm},
+    same/.style={circle, draw=black!30, fill=white, minimum size=5mm},
     warm/.style={circle, draw=orange!80!black, fill=orange!40, minimum size=5mm, drop shadow},
     hot/.style={circle, draw=red!80!black, fill=red!50, minimum size=5mm, drop shadow},
     whitehot/.style={circle, draw=red!90!black, fill=white, line width=1pt, minimum size=5mm, drop shadow},
     edge/.style={-{Stealth}, thin, gray!60},
-    frame/.style={rectangle, rounded corners, draw=gray!70, inner sep=6pt, drop shadow}
+    frame/.style={rectangle, rounded corners, draw=gray!50, fill=white, inner sep=8pt, drop shadow}
 ]
 
 % Frame 1: Early divergence
@@ -587,9 +876,9 @@ Identical structure cancels out; divergent structure radiates heat.}
 
 % arrows
 \draw[->, thick, gray!70] (f1.east) -- (f2.west)
-    node[midway, above, font=\scriptsize] {propagation};
+    node[midway, above=1pt, font=\scriptsize] {propagation};
 \draw[->, thick, gray!70] (f2.east) -- (f3.west)
-    node[midway, above, font=\scriptsize] {runaway};
+    node[midway, above=1pt, font=\scriptsize] {runaway};
 
 \end{tikzpicture}
 \caption{Temporal evolution of Rulial Heat. A small local deviation at $t_0$
@@ -599,7 +888,10 @@ locating and cooling this region.}
 \label{fig:rulial-heat-animation}
 \end{figure}
 
-\subsection*{FOR THE NERDS™: Rulial Heat as Divergence}
+\begin{mdframed}[linewidth=1pt, linecolor=black!50, innertopmargin=8pt, innerbottommargin=8pt]
+\noindent\textbf{FOR THE NERDS™: Rulial Heat as Divergence}
+
+\medskip
 
 Let $(S_i^{\mathrm{good}})_{i=0}^N$ and $(S_i^{\mathrm{bug}})_{i=0}^N$ be two worldlines
 with the same initial state $S_0$ and identical tick index set.
@@ -620,11 +912,7 @@ We define the \textbf{Rulial Heat} at tick $i$ as:
 H_i = |\Delta_i|.
 \]
 
-Intuitively:
-\begin{itemize}
-    \item $H_i = 0$ means the universes are structurally identical at tick $i$.
-    \item Larger $H_i$ means more structural disagreement (more “heat”).
-\end{itemize}
+Intuitively, when $H_i = 0$, the universes are structurally identical at tick $i$. Larger $H_i$ values indicate more structural disagreement, corresponding to more "heat" in the system.
 
 We can then define:
 
@@ -641,23 +929,29 @@ Rulial Heat is how much the buggy universe disagrees with the correct one, measu
 not in log lines but in altered structure.
 \end{quote}
 
+\end{mdframed}
+
 \paragraph{The Observer Effect Is Dead.}
 In classical debugging, attaching a debugger \emph{changes} the program. Adding
 a \texttt{printf()} shifts timing, scares away race conditions, and collapses
-the very bug you're trying to study. These “Heisenbugs” survive by reacting to
-observation.
+the very bug you're trying to study. These "Heisenbugs" survive by reacting to
+observation. They are like quantum particles that refuse to be measured without changing their state.
 
-In C$\Omega$MPUTER, the Observer Effect is dead.
+In \COMPUTER{}, the Observer Effect is dead.
 
 Because the Scheduler ignores the wall clock entirely, you can pause the
 universe for a thousand years between ticks, inspect every atom, and when you resume
-execution the next rewrite will be \emph{identical}. Timing cannot influence causality.
+execution the next rewrite will be \emph{identical}. Timing cannot influence causality. The Scheduler
+does not care how long you spent staring at the graph. It does not care if you attached a debugger.
+It does not care if you printed the entire state to a log file. When you unpause, it will pick the
+same match, apply the same rewrite, and produce the same successor state. Every. Single. Time.
 
 \begin{quote}
 The Heisenbug cannot run. It cannot hide. Time has no power here.
 \end{quote}
 
-Determinism makes debugging safe again: observing the universe no longer disturbs the universe.
+Determinism makes debugging safe again: observing the universe no longer disturbs the universe. The
+worldline is what it is. You can study it, diff it, replay it, dissect it—and it will not flinch.
 
 %----------------------------------------------------------------------
 % TikZ: Heisenbug Extinction
@@ -673,50 +967,50 @@ Determinism makes debugging safe again: observing the universe no longer disturb
 ]
 
 % Classical system (top)
-\node[labelstyle] at (-4,1.8) {Classical System};
+\node[labelstyle] at (-5,2.4) {Classical System};
 
-\draw[world, gray!70] (-4,1.5) -- (-1,1.5);
-\draw[altworld, red!80!black] (-4,1.3) -- (-2.2,1.3) .. controls (-1.5,1.3) and (-1.0,0.9) .. (-0.5,0.6);
+\draw[world, gray!70, line width=0.8pt] (-5,2.0) -- (-0.5,2.0);
+\draw[altworld, red!80!black, line width=0.8pt] (-5,1.7) -- (-2.5,1.7) .. controls (-1.5,1.7) and (-0.8,1.2) .. (0,0.8);
 
-\node[tick] (c0) at (-4,1.5) {};
-\node[tick] (c1) at (-3,1.5) {};
-\node[tick] (c2) at (-2,1.5) {};
-\node[tick] (c3) at (-1,1.5) {};
+\node[tick, minimum size=2.5pt] (c0) at (-5,2.0) {};
+\node[tick, minimum size=2.5pt] (c1) at (-3.5,2.0) {};
+\node[tick, minimum size=2.5pt] (c2) at (-2,2.0) {};
+\node[tick, minimum size=2.5pt] (c3) at (-0.5,2.0) {};
 
-\node[labelstyle, above] at (-3,1.5) {$t_1$};
-\node[labelstyle, above] at (-2,1.5) {$t_2$};
+\node[labelstyle, above] at (-3.5,2.0) {$t_1$};
+\node[labelstyle, above] at (-2,2.0) {$t_2$};
 
 % breakpoint marker
-\draw[red!80!black, thick] (-2,1.7) -- (-2,1.3);
-\node[labelstyle, above, red!80!black] at (-2,1.75) {Debugger attached};
+\draw[red!80!black, thick] (-2,2.25) -- (-2,1.75);
+\node[labelstyle, above, red!80!black] at (-2,2.35) {Debugger attached};
 
-\node[labelstyle, align=left] at (0.8,1.4)
+\node[labelstyle, align=left] at (1.6,1.8)
     {\scriptsize Same input, different timing\\\scriptsize $\Rightarrow$ different outcome (Heisenbug)};
 
 % CΩMPUTER system (bottom)
-\node[labelstyle] at (-4,-0.2) {C$\Omega$MPUTER};
+\node[labelstyle] at (-5,-0.4) {\COMPUTER{}};
 
-\draw[world, blue!80!black] (-4,0) -- (-1,0);
-\draw[altworld, blue!40!black, densely dotted] (-4,-0.2) -- (-1,-0.2);
+\draw[world, blue!80!black, line width=0.8pt] (-5,-0.8) -- (-0.5,-0.8);
+\draw[altworld, blue!40!black, densely dotted, line width=0.8pt] (-5,-1.1) -- (-0.5,-1.1);
 
-\node[tick] (d0) at (-4,0) {};
-\node[tick] (d1) at (-3,0) {};
-\node[tick] (d2) at (-2,0) {};
-\node[tick] (d3) at (-1,0) {};
+\node[tick, minimum size=2.5pt] (d0) at (-5,-0.8) {};
+\node[tick, minimum size=2.5pt] (d1) at (-3.5,-0.8) {};
+\node[tick, minimum size=2.5pt] (d2) at (-2,-0.8) {};
+\node[tick, minimum size=2.5pt] (d3) at (-0.5,-0.8) {};
 
-\node[labelstyle, above] at (-3,0) {$t_1$};
-\node[labelstyle, above] at (-2,0) {$t_2$};
+\node[labelstyle, above] at (-3.5,-0.8) {$t_1$};
+\node[labelstyle, above] at (-2,-0.8) {$t_2$};
 
 % breakpoint marker
-\draw[gray!70, thick] (-2,0.2) -- (-2,-0.2);
-\node[labelstyle, above, gray!70] at (-2,0.25) {Paused arbitrarily};
+\draw[gray!70, thick] (-2,-0.55) -- (-2,-1.05);
+\node[labelstyle, above, gray!70] at (-2,-0.45) {Paused arbitrarily};
 
-\node[labelstyle, align=left] at (0.8,0.0)
+\node[labelstyle, align=left] at (1.6,-0.8)
     {\scriptsize Wall-clock ignored, Scheduler canonical\\\scriptsize $\Rightarrow$ same outcome, no Heisenbug};
 
 \end{tikzpicture}
 \caption{In classical systems, attaching a debugger perturbs timing and can change the outcome
-(a Heisenbug). In C$\Omega$MPUTER, the Scheduler ignores time, so observation cannot alter the
+(a Heisenbug). In \COMPUTER{}, the Scheduler ignores time, so observation cannot alter the
 worldline. The Observer Effect is dead.}
 \label{fig:heisenbug-extinction}
 \end{figure}
@@ -728,19 +1022,59 @@ worldline. The Observer Effect is dead.}
 \section{Worldlines Are Optimization}
 \label{6.7-worldlines-are-optimization}
 
-Optimization is nothing but \textbf{geodesic alignment}. Every classical optimization trick—
-constant folding, dead code elimination, loop unrolling—is a geometric act:
+Optimization is nothing but \textbf{geodesic alignment}. This is not a metaphor. When you optimize
+code, you are performing a geometric operation: you are unbending the worldline, reducing its
+curvature, pushing it closer to the shortest path through Rulial Space. Every classical optimization
+trick—constant folding, dead code elimination, loop unrolling, inlining—is an act of straightening.
 
-\begin{itemize}
-    \item \textbf{Dead code elimination}: removes detours entirely.
-    \item \textbf{Inlining}: collapses wormholes, removing overhead.  
-    \item \textbf{Memoization}: creates a shortcut—effectively a wormhole—that reduces
-    the Rulial Distance between two states.
-\end{itemize}
+Consider dead code elimination. When the compiler removes a function that is never called, it is not
+just "cleaning up" the source. It is removing an entire detour from the worldline. That function
+represented potential rewrites—nodes that could have been allocated, edges that could have been
+traversed. By proving the function is unreachable, the compiler deletes those possibilities entirely.
+The worldline no longer has to bend through that region of Rulial Space. It gets shorter, straighter,
+faster.
 
-Fast code feels elegant because it is geometrically direct.
+Inlining works by collapsing wormholes. A function call introduces overhead: push arguments onto the
+stack, jump to a new address, execute the body, pop the return value, jump back. Each of these steps
+is a rewrite. Each rewrite bends the worldline. Inlining replaces the call with the body, eliminating
+the jump. The worldline now takes a direct route through the logic, skipping the detour entirely. The
+Rulial Distance between input and output shrinks.
 
-\subsection*{FOR THE NERDS™: Optimization as Discrete Gradient Descent}
+Memoization creates shortcuts. If a function has already computed \texttt{f(x)}, and you call
+\texttt{f(x)} again, memoization returns the cached result instead of recomputing. This is not just
+"saving time"—it is creating a wormhole in Rulial Space. The second call avoids retracing the entire
+path through the computation. Instead, it takes a single rewrite: "look up the answer." The worldline
+bends around the expensive region, exploiting the fact that the geometry allows this shortcut.
+
+Fast code feels elegant because it is geometrically direct. When you read well-optimized code, you
+sense its economy of motion. There is no waste. Every line has a purpose. Every function does exactly
+what it must, and nothing more. This is not accident. It is geometry. The worldline is close to the
+geodesic, and you can feel it in the structure of the code.
+
+Conversely, slow code feels wrong because it is wandering through high-curvature regions for no good
+reason. It allocates and frees. It checks the same condition twice. It recomputes values it already
+knows. Each of these inefficiencies is a visible bend in the worldline, and experienced engineers can
+spot them instantly. Not because they memorized a list of anti-patterns, but because they have
+internalized the geometry. They can see when the path is curved, and they know how to straighten it.
+
+\subsection{The Profiler as Curvature Detector}
+
+A profiler does not "find slow code." It finds regions of high curvature. When a profiler highlights
+a function that consumes 80\% of runtime, it is telling you: this is where the worldline is bending
+the most. This is where the path is farthest from the geodesic. If you want to make the program
+faster, straighten this part of the worldline first.
+
+Optimization, then, is not about random tweaks. It is a deliberate, geometric process. You measure
+the worldline's curvature. You identify the steepest bends. You apply transformations—refactors,
+algorithmic improvements, caching strategies—that reduce those bends. You re-measure. You iterate.
+Each cycle brings the worldline closer to the geodesic. Each cycle makes the program faster, not
+because you tried harder, but because you aligned the execution with the natural geometry of the
+problem.
+
+\begin{mdframed}[linewidth=1pt, linecolor=black!50, innertopmargin=8pt, innerbottommargin=8pt]
+\noindent\textbf{FOR THE NERDS™: Optimization as Discrete Gradient Descent}
+
+\medskip
 
 Fix an input state $S_{\mathrm{in}}$ and a desired output state $S_{\mathrm{out}}$.
 Consider the set $\mathcal{W}$ of all legal worldlines:
@@ -748,7 +1082,7 @@ Consider the set $\mathcal{W}$ of all legal worldlines:
 \[
 \mathcal{W} =
 \left\{
-(S_i)_{i=0}^N \ \middle|\ 
+(S_i)_{i=0}^N \ \middle|\
 S_0 = S_{\mathrm{in}},\ S_N = S_{\mathrm{out}},\ S_{i+1} = \mathrm{step}(S_i)
 \right\}.
 \]
@@ -760,13 +1094,7 @@ Define a \textbf{cost functional} over worldlines:
 = \sum_{i=0}^{N-1} c(S_i, S_{i+1}),
 \]
 
-where $c$ is a local cost, such as:
-
-\begin{itemize}
-    \item $c = 1$ (path length, i.e.\ Rulial Distance),
-    \item or $c = \mathcal{F}(S_i)$ (friction-weighted cost),
-    \item or a weighted combination with resource usage (memory, I/O, etc.).
-\end{itemize}
+where $c$ is a local cost. We can choose $c = 1$ to measure path length (equivalent to Rulial Distance), or $c = \mathcal{F}(S_i)$ to incorporate friction-weighted cost, or we can use a weighted combination that accounts for resource usage such as memory consumption, I/O operations, and other system metrics.
 
 Optimization is then:
 
@@ -779,23 +1107,44 @@ on $\mathcal{C}$: local rewrites to the rule set or program graph that strictly
 decrease the expected cost along the induced worldline.
 
 \begin{quote}
-You are not “making the code faster.” You are performing gradient descent
+You are not "making the code faster." You are performing gradient descent
 on the manifold of possible universes, aligning your worldline with the geodesic.
 \end{quote}
+
+\end{mdframed}
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
 \end{center}
 
-\section*{FOR THE NERDS™: Worldlines and Lambda Calculus Reduction}
+\begin{mdframed}[linewidth=1pt, linecolor=black!50, innertopmargin=8pt, innerbottommargin=8pt]
+\noindent\textbf{FOR THE NERDS™: Worldlines and Lambda Calculus Reduction}
+
+\medskip
 
 If you squint, a worldline is a reduction sequence in Lambda Calculus. Each rewrite is a kind of
-redex collapse. But the analogy breaks quickly: WARP graph reductions operate in a metric space, support
-explicit structure persistence, allow recursive edges, and operate over nested, multi-scale graphs.
+redex collapse. The Scheduler picks which redex to reduce next, just as a reduction strategy picks
+leftmost-outermost or call-by-value. The analogy is seductive, and it holds up to a point.
 
-The key point: the \textbf{Scheduler is the reduction strategy}. Not metaphorically—literally.  
-Just as lambda calculi pick leftmost-outermost or CBV, the Scheduler picks which match collapses next.
-The difference is that WARP space is curved, structured, and globally coherent.
+But it breaks quickly. WARP graph reductions operate in a metric space with measurable distances
+between states. Lambda calculus has no notion of "how far" one term is from another. WARP graphs
+support explicit structure persistence: nodes and edges have stable identities that survive rewrites.
+Lambda terms are ephemeral; alpha-equivalence erases identity. WARP graphs allow recursive edges,
+cycles, and multi-scale nested subgraphs. Lambda calculus is strictly tree-structured, with no native
+support for sharing or cycles.
+
+The key point is this: the \textbf{Scheduler is the reduction strategy}. Not metaphorically—literally.
+Just as lambda calculi choose between call-by-name, call-by-value, or call-by-need, the Scheduler
+chooses which match to collapse next. The difference is that WARP space is curved, structured, and
+globally coherent. Lambda calculus is flat and local. WARP worldlines have geometry. Lambda reductions
+do not.
+
+This is why we needed \COMPUTER{} in the first place. Lambda calculus is a beautiful model of
+pure computation, but it has no concept of distance, friction, or curvature. It cannot explain why
+some programs are fast and others are slow. It cannot model technical debt or refactoring difficulty.
+It cannot visualize the path through state space. \COMPUTER{} can.
+
+\end{mdframed}
 
 \begin{center}
 \rule{0.5\linewidth}{0.5pt}
@@ -804,26 +1153,49 @@ The difference is that WARP space is curved, structured, and globally coherent.
 \section{Transition: From Worldlines to Neighborhoods}
 \label{6.8-transition}
 
-We now understand individual execution paths. But systems are not just lines—they are \emph{fields}.
-To understand real computation, we must study the \textbf{space around the worldline}:
+We now understand individual execution paths. We know what a worldline is, why it is deterministic,
+how it bends, and what it means for it to be straight. But systems are not just lines—they are
+\emph{fields}. A single worldline is one trajectory through a vast space of possibilities. To
+understand real computation—to answer questions about robustness, flexibility, and refactorability—we
+must study the \textbf{space around the worldline}.
 
-\begin{itemize}
-    \item Which nearby futures are viable?  
-    \item Which states are “adjacent,” and which require massive refactoring to reach?  
-    \item Why do some systems feel flexible while others feel rigid and brittle?  
-\end{itemize}
+Which nearby futures are viable? If you perturb the input slightly, does the worldline stay close, or
+does it veer off into disaster? Which states are "adjacent" in the sense that a small refactor can
+reach them, and which require massive structural surgery? Why do some systems feel flexible—easy to
+modify, easy to extend—while others feel rigid and brittle, where every change threatens to shatter
+the whole edifice?
 
-These questions pull us into the domain of local geometry—\textbf{Neighborhoods}—the topic of Chapter 7.
+These questions pull us into the domain of local geometry—\textbf{Neighborhoods}—the topic of
+Chapter 7. Where worldlines are paths, neighborhoods are regions. Where worldlines ask "what did the
+system do?", neighborhoods ask "what else could it have done?" We leave the certainty of the single
+chosen path and step into the fog of nearby possibilities, armed with the geometry we have built so
+far.
 
 %----------------------------------------------------------------------
 % Deterministic Scheduler Specification
 %----------------------------------------------------------------------
 \clearpage
 
+\begin{center}
+\rule{0.7\linewidth}{1.5pt}
+\vspace{0.3cm}
+
+{\Large \textbf{APPENDIX: FORMAL SPECIFICATIONS}}
+
+\vspace{0.2cm}
+\rule{0.7\linewidth}{1.5pt}
+\end{center}
+
+\vspace{0.5cm}
+
+\noindent\textit{The following sections provide the formal mathematical machinery and implementation contracts
+for those building C$\Omega$MPUTER runtimes. These specifications are not required to understand the
+conceptual content of Chapter 6, but they define the exact semantics that implementations must preserve.}
+
+\vspace{0.5cm}
+
 \section{Deterministic Scheduler Specification}
 \label{sec:scheduler-spec}
-
-\noindent\textit{This section is not required to understand Chapter 6, but provides the formal machinery for those implementing the runtime.}
 
 In this section we make precise what was stated informally in
 Chapter~\ref{chapter-6-worldlines-execution-as-geodesics}: that the
@@ -962,7 +1334,7 @@ different universes.
 \label{appendix:runtime-contract}
 
 This appendix specifies the \emph{minimal invariants} required of any
-implementation of the C$\Omega$MPUTER runtime. These are not guidelines.
+implementation of the \COMPUTER{} runtime. These are not guidelines.
 They are hard constraints. Violate them and you do not have a deterministic
 universe anymore—you have a slot machine wearing a lab coat.
 
@@ -1029,7 +1401,7 @@ When eliminating overlapping matches:
           $\mathrm{im}(\mu)$ sets.
     \item The greedy leftmost-priority rule must be used exactly as
           defined in Section~\ref{sec:scheduler-spec}.
-    \item No heuristic (“prefer larger matches”, “prefer denser subgraphs”, etc.)
+    \item No heuristic ("prefer larger matches", "prefer denser subgraphs", etc.)
           may be substituted.
 \end{itemize}
 
@@ -1087,7 +1459,7 @@ No rewrite \emph{may} depend on:
 \end{itemize}
 
 \begin{quote}
-C$\Omega$MPUTER does not know what day it is.
+\COMPUTER{} does not know what day it is.
 \end{quote}
 
 \section{8. No Hidden State Allowed}
@@ -1103,7 +1475,7 @@ No implementation-defined caches, memo-tables, or thread-local scratchpads may
 influence rule applicability.
 
 \begin{quote}
-If it isn’t in the graph, it isn’t in the universe.
+If it isn't in the graph, it isn't in the universe.
 \end{quote}
 
 \section{9. Serialization Must Be Lossless and Deterministic}

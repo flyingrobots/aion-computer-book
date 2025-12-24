@@ -1,0 +1,252 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import argparse
+import pathlib
+import re
+import shutil
+import subprocess
+import sys
+
+
+RE_COMMENT = re.compile(r"(?<!\\)%.*")
+RE_BEGIN_END = re.compile(r"\\(begin|end)\s*\{([^}]+)\}")
+RE_INPUT = re.compile(r"\\(?:input|include)\s*\{[^}]+\}")
+
+# Environments that often contain non-prose (and/or LaTeX that Pandoc can't parse).
+STRIP_ENVIRONMENTS = {
+    "tikzpicture",
+    "tikzcd",
+}
+
+# Files that are mostly LaTeX macro/package plumbing rather than prose.
+SKIP_FILENAMES = {
+    "macros.tex",
+}
+
+# Project-specific macros that appear in prose. Pandoc's LaTeX reader won't expand
+# these, so we replace them ahead of time to avoid dropping words.
+COMMAND_REPLACEMENTS: dict[str, str] = {
+    "COMPUTER": "CΩMPUTER",
+    "AION": "AIΩN",
+    "AIONProjectURL": "https://github.com/flyingrobots/aion",
+    "emd": "—",
+    "emdash": "—",
+}
+
+
+def _strip_latex_environments(latex: str, *, envs: set[str]) -> str:
+    if not envs:
+        return latex
+
+    stack: list[tuple[str, bool]] = []
+    ranges: list[tuple[int, int]] = []
+
+    removal_depth = 0
+    removal_start: int | None = None
+
+    for match in RE_BEGIN_END.finditer(latex):
+        kind = match.group(1)
+        env = match.group(2).strip()
+        is_removable = env in envs
+
+        if kind == "begin":
+            stack.append((env, is_removable))
+            if is_removable:
+                if removal_depth == 0:
+                    removal_start = match.start()
+                removal_depth += 1
+            continue
+
+        # kind == "end"
+        while stack and stack[-1][0] != env:
+            popped_env, popped_removable = stack.pop()
+            if popped_removable:
+                removal_depth = max(0, removal_depth - 1)
+
+        if not stack:
+            continue
+
+        popped_env, popped_removable = stack.pop()
+        if popped_env != env:
+            continue
+
+        if popped_removable:
+            removal_depth = max(0, removal_depth - 1)
+            if removal_depth == 0 and removal_start is not None:
+                ranges.append((removal_start, match.end()))
+                removal_start = None
+
+    if removal_start is not None:
+        ranges.append((removal_start, len(latex)))
+
+    if not ranges:
+        return latex
+
+    ranges.sort()
+    out_parts: list[str] = []
+    last = 0
+    for start, end in ranges:
+        if start < last:
+            continue
+        out_parts.append(latex[last:start])
+        out_parts.append("\n\n")
+        last = end
+    out_parts.append(latex[last:])
+    return "".join(out_parts)
+
+
+def _replace_command_noargs(latex: str, *, command: str, replacement: str) -> str:
+    # Match \COMMAND and \COMMAND{} (optionally with whitespace inside braces).
+    # Avoid matching prefixes of longer commands (e.g. \COMPUTERbook).
+    pattern = re.compile(rf"\\{re.escape(command)}(?![A-Za-z])(?:\s*\{{\s*\}})?")
+    return pattern.sub(replacement, latex)
+
+
+def _preprocess_latex(latex: str) -> str:
+    latex = latex.replace("\r\n", "\n").replace("\r", "\n")
+    latex = RE_COMMENT.sub("", latex)
+    latex = _strip_latex_environments(latex, envs=STRIP_ENVIRONMENTS)
+    latex = RE_INPUT.sub("", latex)
+
+    for command, replacement in COMMAND_REPLACEMENTS.items():
+        latex = _replace_command_noargs(latex, command=command, replacement=replacement)
+
+    return latex
+
+
+def _pandoc_plain(latex: str, *, wrap: str) -> tuple[str, str]:
+    proc = subprocess.run(
+        [
+            "pandoc",
+            "-f",
+            "latex",
+            "-t",
+            "plain",
+            f"--wrap={wrap}",
+        ],
+        input=latex,
+        text=True,
+        capture_output=True,
+    )
+
+    if proc.returncode != 0:
+        raise RuntimeError(proc.stderr.strip() or f"pandoc failed (exit {proc.returncode})")
+
+    return proc.stdout, proc.stderr
+
+
+def _resolve_tex_path(arg: str, *, src_dir: pathlib.Path) -> pathlib.Path:
+    candidate = pathlib.Path(arg)
+    if candidate.suffix != ".tex":
+        candidate = candidate.with_suffix(".tex")
+
+    if candidate.exists():
+        return candidate
+
+    alt = src_dir / candidate.name
+    if alt.exists():
+        return alt
+
+    raise FileNotFoundError(f"TeX file not found: {arg!r}")
+
+
+def _iter_tex_files(*, src_dir: pathlib.Path) -> list[pathlib.Path]:
+    return sorted(
+        [p for p in src_dir.rglob("*.tex") if p.is_file() and p.name not in SKIP_FILENAMES]
+    )
+
+
+def main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(
+        prog="extract-prose",
+        description="Extract prose from LaTeX .tex files into plain text files under text/.",
+    )
+    parser.add_argument(
+        "paths",
+        nargs="*",
+        help="Optional .tex file paths to extract (default: all under --src).",
+    )
+    parser.add_argument(
+        "--src",
+        default="tex",
+        help="Directory to scan for .tex files (default: tex).",
+    )
+    parser.add_argument(
+        "--out",
+        default="text",
+        help="Output directory for extracted .txt files (default: text).",
+    )
+    parser.add_argument(
+        "--wrap",
+        choices=["auto", "none", "preserve"],
+        default="none",
+        help="Pandoc text wrapping mode (default: none).",
+    )
+    parser.add_argument(
+        "--clean",
+        action="store_true",
+        help="Delete the output directory before writing files.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Print which files would be generated without writing them.",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print per-file progress and Pandoc warnings.",
+    )
+    args = parser.parse_args(argv)
+
+    if shutil.which("pandoc") is None:
+        print("error: pandoc not found in PATH", file=sys.stderr)
+        return 2
+
+    src_dir = pathlib.Path(args.src)
+    out_dir = pathlib.Path(args.out)
+
+    if args.paths:
+        tex_files: list[pathlib.Path] = []
+        for arg in args.paths:
+            try:
+                tex_files.append(_resolve_tex_path(arg, src_dir=src_dir))
+            except FileNotFoundError as exc:
+                print(f"error: {exc}", file=sys.stderr)
+                return 2
+    else:
+        tex_files = _iter_tex_files(src_dir=src_dir)
+
+    if args.clean and not args.dry_run and out_dir.exists():
+        shutil.rmtree(out_dir)
+
+    failures = 0
+    for tex_path in tex_files:
+        rel = tex_path.relative_to(src_dir) if tex_path.is_relative_to(src_dir) else tex_path.name
+        out_path = (out_dir / rel).with_suffix(".txt")
+
+        if args.verbose or args.dry_run:
+            print(f"{tex_path} -> {out_path}")
+
+        if args.dry_run:
+            continue
+
+        try:
+            latex = tex_path.read_text(encoding="utf-8")
+            latex = _preprocess_latex(latex)
+            plain, warnings = _pandoc_plain(latex, wrap=args.wrap)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(plain, encoding="utf-8")
+            if args.verbose and warnings.strip():
+                print(warnings.rstrip(), file=sys.stderr)
+        except Exception as exc:
+            failures += 1
+            print(f"error: failed to extract {tex_path}: {exc}", file=sys.stderr)
+
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
