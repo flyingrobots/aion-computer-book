@@ -2,14 +2,14 @@
 
 This roadmap tracks the CΩMPUTER manuscript from rough draft through final release v1.0.0.
 
-**Overall Progress:** <!-- PROGRESS_PCT -->39% (178/460)<!-- /PROGRESS_PCT -->  
+**Overall Progress:** <!-- PROGRESS_PCT -->40% (182/460)<!-- /PROGRESS_PCT -->  
 <!-- PROGRESS_BAR -->[████████░░░░░░░░░░░░]<!-- /PROGRESS_BAR -->
 
 ### Progress
 
 <!-- progress -->
 ```text
-[███████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]
+[████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]
 0   10   20   30   40   50   60   70   80   90  100
 ```
 <!-- /progress -->
@@ -43,8 +43,8 @@ This roadmap tracks the CΩMPUTER manuscript from rough draft through final rele
 | tex/02-prologue.tex           | ✅               | ✅                    | ✅               | ✅                      | ✅             | ✅          | ✅          | ✅         | ✅      | ✅         |
 | tex/03-part-1-intro.tex       | ✅               | ✅                    | ✅               | ✅                      | ✅             | ✅          | ✅          | ✅         | ✅      | ✅         |
 | tex/04-ch-02.tex              | ✅               | ✅                    | ✅               | ◽️                     | ◽️            | ◽️         | ◽️         | ◽️        | ◽️     | ◽️        |
-| tex/05-ch-03.tex              | ✅               | ✅                    | ✅               | ◽️                     | ◽️            | ◽️         | ◽️         | ◽️        | ◽️     | ◽️        |
-| tex/06-ch-04.tex              | ✅               | ✅                    | ✅               | ◽️                     | ◽️            | ◽️         | ◽️         | ◽️        | ◽️     | ◽️        |
+| tex/05-ch-03.tex              | ✅               | ✅                    | ✅               | ✅                      | ✅             | ◽️         | ◽️         | ◽️        | ◽️     | ◽️        |
+| tex/06-ch-04.tex              | ✅               | ✅                    | ✅               | ✅                      | ✅             | ◽️         | ◽️         | ◽️        | ◽️     | ◽️        |
 | tex/07-part-2-intro.tex       | ✅               | ✅                    | ✅               | ✅                      | ✅             | ✅          | ✅          | ✅         | ✅      | ✅         |
 | tex/08-ch-05.tex              | ✅               | ✅                    | ✅               | ✅                      | ◽️            | ◽️         | ◽️         | ◽️        | ◽️     | ◽️        |
 | tex/09-ch-06.tex              | ✅               | ✅                    | ◽️              | ◽️                     | ◽️            | ◽️         | ◽️         | ◽️        | ◽️     | ◽️        |

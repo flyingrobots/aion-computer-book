@@ -16,14 +16,14 @@
 
 ## Status
 
-**Overall Progress:** <!-- PROGRESS_PCT -->39% (178/460)<!-- /PROGRESS_PCT -->  
+**Overall Progress:** <!-- PROGRESS_PCT -->40% (182/460)<!-- /PROGRESS_PCT -->  
 <!-- PROGRESS_BAR -->[████████░░░░░░░░░░░░]<!-- /PROGRESS_BAR -->
 
 [Roadmap & checklist →](ROADMAP.md)
 
 <!-- progress -->
 ```text
-[███████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]
+[████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]
 0   10   20   30   40   50   60   70   80   90  100
 ```
 <!-- /progress -->
