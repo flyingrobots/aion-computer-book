@@ -37,10 +37,6 @@ invisible. In \COMPUTER{}, the path \emph{is} the structure. Every log entry you
 every stack trace you've chased, every bug you've fought—they all live exclusively on this line. The
 worldline \emph{is} the computation. Everything else is commentary.
 
-\begin{center}
-\rule{0.5\linewidth}{0.5pt}
-\end{center}
-
 \section{What Is a Worldline?}
 \label{sec:worldline-definition}
 
@@ -789,18 +785,18 @@ eyes open.
 
 \node[ghost] at (3,-1.4) {Buggy Worldline Slice};
 
-% Heat legend
+% Heat legend - increased spacing from 8pt to 15pt
 \node[same] at (0,-2.0) {};
-\node[ghost, right=8pt of {(0,-2.0)}] {\footnotesize Identical (transparent)};
+\node[ghost, right=15pt of {(0,-2.0)}] {\footnotesize Identical (transparent)};
 
 \node[warm] at (0,-2.6) {};
-\node[ghost, right=8pt of {(0,-2.6)}] {\footnotesize Local divergence (warm)};
+\node[ghost, right=15pt of {(0,-2.6)}] {\footnotesize Local divergence (warm)};
 
 \node[hot] at (0,-3.2) {};
-\node[ghost, right=8pt of {(0,-3.2)}] {\footnotesize Strong divergence (hot)};
+\node[ghost, right=15pt of {(0,-3.2)}] {\footnotesize Strong divergence (hot)};
 
 \node[whitehot] at (0,-3.8) {};
-\node[ghost, right=8pt of {(0,-3.8)}] {\footnotesize Catastrophic divergence (white-hot)};
+\node[ghost, right=15pt of {(0,-3.8)}] {\footnotesize Catastrophic divergence (white-hot)};
 
 \end{tikzpicture}
 \caption{Rulial Heat Map: comparing the happy-path universe to the buggy universe.
@@ -814,17 +810,17 @@ Identical structure cancels out; divergent structure radiates heat.}
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-    same/.style={circle, draw=black!30, fill=white, minimum size=5mm},
-    warm/.style={circle, draw=orange!80!black, fill=orange!40, minimum size=5mm, drop shadow},
-    hot/.style={circle, draw=red!80!black, fill=red!50, minimum size=5mm, drop shadow},
-    whitehot/.style={circle, draw=red!90!black, fill=white, line width=1pt, minimum size=5mm, drop shadow},
+    same/.style={circle, draw=black!30, fill=white, minimum size=7mm},
+    warm/.style={circle, draw=orange!80!black, fill=orange!40, minimum size=7mm, drop shadow},
+    hot/.style={circle, draw=red!80!black, fill=red!50, minimum size=7mm, drop shadow},
+    whitehot/.style={circle, draw=red!90!black, fill=white, line width=1pt, minimum size=7mm, drop shadow},
     edge/.style={-{Stealth}, thin, gray!60},
-    frame/.style={rectangle, rounded corners, draw=gray!50, fill=white, inner sep=8pt, drop shadow}
+    frame/.style={rectangle, rounded corners, draw=gray!50, fill=white, inner sep=12pt, drop shadow}
 ]
 
-% Frame 1: Early divergence
-\node[frame] (f1) at (-4,0) {
-    \begin{tikzpicture}[scale=0.7]
+% Frame 1: Early divergence - scaled up
+\node[frame] (f1) at (-5,0) {
+    \begin{tikzpicture}[scale=1.0]
         \node[same] (a1) at (0,0.6) {};
         \node[same] (a2) at (-0.6,0) {};
         \node[same] (a3) at (0.6,0) {};
@@ -838,9 +834,9 @@ Identical structure cancels out; divergent structure radiates heat.}
 
 \node[font=\scriptsize, above] at (f1.north) {$t_0$: Local anomaly};
 
-% Frame 2: Spreading heat
+% Frame 2: Spreading heat - scaled up
 \node[frame] (f2) at (0,0) {
-    \begin{tikzpicture}[scale=0.7]
+    \begin{tikzpicture}[scale=1.0]
         \node[warm] (b1) at (0,0.8) {};
         \node[warm] (b2) at (-0.7,0.2) {};
         \node[hot]  (b3) at (0.7,0.2) {};
@@ -856,9 +852,9 @@ Identical structure cancels out; divergent structure radiates heat.}
 
 \node[font=\scriptsize, above] at (f2.north) {$t_1$: Heat propagates};
 
-% Frame 3: Catastrophic divergence
-\node[frame] (f3) at (4,0) {
-    \begin{tikzpicture}[scale=0.7]
+% Frame 3: Catastrophic divergence - scaled up
+\node[frame] (f3) at (5,0) {
+    \begin{tikzpicture}[scale=1.0]
         \node[hot]     (c1) at (0,1.0) {};
         \node[whitehot](c2) at (-0.7,0.2) {};
         \node[whitehot](c3) at (0.7,0.2) {};
@@ -984,7 +980,7 @@ worldline is what it is. You can study it, diff it, replay it, dissect it—and 
 \draw[red!80!black, thick] (-2,2.25) -- (-2,1.75);
 \node[labelstyle, above, red!80!black] at (-2,2.35) {Debugger attached};
 
-\node[labelstyle, align=left] at (1.6,1.8)
+\node[labelstyle, align=left] at (2.5,1.8)
     {\scriptsize Same input, different timing\\\scriptsize $\Rightarrow$ different outcome (Heisenbug)};
 
 % CΩMPUTER system (bottom)
@@ -1005,7 +1001,7 @@ worldline is what it is. You can study it, diff it, replay it, dissect it—and 
 \draw[gray!70, thick] (-2,-0.55) -- (-2,-1.05);
 \node[labelstyle, above, gray!70] at (-2,-0.45) {Paused arbitrarily};
 
-\node[labelstyle, align=left] at (1.6,-0.8)
+\node[labelstyle, align=left] at (2.5,-0.8)
     {\scriptsize Wall-clock ignored, Scheduler canonical\\\scriptsize $\Rightarrow$ same outcome, no Heisenbug};
 
 \end{tikzpicture}
@@ -1345,15 +1341,10 @@ byte-for-byte, across replays, reboots, architectures, and compilers.
 \section{Stable Identity Invariant}
 
 Every node and edge in a WARP graph must carry a \textbf{stable, opaque identity}
-drawn from a totally ordered set.
-
-\begin{itemize}
-    \item IDs \emph{must not} encode memory addresses, timestamps,
-          allocation order, or any machine-dependent data.
-    \item IDs \emph{must survive} serialization, deserialization,
-          snapshotting, garbage collection, graph compaction, and transport.
-    \item The order $<_{\text{id}}$ must be global and total.
-\end{itemize}
+drawn from a totally ordered set. These IDs \emph{must not} encode memory addresses, timestamps,
+allocation order, or any machine-dependent data. Furthermore, IDs \emph{must survive} serialization,
+deserialization, snapshotting, garbage collection, graph compaction, and transport without corruption
+or reordering. The order $<_{\text{id}}$ must be global and total across all system components.
 
 \begin{quote}
 If IDs drift, reorder, or depend on runtime artifacts, the universe fractures.
@@ -1361,14 +1352,9 @@ If IDs drift, reorder, or depend on runtime artifacts, the universe fractures.
 
 \section{Deterministic Match Enumeration}
 
-Given a state $S$, every legal match $(r,\mu)$ must be:
-
-\begin{itemize}
-    \item Constructed in a \textbf{deterministic} enumeration order.
-    \item Expressed as a tuple of IDs \emph{sorted by} $<_{\text{id}}$.
-    \item Free of any dependence on hash randomization, memory layout,
-          or concurrency artifact.
-\end{itemize}
+Given a state $S$, every legal match $(r,\mu)$ must be constructed in a \textbf{deterministic}
+enumeration order, expressed as a tuple of IDs \emph{sorted by} $<_{\text{id}}$, and completely
+free of any dependence on hash randomization, memory layout, or concurrency artifacts.
 
 \begin{quote}
 If the set of matches is nondeterministic, the Scheduler becomes a liar.
@@ -1376,34 +1362,17 @@ If the set of matches is nondeterministic, the Scheduler becomes a liar.
 
 \section{Lexicographic Rule Ordering Must Be Canonical}
 
-Each rewrite rule $r$ must have:
-
-\begin{itemize}
-    \item A globally unique rule ID $\mathrm{id}(r)$.
-    \item A total ordering on IDs.
-\end{itemize}
-
-This means rule identities:
-
-\begin{itemize}
-    \item must not depend on file paths, loader order, timestamps,
-          random seeds, or compiler heuristics,
-    \item must not be generated at runtime,
-    \item \emph{must} be fixed at compile time or definition time.
-\end{itemize}
+Each rewrite rule $r$ must have a globally unique rule ID $\mathrm{id}(r)$ and a total ordering on
+IDs. This means rule identities must not depend on file paths, loader order, timestamps, random
+seeds, or compiler heuristics. Rule identities must not be generated at runtime; they \emph{must}
+be fixed at compile time or definition time to ensure reproducibility across all execution contexts.
 
 \section{Conflict Resolution Must Be Purely Structural}
 
-When eliminating overlapping matches:
-
-\begin{itemize}
-    \item Overlap must be defined purely as intersection of
-          $\mathrm{im}(\mu)$ sets.
-    \item The greedy leftmost-priority rule must be used exactly as
-          defined in Section~\ref{sec:scheduler-spec}.
-    \item No heuristic ("prefer larger matches", "prefer denser subgraphs", etc.)
-          may be substituted.
-\end{itemize}
+When eliminating overlapping matches, overlap must be defined purely as intersection of
+$\mathrm{im}(\mu)$ sets, and the greedy leftmost-priority rule must be used exactly as defined in
+Section~\ref{sec:scheduler-spec}. No heuristic such as "prefer larger matches" or "prefer denser
+subgraphs" may be substituted under any circumstances.
 
 \begin{quote}
 If conflict-resolution is heuristic, replay is impossible.
@@ -1411,19 +1380,11 @@ If conflict-resolution is heuristic, replay is impossible.
 
 \section{Canonical Embedding Hash Must Be Deterministic}
 
-The embedding hash $h_S(m)$ must satisfy:
-
-\begin{itemize}
-    \item For a given $(S,m)$, the hash is \textbf{bit-identical} across runs.
-    \item Hash functions must not use randomized salts.
-    \item Hash inputs must derive only from:
-    \begin{enumerate}
-        \item $\mathrm{id}(r)$,
-        \item $\mathsf{ids}(r,\mu)$,
-        \item The structural context of $S$ reachable from the match.
-    \end{enumerate}
-    \item Implementation must define normalization rules for serialization.
-\end{itemize}
+The embedding hash $h_S(m)$ must satisfy strict determinism requirements. For a given $(S,m)$, the
+hash must be \textbf{bit-identical} across all runs, and hash functions must not use randomized
+salts. Hash inputs must derive only from three sources: first, $\mathrm{id}(r)$; second,
+$\mathsf{ids}(r,\mu)$; and third, the structural context of $S$ reachable from the match. The
+implementation must define explicit normalization rules for serialization to ensure hash stability.
 
 \begin{quote}
 If the hash isn't stable, your Scheduler is choosing futures with a coin flip.
@@ -1431,15 +1392,10 @@ If the hash isn't stable, your Scheduler is choosing futures with a coin flip.
 
 \section{DPO Construction Must Be Canonical}
 
-Given $(r,\mu)$:
-
-\begin{itemize}
-    \item Node/edge deletions must occur in an order independent of
-          container iteration details.
-    \item Newly created IDs must be drawn in deterministic order.
-    \item Embedding of $R$ into $S'$ must use canonical port ordering.
-    \item Graph rewriting must not depend on concurrent data structures.
-\end{itemize}
+Given $(r,\mu)$, node and edge deletions must occur in an order independent of container iteration
+details, and newly created IDs must be drawn in deterministic order. The embedding of $R$ into $S'$
+must use canonical port ordering, and graph rewriting must not depend on concurrent data structures
+whose iteration order varies across platforms or runs.
 
 \begin{quote}
 Different machines cannot produce different universes.
@@ -1447,16 +1403,9 @@ Different machines cannot produce different universes.
 
 \section{Time Must Not Exist}
 
-No rewrite \emph{may} depend on:
-
-\begin{itemize}
-    \item wall-clock time,
-    \item monotonic clocks,
-    \item random number generators (unless seeded deterministically),
-    \item thread scheduling order,
-    \item input arrival timing,
-    \item system clock drift.
-\end{itemize}
+No rewrite \emph{may} depend on wall-clock time, monotonic clocks, random number generators (unless
+seeded deterministically), thread scheduling order, input arrival timing, or system clock drift. Time
+must be eliminated as a factor in rewrite selection.
 
 \begin{quote}
 \COMPUTER{} does not know what day it is.
@@ -1464,15 +1413,9 @@ No rewrite \emph{may} depend on:
 
 \section{8. No Hidden State Allowed}
 
-All state influencing rewrite decisions must be:
-
-\begin{itemize}
-    \item stored explicitly in the WARP graph, or
-    \item encoded in the rule ID / match structure.
-\end{itemize}
-
-No implementation-defined caches, memo-tables, or thread-local scratchpads may
-influence rule applicability.
+All state influencing rewrite decisions must be either stored explicitly in the WARP graph or encoded
+in the rule ID and match structure. No implementation-defined caches, memo-tables, or thread-local
+scratchpads may influence rule applicability.
 
 \begin{quote}
 If it isn't in the graph, it isn't in the universe.
@@ -1486,15 +1429,9 @@ Any serialization round-trip $S \to \text{bytes} \to S'$ must satisfy:
 S' = S.
 \]
 
-This includes:
-
-\begin{itemize}
-    \item Graph structure.
-    \item Node/edge identities.
-    \item Port ordering.
-    \item Rule metadata.
-    \item Provenance annotations.
-\end{itemize}
+This includes graph structure, node and edge identities, port ordering, rule metadata, and provenance
+annotations. No aspect of the system state may be lost or corrupted during serialization and
+deserialization.
 
 \section{10. Replay Must Be Perfect}
 
@@ -1504,28 +1441,15 @@ Given a worldline $(S_i)_{i=0}^N$:
 S'_0 = S_0 \quad \Rightarrow \quad S'_i = S_i \quad \forall i.
 \]
 
-If not, then either:
-
-\begin{itemize}
-    \item the Scheduler is nondeterministic,
-    \item or the graph is not canonical,
-    \item or serialization is flawed,
-    \item or the implementation violated this contract.
-\end{itemize}
+If this property does not hold, then one of four failures has occurred: either the Scheduler is
+nondeterministic, or the graph is not canonical, or serialization is flawed, or the implementation
+has violated this contract in some other way.
 
 \section{11. Fast Is Optional. Determinism Is Not.}
 
-A runtime may:
-
-\begin{itemize}
-    \item parallelize match enumeration,
-    \item cache embeddings,
-    \item fuse rule applications,
-    \item compact graphs,
-    \item JIT-compile rule kernels.
-\end{itemize}
-
-But these optimizations must preserve the exact \textbf{Scheduler-visible surface}:
+A runtime may parallelize match enumeration, cache embeddings, fuse rule applications, compact graphs,
+and JIT-compile rule kernels. However, all such optimizations must preserve the exact
+\textbf{Scheduler-visible surface}:
 
 \[
 \sigma(S) \text{ must not change.}

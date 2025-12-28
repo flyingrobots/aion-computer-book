@@ -18,7 +18,7 @@ all: $(OUT_PDF)
 
 $(BUILD_DIR)/computer.pdf: $(TEX_SRCS) $(SVG_PDFS)
 	mkdir -p $(BUILD_DIR)
-	$(LATEX_ENV) latexmk -pdf -interaction=nonstopmode -output-directory=$(BUILD_DIR) -auxdir=$(BUILD_DIR) $(TEX_MAIN)
+	$(LATEX_ENV) latexmk -pdf -synctex=1 -interaction=nonstopmode -output-directory=$(BUILD_DIR) -auxdir=$(BUILD_DIR) $(TEX_MAIN)
 
 $(OUT_PDF): $(BUILD_DIR)/computer.pdf
 	cp $< $@
